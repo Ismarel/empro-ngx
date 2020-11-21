@@ -1,0 +1,165 @@
+<style type="text/css">
+  .button {
+    float: right;
+  }
+</style>
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="container-fluid">
+  <!-- Start Search Tabla -->
+  <div class="top_table row">
+    <div class="col-xs-8 col-sm-8 col-md-4">
+      <form [formGroup]="formularioFilterQuery" novalidate>
+        <div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span>
+          <input type="search" class="form-control" placeholder="Buscar en esta lista..." formControlName="query">
+        </div>
+      </form>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 offset-md-4">
+      <div class="button">
+        <button class="btn btn-colorblue btn-raised fa fa-plus" (click)="prepareAdd()" data-toggle="modal" data-target="#Folios"> Agregar Folio</button>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <!-- End Search Tabla -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-vcenter ">
+      <thead>
+        <tr>
+          <!-- <th>
+            <sorter-table by='id' [currentSort]="sortBy" (onSort)="onSort($event)">ID</sorter-table>
+          </th> -->
+          <th>
+            <sorter-table by='folioInicial' [currentSort]="sortBy" (onSort)="onSort($event)">Folio Inicial</sorter-table>
+          </th>
+          <th>
+            <sorter-table by='folioActual' [currentSort]="sortBy" (onSort)="onSort($event)">Folio Actual</sorter-table>
+          </th>
+          <!-- <th>
+            <sorter-table by='estatus' [currentSort]="sortBy" (onSort)="onSort($event)">Estatus</sorter-table>
+          </th> -->
+          <th>
+            <sorter-table by='serie' [currentSort]="sortBy" (onSort)="onSort($event)">Serie</sorter-table>
+          </th>
+          <th style="min-width: 100px">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data |paginate: { itemsPerPage: rowsOnPage, currentPage: page, totalItems: totalFolios }">
+
+          <!-- <td scope="row">{{item.id}}</td> -->
+          <td>{{item.folioInicial}}</td>
+          <td scope="row">{{item.folioActual}}</td>
+          <!-- <td>{{item.estatus}}</td> -->
+          <td>{{item.serie}}</td>
+          <td class="text-center">
+
+            <button type="button" (click)="prepareEdit(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#Folios"><i class="fa fa-pencil"></i></button>
+            <button type="button" (click)="onClick_elim(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#eliminarFolio"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal_agregar/Editar -->
+  <div class="modal fade" id="Folios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title" id="exampleModalLabel" translate>{{!isEdit?'Agregar folios':'Editar folios'}}</h1>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <form [formGroup]="formularioFolio" (ngSubmit)="onSubmitFolios()" novalidate>
+          <div class="modal-body">
+
+            <dl class="row">
+              <dt class="col-sm-12">
+                <div class="form-group">
+                  <label for="folioInicial">Folio Inicial</label>
+                  <font color="red">*</font>
+                  <input class="form-control success" formControlName="folioInicial" type="number" min="0" (keyup)="checkValidators($event, 1)" onkeyup="this.value=this.value.toUpperCase();" required>
+                  <div *ngIf="formularioFolio.controls.folioInicial.errors?.required && !formularioFolio.controls.folioInicial.pristine" class="alert alert-danger">
+                    Folio Inicial es requerido
+                  </div>
+                  <div *ngIf="signo == false" class="alert alert-danger">
+                    Folio Inicial no puede tener un valor negativo
+                  </div>
+                </div>
+              </dt>
+              <dt *ngIf="isEdit"  class="col-sm-12">
+                <div class="form-group">
+                  <label for="folioActual">Folio Actual</label>
+                  <input class="form-control success" formControlName="folioActual" type="number" min="0" (keyup)="checkValidators($event, 1)" onkeyup="this.value=this.value.toUpperCase();" required>
+                  <div *ngIf="signo == false" class="alert alert-danger">
+                    Folio Actual no puede tener un valor negativo
+                  </div>
+                </div>
+              </dt>
+
+              <dt class="col-sm-12">
+                <div class="form-group">
+                  <label for="serie">Serie</label>
+                  <font color="red">*</font>
+                  <input class="form-control success" minlength="1" maxlength="10" formControlName="serie" (keyup)="checkValidators($event, 2)" onkeyup="this.value=this.value.toUpperCase();" required>
+                  <div *ngIf="formularioFolio.controls.serie.errors?.required && !formularioFolio.controls.serie.pristine" class="alert alert-danger">
+                    Número de serie es requerido
+                  </div>  
+                </div>
+              </dt>
+
+            </dl>
+
+            <!-- <label for="folioInicial" >Folio Inicial</label>
+            <font color="red">*</font>
+            <input class="form-control" type="number" required [(ngModel)]="folioInicial">
+            
+             <label for="folioActual" >Folio Actual</label>
+            <input class="form-control" size="61" [(ngModel)]="folioActual">
+
+            
+            <label for="estatus" >Estatus</label>
+            <input class="form-control" size="61" [(ngModel)]="estatus">
+            
+            <label for="serie" >Serie</label>
+            <font color="red">*</font>
+            <input class="form-control" required [(ngModel)]="serie"> -->
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+            <button type="submit" [disabled]="!formularioFolio.valid || signo == false" class="btn btn-colorblue btn-raised">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal_eliminar -->
+  <div class="modal fade" id="eliminarFolio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title" id="exampleModalLabel">Borrar Certificado</h1>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de querer borrar el folio serie {{entidad_elimar?.serie}}?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+          <button type="button" (click)="removeFolio(entidad_elimar?.id)" class="btn btn-colorblue btn-raised">Borrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

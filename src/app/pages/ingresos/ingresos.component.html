@@ -1,0 +1,1151 @@
+<div class="row end-sm">
+    <div class="col-12">
+        <h1>
+            <i class="fa fa-sign-in iconSummary"></i>
+            <span class="color">Ingresos</span>
+        </h1>
+    </div>
+    <div class="col-12">
+        <div class="button">
+            <div class="row">
+                <div class="button-config col-6 col-sm-3">
+                    <div class="dropdown">
+                        <button class="btn btn-option btn-raised font dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cog"></i> Opciones
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" (click)="getIngresosCSV()">Exportar<br>ingresos</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-config col-6 col-sm-3">
+                    <button class="btn btn-colorblue btn-raised esp font" (click)="addIngreso()" data-toggle="modal" data-target="#Ingreso">
+                        <i class="fa fa-plus"></i>Otros Ingresos</button>
+                </div>
+                <div class="button-config col-12 col-sm-6">
+                    <button class="btn btn-colorblue btn-raised esp font" (click)="filtrarPendientes()">{{pendientes?'Ver Todos':'Ver solo pendientes por cobrar'}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<hr>
+<div class="container-fluid">
+    <div class="table-responsive">
+        <table class="table table-striped table-vcenter table-bordered tableDatosGenerales">
+            <thead class="">
+                <tr>
+                    <td colspan="11">
+                        <div class="top_table row padSearch">
+                            <div class="col-xs-8 col-sm-8 col-md-4">
+                                <form [formGroup]="formularioFilterQuery" novalidate>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                        <input type="search" class="form-control" placeholder="Buscar en esta lista..." formControlName="query">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 offset-md-4">
+                                <div class="float-right">
+                                    <select name="ingresos_data_length" class="form-control" [(ngModel)]="rowsOnPage" (change)="onChangeSize()">
+                                        <!--<option [value]="2">2</option>-->
+                                        <option [value]="10">10</option>
+                                        <option [value]="20">20</option>
+                                        <option [value]="30">30</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <sorter-table by='conceptos' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Concepto(s)</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='tipoComprobante' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Tipo de
+                            <br> comprobante</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='fecha' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Fecha</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='nombreCliente' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Cliente</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='rfcCliente' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">RFC Cliente</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='subtotal' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Subtotal</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='iva' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Impuestos</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='total' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Total</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='monto' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Cobro</sorter-table>
+                    </th>
+                    <th style="min-width: 80px; font-weight: bold">Archivos</th>
+                    <th style="min-width: 100px; font-weight: bold">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--Tabla-->
+                <tr *ngFor="let item of data |paginate: { itemsPerPage: rowsOnPage, currentPage: page, totalItems: totalIngresos }">
+                    <!-- <td scope="row" [hidden]>{{item.id}}</td> -->
+                    <td scope="row">{{item.conceptos}}</td>
+                    <td>{{ item.tipoComprobante.nombre }}</td>
+                    <td>{{ item.fecha | date:"dd/MM/yy"}}</td>
+                    <td>{{ item.nombreCliente }}</td>
+                    <td>{{ item.rfcCliente }}</td>
+                    <td>{{ item.subtotal | currency:'MXN':'symbol' }}</td>
+                    <td>{{ item.iva | currency:'MXN':'symbol' }}</td>
+                    <td>{{ item.total | currency:'MXN':'symbol' }}</td>
+                    <td class="row">
+
+                        <div class="col-6" id="montoCobro" [ngClass]="{'text-primary text-center col-12': item.monto == item.total,
+        'text-danger':item.monto < item.total}">
+                            {{ item.monto }}
+                        </div>
+                        <span *ngIf="item.monto < item.total || item.monto==null" class="col-6" [ngClass]="{'w-0':item.monto == item.total}">
+                            <!-- botón azul $-->
+                            <button type="button" class="btn btn-secondary btn-colorblue btn-sm" (click)="saveProperties(item)" data-toggle="modal" data-target="#modalRegistroCobro">
+                                <i class="fa fa-dollar"></i>
+                            </button>
+                        </span>
+
+                    </td>
+                    <td class="text-center">
+                        <button *ngIf="item.archivoPdf!=null" type="button" class="btn btn-secondary btn-sm" (click)="descargarPDF( item )">PDF</button>
+                        <!-- <button *ngIf="item.archivoXml==null" type="button" class="btn btn-secondary btn-sm" (click)="generarFactura(item)">
+              <i class="fa fa-file-text-o"></i>
+            </button> -->
+                        <button *ngIf="item.archivoXml != null" type="button" class="btn btn-secondary btn-sm" (click)="descargarXML( item )">XML</button>
+                        <button *ngIf="item.archivo != null" type="button" class="btn btn-secondary btn-sm" (click)="descargarArchivo(item)"><i class="fa fa-file-text-o"></i></button>
+                    </td>
+                    <td class="text-center">
+                        <button *ngIf="item.tipoComprobante.id>1" type="button" (click)="prepareEdit(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#Ingreso">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button type="button" (click)="onClick_elim(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#eliminar">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        <button *ngIf="item.archivoXml != null || item.archivoPdf!=null || item.archivo != null" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#modalMail" (click)="enviarMail(item)">
+                            <i class="fa fa-envelope"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="11">
+                        <nav aria-label="Page navigation example">
+                            <pagination-template #p="paginationApi" (pageChange)="pageChanged($event)">
+                                <ul class="pagination float-left padNum">
+                                    <li class="page-item">
+                                        <span> 1 - </span>
+                                        <span> {{rowsOnPage}} </span>
+                                        <span> de </span>
+                                        <span> {{ totalIngresos }} </span>
+                                    </li>
+                                </ul>
+                                <ul class="pagination float-right">
+                                    <li class="page-item" [class.active]="p.isFirstPage()">
+                                        <a class="page-link  boton espa" *ngIf="!p.isFirstPage()" (click)="p.previous()" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item" *ngFor="let page of p.pages" [class.active]="p.getCurrent() === page.value">
+                                        <a class="page-link redonditos boton espa" (click)="p.setCurrent(page.value)"> {{ page.label }}</a>
+                                    </li>
+                                    <li class="page-item" [class.active]="p.isLastPage()">
+                                        <a class="page-link  boton espa" *ngIf="!p.isLastPage()" (click)="p.next()" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </pagination-template>
+                        </nav>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<!-- Modal_agregar/ EDITAR '_' -->
+<div class="modal fade" id="Ingreso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel" translate>{{!isEdit?'Otros Ingreso':'Editar Ingreso'}}</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- {{ hidexmlUploadOption }} -->
+            <form role="form" autocomplete="off" [formGroup]="form" (ngSubmit)="onSubmitIngresos()" novalidate id="form">
+                <div class="modal-body">
+                    <dl class="row">
+                        <dt class="col-sm-12">
+                            <div class="form-group">
+                                <label for="tipoComprobante" translate>Tipo de Comprobante</label>
+                                <font color="red">*</font>
+                                <!-- <autocomplete-generic (onIdSelected)="onSelectedTComprobanteIngresos($event)" entidad='tipoComprobante' [enabled]="true"
+                  textplaceholder='Buscar...' #autocompleteTComprobanteIngreso></autocomplete-generic> -->
+                                <select name="" id="selectComprobante" class="form-control" [formControl]="tipoComprobante" (change)="onChangeComprobante($event)">
+                                    <!-- <option *ngFor="let comprobante of tipoComprobanteOption " [ngValue]="comprobante.id">{{comprobante.nombre}} </option> -->
+                                    <option value="null" class="text-secondary">Seleccione un opción </option>
+                                    <option value="1">Factura</option>
+                                    <option value="2">Recibo de Honorarios</option>
+                                    <option value="3">Recibo de Renta</option>
+                                    <option value="4">Nota de remision</option>
+                                    <option value="5">Aportacion al capital</option>
+                                    <option value="6">Prestamos</option>
+                                    <option value="7">Intereses</option>
+                                    <option value="8">Anticipo</option>
+                                </select>
+                                <!-- <input class="form-control" type="text" name="tipocomprobante" ([ngModel])="tipoComprobanteSaved" formControlName="tipoComprobante"> -->
+                            </div>
+
+                        </dt>
+                        <!-- 1. Dropzones (Recibir Data)-->
+                        <div *ngIf="isCosa == 1" class="col-sm-12">
+                            <dt class="col-sm-12">
+                                <h3>Esta opción solamente permite adjuntar un archivo XML </h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Archivo XML
+                                            <font color="red">*</font>
+                                            <br>
+                                            <div id="dZUploadXML" class="dropzone">
+                                                <div class="dz-default dz-message"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Archivo PDF (opcional)
+                                            <div id="dZUploadPDF" class="dropzone">
+                                                <div class="dz-default dz-message"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </dt>
+                        </div>
+                        <!-- 2. Dropzones (Recibir Data) -->
+                        <div *ngIf="isCosa == 2" class="col-sm-12">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Concepto
+                                            <font color="red">*</font>
+                                            <br>
+                                            <!-- <autocomplete-generic (onIdSelected)="onConceptoSelected($event)" entidad='concepto' [enabled]="true" textplaceholder='Buscar...'
+                        #autocompleteConcepto></autocomplete-generic> -->
+                                            Separar los conceptos por comas
+                                            <input type="text" [formControl]="concepto" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Fecha
+                                            <font color="red">*</font>
+                                            <input type="date" [formControl]="fecha" class="form-control require-if-active" data-require-pair="#choice-animals-cats" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Nombre del cliente
+                                            <font color="red">*</font>
+                                            <input type="text" [formControl]="nombreCliente" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            RFC del cliente
+                                            <font color="red">*</font>
+                                            <!--<input type="text" [formControl]="rfcCliente" class="form-control" minlength="12" maxlength="13" onkeyup="this.value=this.value.toUpperCase();"
+                        required>-->
+                                            <input type="text" [formControl]="rfcCliente" class="form-control" id="rfc" minlength="10" maxlength="13" required (keyup)="onKey($event)" onkeyup="this.value=this.value.toUpperCase();">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Subtotal
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="subtotal" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            IVA
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="iva" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Total
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="total" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            IVA Retenido
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="ivaRetenido" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            ISR Retenido
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="isrRetenido" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            Archivo (opcional)
+                                            <div id="dZUploadArOpG" class="dropzone">
+                                                <div class="dz-default dz-message"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <img *ngIf="imageExist" [src]="urlImage" class="img-fluid imgDropzone" alt="Not Found">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="alert alert-warning" *ngIf="error == true">
+                                                {{mensajeError}}
+                                                <font color="red">*</font>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 3. Dropzones (Recibir Data) -->
+                        <div *ngIf="isCosa == 3" class="col-sm-12">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Concepto
+                                            <font color="red">*</font>
+                                            <br>
+                                            <!-- <autocomplete-generic (onIdSelected)="onConceptoSelected($event)" entidad='concepto' [enabled]="true" textplaceholder='Buscar...'
+                        #autocompleteConcepto></autocomplete-generic> -->
+                                            Separar los conceptos por comas
+                                            <input type="text" [formControl]="concepto" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Fecha
+                                            <font color="red">*</font>
+                                            <input type="date" [formControl]="fecha" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Nombre del cliente
+                                            <font color="red">*</font>
+                                            <input type="text" [formControl]="nombreCliente" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            RFC del cliente
+                                            <font color="red">*</font>
+                                            <!--<input type="text" [formControl]="rfcCliente" class="form-control" minlength="12" maxlength="13" onkeyup="this.value=this.value.toUpperCase();"
+                        required>-->
+                                            <input type="text" [formControl]="rfcCliente" class="form-control" id="rfc" minlength="10" maxlength="13" required (keyup)="onKey($event)" onkeyup="this.value=this.value.toUpperCase();">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Subtotal
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="subtotal" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            IVA
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="iva" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Total
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="total" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            IVA Retenido
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="ivaRetenido" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            ISR Retenido
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="isrRetenido" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Archivo (opcional)
+                                            <div id="dZUploadArOpG" class="dropzone">
+                                                <div class="dz-default dz-message"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <img *ngIf="imageExist" [src]="urlImage" class="img-fluid imgDropzone" alt="Not Found">
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="alert alert-warning" *ngIf="error == true">
+                                                {{mensajeError}}
+                                                <font color="red">*</font>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 4. Dropzones (Recibir Data)-->
+                        <div *ngIf="isCosa == 4" class="col-sm-12">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Concepto
+                                            <font color="red">*</font>
+                                            <br>
+                                            <!-- <autocomplete-generic (onIdSelected)="onConceptoSelected($event)" entidad='concepto' [enabled]="true" textplaceholder='Buscar...'
+                        #autocompleteConcepto></autocomplete-generic> -->
+                                            Separar los conceptos por comas
+                                            <input type="text" [formControl]="concepto" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Fecha
+                                            <font color="red">*</font>
+                                            <input type="date" [formControl]="fecha" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Nombre del cliente
+                                            <font color="red">*</font>
+                                            <input type="text" [formControl]="nombreCliente" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            RFC del cliente
+                                            <font color="red">*</font>
+                                            <!--<input type="text" [formControl]="rfcCliente" class="form-control" minlength="12" maxlength="13" onkeyup="this.value=this.value.toUpperCase();"
+                        required>-->
+                                            <input type="text" [formControl]="rfcCliente" class="form-control" id="rfc" minlength="10" maxlength="13" required (keyup)="onKey($event)" onkeyup="this.value=this.value.toUpperCase();">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Subtotal
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="subtotal" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            IVA
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="iva" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Total
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="total" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Archivo (opcional)
+                                            <div id="dZUploadArOpG" class="dropzone">
+                                                <div class="dz-default dz-message"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <img *ngIf="imageExist" [src]="urlImage" class="img-fluid imgDropzone" alt="Not Found">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="alert alert-warning" *ngIf="error == true">
+                                                {{mensajeError}}
+                                                <font color="red">*</font>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 5. Dropzones (Recibir Data)-->
+                        <div *ngIf="isCosa == 5" class="col-sm-12">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Fecha
+                                            <font color="red">*</font>
+                                            <input type="date" [formControl]="fecha" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Monto
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="monto" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Banco / Socio / Acreedor
+                                            <font color="red">*</font>
+                                            <input type="text" [formControl]="nombreCliente" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Concepto
+                                            <font color="red">*</font>
+                                            <br>
+                                            <!-- <autocomplete-generic (onIdSelected)="onConceptoSelected($event)" entidad='concepto' [enabled]="true" textplaceholder='Buscar...'
+                        #autocompleteConcepto></autocomplete-generic> -->
+                                            Separar los conceptos por comas
+                                            <input type="text" [formControl]="concepto" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="noneDog" type="radio" name="choice-animals" checked="false" id="choice-animals-dogs"> Banco
+                                        <div class="reveal-if-active">
+                                            <div class="form-group">
+                                                Cuenta
+                                                <autocomplete-generic (onIdSelected)="onCuentaSelected($event)" class="require-if-active" data-require-pair="#choice-animals-dogs" size="12" entidad='cuenta' [enabled]="true" textplaceholder='Buscar Cuenta' #autocompleteCuenta required></autocomplete-generic>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="noneCat" type="radio" name="choice-animals" checked="false" id="choice-animals-cats"> Efectivo
+                                        <div class="reveal-if-active">
+                                            <div class="form-group">
+                                                Caja
+                                                <autocomplete-generic (onIdSelected)="onCajaSelected($event)" class="require-if-active" data-require-pair="#choice-animals-cats" size="12" entidad='caja' [enabled]="true" textplaceholder='Buscar Caja' #autocompleteCaja required></autocomplete-generic>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Archivo
+                                            <div id="dZUploadArOpG" class="dropzone">
+                                                <div class="dz-default dz-message"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <img *ngIf="imageExist" [src]="urlImage" class="img-fluid imgDropzone" alt="Not Found">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="alert alert-warning" *ngIf="error == true">
+                                                {{mensajeError}}
+                                                <font color="red">*</font>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 6. Dropzones (Recibir Data)-->
+                        <div *ngIf="isCosa == 6" class="col-sm-12">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Fecha
+                                            <font color="red">*</font>
+                                            <input type="date" [formControl]="fecha" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Monto
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="monto" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Banco / Socio / Acreedor
+                                            <font color="red">*</font>
+                                            <input type="text" [formControl]="nombreCliente" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Concepto
+                                            <font color="red">*</font>
+                                            <br>
+                                            <!-- <autocomplete-generic (onIdSelected)="onConceptoSelected($event)" entidad='concepto' [enabled]="true" textplaceholder='Buscar...'
+                        #autocompleteConcepto></autocomplete-generic> -->
+                                            Separar los conceptos por comas
+                                            <input type="text" [formControl]="concepto" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="radio" name="choice-animals" checked="false" id="choice-animals-dogs"> Banco
+                                        <div class="reveal-if-active">
+                                            <div class="form-group">
+                                                Cuenta
+                                                <autocomplete-generic (onIdSelected)="onCuentaSelected($event)" class="require-if-active" data-require-pair="#choice-animals-dogs" size="12" entidad='cuenta' [enabled]="true" textplaceholder='Buscar Cuenta' #autocompleteCuenta required></autocomplete-generic>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="radio" name="choice-animals" checked="false" id="choice-animals-cats"> Efectivo
+                                        <div class="reveal-if-active">
+                                            <div class="form-group">
+                                                Caja
+                                                <autocomplete-generic (onIdSelected)="onCajaSelected($event)" class="require-if-active" data-require-pair="#choice-animals-cats" size="12" entidad='caja' [enabled]="true" textplaceholder='Buscar Caja' #autocompleteCaja required></autocomplete-generic>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Archivo
+                                            <div id="dZUploadArOpG" class="dropzone">
+                                                <div class="dz-default dz-message"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <img *ngIf="imageExist" [src]="urlImage" class="img-fluid imgDropzone" alt="Not Found">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="alert alert-warning" *ngIf="error == true">
+                                                {{mensajeError}}
+                                                <font color="red">*</font>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 7. Dropzones (Recibir Data)-->
+                        <div *ngIf="isCosa == 7" class="col-sm-12">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Fecha
+                                            <font color="red">*</font>
+                                            <input type="date" [formControl]="fecha" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Monto
+                                            <font color="red">*</font>
+                                            <input type="number" [formControl]="monto" class="form-control" required min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Banco / Socio / Acreedor
+                                            <font color="red">*</font>
+                                            <input type="text" [formControl]="nombreCliente" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            Concepto
+                                            <font color="red">*</font>
+                                            <br>
+                                            <!-- <autocomplete-generic (onIdSelected)="onConceptoSelected($event)" entidad='concepto' [enabled]="true" textplaceholder='Buscar...'
+                        #autocompleteConcepto></autocomplete-generic> -->
+                                            Separar los conceptos por comas
+                                            <input type="text" [formControl]="concepto" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="radio" name="choice-animals" checked="false" id="choice-animals-dogs"> Banco
+                                        <div class="reveal-if-active">
+                                            <div class="form-group">
+                                                Cuenta
+                                                <autocomplete-generic (onIdSelected)="onCuentaSelected($event)" class="require-if-active" data-require-pair="#choice-animals-dogs" size="12" entidad='cuenta' [enabled]="true" textplaceholder='Buscar Cuenta' #autocompleteCuenta required></autocomplete-generic>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="radio" name="choice-animals" checked="false" id="choice-animals-cats"> Efectivo
+                                        <div class="reveal-if-active">
+                                            <div class="form-group">
+                                                Caja
+                                                <autocomplete-generic (onIdSelected)="onCajaSelected($event)" class="require-if-active" data-require-pair="#choice-animals-cats" size="12" entidad='caja' [enabled]="true" textplaceholder='Buscar Caja' #autocompleteCaja required></autocomplete-generic>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Archivo XML (opcional)
+                                            <div id="dZUploadManXML" class="dropzone">
+                                                <div class="dz-default dz-message"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            Archivo PDF (opcional)
+                                            <div id="dZUploadManPDF" class="dropzone">
+                                                <div class="dz-default dz-message"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="alert alert-warning" *ngIf="error == true">
+                                                {{mensajeError}}
+                                                <font color="red">*</font>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 8. Dropzones (Recibir Data)-->
+                        <div *ngIf="isCosa == 8" class="col-sm-12">
+                            <dt class="col-sm-12">
+                                <div>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    Concepto
+                                                    <font color="red">*</font>
+                                                    <br>
+                                                    <!-- <autocomplete-generic (onIdSelected)="onConceptoSelected($event)" entidad='concepto' [enabled]="true" textplaceholder='Buscar...'
+                                #autocompleteConcepto></autocomplete-generic> -->
+                                                    Separar los conceptos por comas
+                                                    <input type="text" [formControl]="concepto" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    Fecha
+                                                    <font color="red">*</font>
+                                                    <input type="date" [formControl]="fecha" class="form-control require-if-active" data-require-pair="#choice-animals-cats" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    Nombre del cliente
+                                                    <font color="red">*</font>
+                                                    <input type="text" [formControl]="nombreCliente" class="form-control require-if-active" data-require-pair="#choice-animals-cats" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    RFC del cliente
+                                                    <font color="red">*</font>
+                                                    <!--<input type="text" [formControl]="rfcCliente" class="form-control require-if-active" data-require-pair="#choice-animals-cats"
+                            minlength="12" maxlength="13" onkeyup="this.value=this.value.toUpperCase();" required>-->
+                                                    <input type="text" [formControl]="rfcCliente" class="form-control require-if-active" data-require-pair="#choice-animals-cats" id="rfc" minlength="10" maxlength="13" required (keyup)="onKey($event)" onkeyup="this.value=this.value.toUpperCase();">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    Subtotal
+                                                    <font color="red">*</font>
+                                                    <input type="number" [formControl]="subtotal" class="form-control require-if-active" data-require-pair="#choice-animals-cats" required min="0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    IVA
+                                                    <font color="red">*</font>
+                                                    <input [formControl]="iva" type="number" class="form-control require-if-active" data-require-pair="#choice-animals-cats" required min="0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    Total
+                                                    <font color="red">*</font>
+                                                    <input [formControl]="total" type="number" class="form-control require-if-active" data-require-pair="#choice-animals-cats" required min="0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    Archivo
+                                                    <div id="dZUploadArOpG" class="dropzone">
+                                                        <div class="dz-default dz-message"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <img *ngIf="imageExist" [src]="urlImage" class="img-fluid imgDropzone" alt="Not Found">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="alert alert-warning" *ngIf="error == true">
+                                                        {{mensajeError}}
+                                                        <font color="red">*</font>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </dt>
+                        </div>
+                    </dl>
+                </div>
+                <!-- {{isEdit}} -->
+                <div class="modal-footer">
+                    <!-- {{ form.valid}} -->
+                    <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal" (click)="deleteValue()">Cancelar</button>
+                    <button type="submit" class="btn btn-colorblue btn-raised">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal_eliminar -->
+<div class="modal fade" id="eliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">Borrar Ingreso</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de querer borrar el certificado
+                <!--{{entidad_elimar?.concepto}}-->?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+                <button type="button" (click)="removeIngreso(entidad_elimar?.id)" class="btn btn-colorblue btn-raised">Borrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--modal para Registrar cobro-->
+<div class="modal fade modal-md" id="modalRegistroCobro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 class="modal-title">Registrar Cobro</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cleanData()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr>
+            <form [formGroup]="modalForm" (ngSubmit)="sendDatosCobro()">
+                <div class="modal-body">
+                    <dl class="row">
+                        <dt class="col-12">
+                            <div class="form-group">
+
+
+                                <label style='position:center;' for="cliente" translate>Cliente</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" formControlName="cliente" placeholder="" name="cliente" disabled>
+                                </div>
+
+
+                                <label style='position:center;' for="conceptos" translate>Conceptos</label>
+                                <input class="form-control" formControlName="conceptoTextarea" disabled>
+                                <br>
+
+                                <div *ngIf="showImporteTotalCobrar">
+                                    <label style='position:center;' for="totalCobrar" translate>Importe total a cobrar</label>
+                                </div>
+                                <div *ngIf="isNotCeroes">
+                                    <label style='position:center;' for="total" translate>Importe total </label>
+                                </div>
+
+                                <!-- value="1000" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100"  -->
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input formControlName="importeTotalCobrar" type="number" class="form-control currency" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" disabled />
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="monto" translate>Monto cobrado</label>
+                                        <font color="red">*</font>
+                                        <div class="input-group" style="margin: 0;">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="number" min="0" step="0.10" max="totalSaved" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" formControlName="importeMontoCobrado" id="importeMontoCobrado" />
+                                        </div>
+                                        <!-- <div class="alert alert-warning text-center centro4" role="alert" *ngIf="errorMonto">
+                      <div class="alert-warning">El Monto supera al total</div>
+                    </div> -->
+                                    </div>
+                                    <div class="col-lg-6 ">
+                                        <label *ngIf="!isNotCeroes" translate>Fecha</label>
+                                        <label *ngIf="isNotCeroes" translate>Fecha último cobro</label>
+                                        <font color="red">*</font>
+                                        <div class="">
+                                            <input type="date" class="form-control" formControlName="fechaCobro">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" *ngIf="isNotCeroes">
+                                    <div class="col-lg-6">
+                                        <label for="monto" translate>Registrar nuevo cobro</label>
+                                        <font color="red">*</font>
+                                        <div class="input-group" style="margin: 0;">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="number" value="1000" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" formControlName="nvoCobro" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="date" translate>Fecha</label>
+                                        <font color="red">*</font>
+                                        <input type="date" class="form-control" formControlName="fechaUltimoCobro">
+                                    </div>
+                                </div>
+
+                                <div class="col align-self-center" *ngIf="errorMonto">
+                                    <label class="text-danger">La suma del nuevo cobro y el
+                                        <strong>
+                                            <u>Monto cobrado</u>
+                                        </strong> no puede ser mayor al
+                                        <strong>
+                                            <u>Importe total</u>
+                                        </strong>
+                                    </label>
+                                </div>
+                                <br>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="inlineRadioOptions" id="rdBtnBancoCobro" value="option1" (change)="activateBanco()">
+                                        <label class="form-check-label" for="rdBtnBancoCobro">Banco</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" name="inlineRadioOptions" id="rdBtnEfectivoCobro" value="option2" (change)="activateEfectivo()">
+                                        <label class="form-check-label" for="rdBtnEfectivoCobro">Efectivo</label>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="ceroesAndBank">
+                                    <label style='position:center;' for="cliente" translate>Cuenta</label>
+                                    <select class="form-control w-100" formControlName="selectBanco">
+                                        <option *ngFor="let itemCuenta of cuentasDisponibles " [value]="itemCuenta.id">
+                                            {{itemCuenta.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div *ngIf="ceroesAndEffective">
+                                    <div class="form-group">
+                                        <label style='position:center;' for="cliente" translate>Caja</label>
+                                        <select class="form-control w-100" formControlName="selectCaja">
+                                            <option *ngFor="let itemCaja of cajasDisponibles" [value]="itemCaja.id">
+                                                {{itemCaja.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                                <!-- {{modalForm.valid}} -->
+                                <div class="alert alert-warning text-center" *ngIf="error == true">
+                                    {{mensajeError}}
+                                    <font color="red">*</font>
+                                </div>
+                                <!--(ngSubmit)="onSubmit()"-->
+                                <button type="submit" class="btn btn-info pull-right">Guardar</button>
+                                <button type="button" class="btn pull-right" data-dismiss="modal" (click)="cleanData()">Cancelar</button>
+                            </div>
+                        </dt>
+                    </dl>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--modal de envio de mail-->
+<div class="modal fade modal-md" id="modalMail">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Enviar</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr>
+
+            <form [formGroup]="modalEnvioMail">
+                <div class="modal-body">
+                    <dl class="row">
+                        <dt class="col-sm-12 col-lg-9">
+                            <div class="form-group">
+                                <label style='position:center;' for="envioMail" translate>Se enviarán los archivos de Ingreso:
+                                </label>
+                                <div *ngIf="comprobanteConceptoDisponible">
+                                    {{entidad_update.tipoComprobante.nombre}}
+                                    <br> {{entidad_update.concepto}}
+                                </div>
+                                <br>
+                                <label style='position:center;' for="envioMail" translate>Correo(s) del receptor
+                                    <font color="red">*</font> (puedes separarlos por comas)</label>
+                                <div>
+                                    <input class="form-control" type="text" name="direccionCorreo" formControlName="direccionMail" spellcheck="false">
+                                </div>
+                                <hr>
+                                <!--(ngSubmit)="onSubmit()"-->
+                                <!-- {{modalEnvioMail.controls.direccionMail.valid}} -->
+                                <button [ngClass]="{'disabled':!modalEnvioMail.controls.direccionMail.valid}" type="button" class="btn btn-info pull-right" (click)="modalEnvioMail.controls.direccionMail.valid&&sendMail()">Envíar</button>
+                                <button type="button" class="btn pull-right" data-dismiss="modal" (click)="cleanData()">Cancelar</button>
+                            </div>
+                        </dt>
+                    </dl>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalMensaje">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mx-r">Algo a Ocurrido</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-auto">
+                <p>{{mensajeError}}</p>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                <button type="button" class="btn btn-secondary mx-auto" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- 
+readonly="readonly"  inpurt ineditable
+<autocomplete-generic (onIdSelected)="onSelectedTComprobanteIngresos($event)" entidad='cliente' [enabled]="true"
+textplaceholder='Buscar...' #autocompleteTComprobanteIngreso></autocomplete-generic> -->
+
+<!--  (click)="prepareAdd()" data-toggle="modal" data-target="#Ingreso" 
+  role-> para dar info adicional a invidentes ,permite extraer info automaticmanete 
+  autocomplete -> indica si el browser tiene permiso de autocompletar
+  novalidate  -> indica que la forma debe ser validada antes de enviarse.
+   ngsubmit ->
+   formgroup
+    trigger() jquery metofo Ejecuta todos los controladores y comportamientos asociados a los elementos coincidentes para el tipo de evento dado.
+  formControlName
+  -->
+
+
+
+<!-- <select [compareWith]="byTimeAlarmed" [(ngModel)]="filterTimeRange" name="timeAlarmed" (change)="setTimeAlarmed()" class="form-control selectFilter w-100">
+                  <option *ngFor="let timeAlarmed of listTimeAlarmed" [ngValue]="timeAlarmed">{{timeAlarmed.name}} </option>
+              </select> -->

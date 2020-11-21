@@ -1,0 +1,162 @@
+<div class="row">
+    <div class="col-12 ">
+        <!-- <h1 class="fa fa-cog"> Sucursales</h1> -->
+        <h1 class="titlletext"> MI CUENTA</h1>
+        <hr>
+    </div>
+    <div class="col-12">
+        <div class="perfilName">
+            <div class="mr-auto">
+                <dl class="row">
+                    <dt class="col-md-4">
+                        <div class="photopefil">
+                            <div class="espaciado">
+                                <img [src]="url ? url : 'https://www.w3schools.com/howto/img_avatar.png'" class="perfilfoto">
+                                <!--<img src="{{ ( 'perfil' | baProfilePicture ) }}" width="70" height="70">-->
+                            </div>
+                            <div class="espaciado">
+                                <i style="margin-left: auto;" class="fa fa-camera" aria-hidden="true"></i>
+                            </div>
+                            <div class="espaciado">
+                                <!--<a href="" class="boton_2">Editar foto</a>-->
+                                <label class="boton_2" for="fileInput">Editar foto</label>
+                                <input id="fileInput" type='file' accept="image/*" (change)="onFileUpload($event)" hidden>
+                            </div>
+                        </div>
+                    </dt>
+                    <dt class="col-md-8" id="contentInfo">
+                        <h1 class="iconSummary">{{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}</h1>
+                        <h4>Estatus: {{usuario.estatus?'ACTIVO':'INACTIVO'}}</h4>
+                        <h4>Fecha de Registro: {{usuario.fechaRegistro | date :'short'}}</h4>
+                        <h4>Fecha de última visita: {{usuario.fechaRegistro | date :'short'}}</h4>
+                    </dt>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dl class="row">
+    <dt class="col-sm-12">
+        <div class="">
+            <div class="card" id="card-perfil">
+                <div class="card-block">
+                    <form [formGroup]="formularioUsuario" (ngSubmit)="onSubmitUsuarios()" novalidate>
+                        <div class="modal-body">
+                            <dl class="containt">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="iconSummary">Datos Generales</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <dt class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            Nombre(s)
+                                            <font color="red">*</font>
+                                            <input type="text" formControlName="nombre" class="form-control" id="nombre" disabled>
+                                        </div>
+                                    </dt>
+                                    <dt class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            Apellido paterno
+                                            <font color="red">*</font>
+                                            <input type="text" formControlName="apellidoPaterno" class="form-control" id="apellidoPaterno" disabled>
+                                        </div>
+                                    </dt>
+                                </div>
+                                <div class="row">
+                                    <dt class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            Apellido materno
+                                            <font color="red">*</font>
+                                            <input type="text" formControlName="apellidoMaterno" class="form-control" id="apellidoMaterno" disabled>
+                                        </div>
+                                    </dt>
+                                    <dt class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            Correo
+                                            <font color="red">*</font>
+                                            <input type="text" formControlName="correo" class="form-control" id="correo" disabled>
+                                        </div>
+                                    </dt>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="iconSummary">Notificaciones</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <dt class="col-sm-12">
+                                        <div class="form-group notiswitch">
+                                            <div class="notiswitchlabel notiswitchlabelri"><label>
+                                                    Recibir alertas de notificaciones
+                                                </label></div>
+                                            <div class="notiswitchlabel">
+                                                <label class="switch">
+                                                    <input type="checkbox" id="tipoTrabajador" value="false">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </dt>
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="iconSummary">Restablecer contraseña</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <dt class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            Contraseña Anterior
+                                            <font color="red">*</font>
+                                            <input type="password" formControlName="contraseniaanterior" class="form-control" id="contraseniaanterior" required>
+                                        </div>
+                                        <div class="alert alert-danger" id="alertaPassword" role="alert" style="display:none;">
+                                            <strong>La contraseña es incorrecta</strong>
+                                        </div>
+                                    </dt>
+                                </div>
+                                <div class="row">
+                                </div>
+                                <div class="row">
+                                    <dt class="col-md-6 col-12">
+                                        <div class="form-group" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+                                            Nueva Contraseña
+                                            <font color="red">*</font>
+                                            <input [formControl]="password" type="password" class="form-control" id="inputPassword3" required>
+                                        </div>
+                                    </dt>
+                                    <dt class="col-md-6 col-12">
+                                        <div class="form-group" [ngClass]="{'has-error': (!repeatPassword.valid && repeatPassword.touched), 'has-success': (repeatPassword.valid && repeatPassword.touched)}">
+                                            Confirmar nueva Contraseña
+                                            <font color="red">*</font>
+                                            <input [formControl]="repeatPassword" type="password" class="form-control" id="inputPassword4" required>
+                                            <span *ngIf="!passwords.valid && (password.touched || repeatPassword.touched)" class="help-block sub-little-text">Las contraseñas no coinciden</span>
+                                        </div>
+                                    </dt>
+                                </div>
+                                <dt class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="alert alert-success" id="confirmacion" role="alert" style="display:none;">
+                                            <strong>Se realizo el cambio de la contraseña con exito</strong>
+                                        </div>
+                                    </div>
+                                </dt>
+
+
+                            </dl>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-colorblue" [disabled]="!form.valid">Guardar cambios</button>
+                                <button type="button" class="btn btn-option" routerLink="/pages/dashboard" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </dt>
+</dl>

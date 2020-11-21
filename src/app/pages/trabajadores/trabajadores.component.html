@@ -1,0 +1,14 @@
+<div *ngIf="changeTable == '1'">
+    <h1> <i class="fa fa-vcard-o iconSummary"></i> <span class="color">Trabajadores</span> </h1>
+    <app-trtabla></app-trtabla>
+</div>
+
+<div *ngIf="changeTable == '2'">
+    <h1> <i class="fa fa-vcard-o iconSummary"></i> <span class="color">Agregar Trabajador</span> </h1>
+    <app-trnuevo></app-trnuevo>
+</div>
+
+<div *ngIf="changeTable == '3'">
+    <h1> <i class="fa fa-vcard-o iconSummary"></i> <span class="color">Detalle de Trabajador</span> </h1>
+    <app-trabajador-detalle></app-trabajador-detalle>
+</div>

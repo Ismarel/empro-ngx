@@ -1,0 +1,446 @@
+<div class="row">
+    <div class="col-12">
+        <h1 class="titlletext">
+            <i class="fa fa-cog iconEngrane"></i> Usuarios</h1>
+    </div>
+    <div class="col-12">
+        <div class="button">
+            <button class="btn btn-colorblue btn-raised esp font" (click)="prepareAdd()" data-toggle="modal" data-target="#Usuarios">
+                <i class="fa fa-plus"></i> Agregar Usuarios</button>
+            <div class="dropdown righta">
+                <button class="btn btn-option btn-raised font dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-cog"></i> Opciones
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" (click)="exportarExcel()">Exportar<br>Usuarios</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<hr>
+<!--///////////////////////////////////////////////////-->
+<div class="container-fluid">
+    <div class="table-responsive">
+        <table class="table table-striped table-vcenter table-bordered tableDatosGenerales">
+            <thead class="">
+                <tr>
+                    <td colspan="8">
+                        <div class="top_table row padSearch">
+                            <div class="col-xs-8 col-sm-8 col-md-4">
+                                <form [formGroup]="formularioFilterQuery" novalidate>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                        <input type="search" class="form-control" placeholder="Buscar en esta lista..." formControlName="queryUsuarios">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 offset-md-4">
+                                <div class="float-right">
+                                    <select name="usuarios_data_length" class="form-control" [(ngModel)]="rowsOnPage" (change)="onChangeSize()">
+                                        <!-- <option [value]="2">2</option> -->
+                                        <option [value]="10">10</option>
+                                        <option [value]="20">20</option>
+                                        <option [value]="30">30</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </td>
+                </tr>
+                <tr class="bor_inf">
+                    <th>
+                        <sorter-table by='id' [currentSort]="sortBy" (onSort)="onSort($event)">ID</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='nombre' [currentSort]="sortBy" (onSort)="onSort($event)">Nombre</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='correo' [currentSort]="sortBy" (onSort)="onSort($event)">Correo</sorter-table>
+                    </th>
+                    <th>
+                        <!-- <sorter-table by='password' [currentSort]="sortBy" (onSort)="onSort($event)">Password</sorter-table> -->
+                        <sorter-table by='fechaRegistro' [currentSort]="sortBy" (onSort)="onSort($event)">Fecha Registro</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='fechaRegistro' [currentSort]="sortBy" (onSort)="onSort($event)">Última Visita</sorter-table>
+                    </th>
+
+                    <th>
+                        <sorter-table by='estatus' [currentSort]="sortBy" (onSort)="onSort($event)">Sucursales</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='estatus' [currentSort]="sortBy" (onSort)="onSort($event)">Estatus</sorter-table>
+                    </th>
+                    <!-- <th>
+            <sorter-table by='dashboard' [currentSort]="sortBy" (onSort)="onSort($event)">Dashboard</sorter-table>
+          </th>
+          <th>
+            <sorter-table by='empresas' [currentSort]="sortBy" (onSort)="onSort($event)">Empresas</sorter-table>
+          </th>
+          <th>
+            <sorter-table by='bancos' [currentSort]="sortBy" (onSort)="onSort($event)">Bancos</sorter-table>
+          </th>
+          <th>
+            <sorter-table by='facturas' [currentSort]="sortBy" (onSort)="onSort($event)">Facturas</sorter-table>
+          </th>
+          <th>
+            <sorter-table by='nominas' [currentSort]="sortBy" (onSort)="onSort($event)">Nóminas</sorter-table>
+          </th>
+          <th>
+            <sorter-table by='ingresos' [currentSort]="sortBy" (onSort)="onSort($event)">Ingresos</sorter-table>
+          </th>
+          <th>
+            <sorter-table by='egresos' [currentSort]="sortBy" (onSort)="onSort($event)">Egresos</sorter-table>
+          </th>
+          <th>
+            <sorter-table by='reporte' [currentSort]="sortBy" (onSort)="onSort($event)">Reporte</sorter-table>
+          </th>
+          <th>
+            <sorter-table by='empresa' [currentSort]="sortBy" (onSort)="onSort($event)">Empresa</sorter-table>
+          </th>
+          <th>
+            <sorter-table by='nombreEmpresa' [currentSort]="sortBy" (onSort)="onSort($event)">Nombre Empresa</sorter-table>
+          </th> -->
+
+                    <th style="min-width: 100px">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="tableDatosGenerales">
+                <tr class="bor" *ngFor="let item of data |paginate: { itemsPerPage: rowsOnPage, currentPage: page, totalItems: totalUsuario }">
+
+                    <td scope="row">{{item.id}}</td>
+                    <td>{{item.nombre}} {{item.apellidoPaterno}} {{item.apellidoMaterno}}</td>
+                    <td>{{item.correo}}</td>
+                    <!-- <td>{{item.password}}</td> -->
+                    <td>{{item.fechaRegistro | date :'short'}}</td>
+                    <td>{{item.fechaRegistro | date :'short'}}</td>
+                    <td>{{item.estatus?'Activo':'Inactivo'}}</td>
+                    <td>{{item.estatus?'Activo':'Inactivo'}}</td>
+
+                    <!-- <td>{{item.dashboard?'Habilitado':'Deshabilitado'}}</td>
+          <td>{{item.dashboard}}</td> 
+          <td>{{item.empresas?'Habilitado':'Deshabilitado'}}</td>
+          <td>{{item.bancos?'Habilitado':'Deshabilitado'}}</td>
+          <td>{{item.facturas?'Habilitado':'Deshabilitado'}}</td>
+          <td>{{item.nominas?'Habilitado':'Deshabilitado'}}</td>
+          <td>{{item.ingresos?'Habilitado':'Deshabilitado'}}</td>
+          <td>{{item.egresos?'Habilitado':'Deshabilitado'}}</td>
+          <td>{{item.reporte?'Habilitado':'Deshabilitado'}}</td> -->
+
+
+
+
+                    <!-- <td *ngIf="item.bancos == 1">Habilitado</td>
+          <td *ngIf="item.bancos == 0">Deshabilitado</td> 
+          <td *ngIf="item.facturas == 1">Habilitado</td>
+          <td *ngIf="item.facturas == 0">Deshabilitado</td> 
+          <td *ngIf="item.nominas == 1">Habilitado</td>
+          <td *ngIf="item.nominas == 0">Deshabilitado</td> 
+          <td *ngIf="item.ingresos == 1">Habilitado</td>
+          <td *ngIf="item.ingresos == 0">Deshabilitado</td> 
+          <td *ngIf="item.egresos == 1">Habilitado</td>
+          <td *ngIf="item.egresos == 0">Deshabilitado</td> 
+          <td *ngIf="item.reporte == 1">Habilitado</td>
+          <td *ngIf="item.reporte == null">Deshabilitado</td>  -->
+                    <!-- <td>{{item.empresas}}</td>
+          <td>{{item.bancos}}</td>
+          <td>{{item.facturas}}</td>
+          <td>{{item.nominas}}</td>
+          <td>{{item.ingresos}}</td>
+          <td>{{item.egresos}}</td>
+          <td>{{item.reporte}}</td> -->
+                    <!-- <td>{{item.empresa.nombre}}</td> -->
+                    <td class="text-center">
+
+                        <button type="button" (click)="prepareEdit(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#Usuarios">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button type="button" (click)="onClick_elim(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#eliminar">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="8">
+                        <!--Init Paginacion-->
+                        <nav aria-label="Page navigation example">
+                            <pagination-template #p="paginationApi" (pageChange)="pageChanged($event)">
+                                <ul class="pagination float-left padNum">
+                                    <li class="page-item">
+                                        <span> 1 - </span>
+                                        <span> {{rowsOnPage}} </span>
+                                        <span> de </span>
+                                        <span> {{totalUsuario}} </span>
+                                    </li>
+                                </ul>
+                                <ul class="pagination float-right">
+
+                                    <li class="page-item" [class.active]="p.isFirstPage()">
+                                        <a class="page-link  boton espa" *ngIf="!p.isFirstPage()" (click)="p.previous()" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="page-item" *ngFor="let page of p.pages" [class.active]="p.getCurrent() === page.value">
+                                        <a class="page-link redonditos boton espa" (click)="p.setCurrent(page.value)"> {{ page.label }}</a>
+                                    </li>
+
+                                    <li class="page-item" [class.active]="p.isLastPage()">
+                                        <a class="page-link  boton espa" *ngIf="!p.isLastPage()" (click)="p.next()" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </pagination-template>
+                        </nav>
+                        <!--Fin Paginacion-->
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!--Fin tabla-->
+
+<!--MODAL AGREGAR/EDITAR-->
+<div class="modal fade" id="Usuarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">{{!isEdit?'Agregar Usuario':'Editar Usuario'}}</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="formularioUsuarios" (ngSubmit)="onSubmitUsuarios()" novalidate>
+                <div class="modal-body">
+                    <dl class="row">
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Nombre
+                                <font color="red">*</font>
+                                <input type="text" formControlName="nombre" size="61" class="form-control" id="nombre" required>
+                            </div>
+                            <div *ngIf="formularioUsuarios.controls.nombre.errors?.required && !formularioUsuarios.controls.nombre.pristine" class="alert alert-danger">
+                                Nombre es requerido
+                            </div>
+                        </dt>
+
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Apellido Paterno
+                                <font color="red">*</font>
+                                <input type="text" formControlName="apellidoPaterno" size="61" class="form-control" id="apellidoPaterno" required>
+                            </div>
+                            <div *ngIf="formularioUsuarios.controls.apellidoPaterno.errors?.required && !formularioUsuarios.controls.apellidoPaterno.pristine" class="alert alert-danger">
+                                Apellido Paterno es requerido
+                            </div>
+                        </dt>
+
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Apellido Materno
+                                <font color="red">*</font>
+                                <input type="text" formControlName="apellidoMaterno" size="61" class="form-control" id="apellidoMaterno" required>
+                            </div>
+                            <div *ngIf="formularioUsuarios.controls.apellidoMaterno.errors?.required && !formularioUsuarios.controls.apellidoMaterno.pristine" class="alert alert-danger">
+                                Apellido Materno es requerido
+                            </div>
+                        </dt>
+
+                        <dt class="col-sm-12">
+                            <div class="form-group">
+                                Correo
+                                <font color="red">*</font>
+                                <input type="email" formControlName="correo" size="61" class="form-control" id="correo" required>
+                            </div>
+                            <div *ngIf="formularioUsuarios.controls.correo.errors?.required && !formularioUsuarios.controls.correo.pristine" class="alert alert-danger">
+                                Correo es requerido
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Password
+                                <font color="red">*</font>
+                                <input type="password" formControlName="password" minlength="8" class="form-control" id="password" required>
+                                <div *ngIf="formularioUsuarios.controls.password.errors?.required && !formularioUsuarios.controls.password.pristine" class="alert alert-danger">
+                                    Password es requerido
+                                </div>
+                            </div>
+                        </dt>
+
+
+                        <dt class="col-sm-6">
+                            <div class="form-group"> Estatus
+                                <font color="red">*</font>
+                                <select formControlName="estatus" class="form-control" id="estatus" required>
+                                    <option [ngValue]=null disabled>{{'general.selectOption'|translate}}</option>
+                                    <option value="1">Habilitado</option>
+                                    <option value="2">Deshabilitado</option>
+                                </select>
+                                <!-- <input type="text" formControlName="estatus" size="61" class="form-control" id="estatus"> -->
+                                <div *ngIf="formularioUsuarios.controls.estatus.errors?.required && !formularioUsuarios.controls.estatus.pristine" class="alert alert-danger">
+                                    Estatus es requerido
+                                </div>
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group"> Dashboard
+                                <font color="red">*</font>
+                                <select formControlName="dashboard" class="form-control" id="dashboard" required>
+                                    <option [ngValue]=null disabled>{{'general.selectOption'|translate}}</option>
+                                    <option value="true">Habilitado</option>
+                                    <option value="false">Deshabilitado</option>
+                                </select>
+                                <div *ngIf="formularioUsuarios.controls.dashboard.errors?.required && !formularioUsuarios.controls.dashboard.pristine" class="alert alert-danger">
+                                    Dashboard es requerido
+                                </div>
+                                <!-- <input type="text" formControlName="dashboard" size="61" class="form-control" id="dashboard"> -->
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group"> Empresas
+                                <font color="red">*</font>
+                                <select formControlName="empresas" class="form-control" id="empresas" required>
+                                    <option [ngValue]=null disabled>{{'general.selectOption'|translate}}</option>
+                                    <option value="true">Habilitado</option>
+                                    <option value="false">Deshabilitado</option>
+                                </select>
+                                <!-- <input type="text" formControlName="empresas" size="61" class="form-control" id="empresas"> -->
+                                <div *ngIf="formularioUsuarios.controls.empresas.errors?.required && !formularioUsuarios.controls.empresas.pristine" class="alert alert-danger">
+                                    Empresas es requerido
+                                </div>
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group"> Bancos
+                                <font color="red">*</font>
+                                <select formControlName="bancos" class="form-control" id="bancos" required>
+                                    <option [ngValue]=null disabled>{{'general.selectOption'|translate}}</option>
+                                    <option value="true">Habilitado</option>
+                                    <option value="false">Deshabilitado</option>
+                                </select>
+                                <!-- <input type="text" formControlName="bancos" size="61" class="form-control" id="bancos"> -->
+                                <div *ngIf="formularioUsuarios.controls.bancos.errors?.required && !formularioUsuarios.controls.bancos.pristine" class="alert alert-danger">
+                                    Bancos es requerido
+                                </div>
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group"> Facturas
+                                <font color="red">*</font>
+                                <select formControlName="facturas" class="form-control" id="facturas" required>
+                                    <option [ngValue]=null disabled>{{'general.selectOption'|translate}}</option>
+                                    <option value="true">Habilitado</option>
+                                    <option value="false">Deshabilitado</option>
+                                </select>
+                                <!-- <input type="text" formControlName="facturas" size="61" class="form-control" id="facturas"> -->
+                                <div *ngIf="formularioUsuarios.controls.facturas.errors?.required && !formularioUsuarios.controls.facturas.pristine" class="alert alert-danger">
+                                    Facturas es requerido
+                                </div>
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group"> Nóminas
+                                <font color="red">*</font>
+                                <select formControlName="nominas" class="form-control" id="nominas" required>
+                                    <option [ngValue]=null disabled>{{'general.selectOption'|translate}}</option>
+                                    <option value="true">Habilitado</option>
+                                    <option value="false">Deshabilitado</option>
+                                </select>
+                                <!-- <input type="text" formControlName="nominas" size="61" class="form-control" id="nominas"> -->
+                                <div *ngIf="formularioUsuarios.controls.nominas.errors?.required && !formularioUsuarios.controls.nominas.pristine" class="alert alert-danger">
+                                    Nóminas es requerido
+                                </div>
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group"> Ingresos
+                                <font color="red">*</font>
+                                <select formControlName="ingresos" class="form-control" id="ingresos" required>
+                                    <option [ngValue]=null disabled>{{'general.selectOption'|translate}}</option>
+                                    <option value="true">Habilitado</option>
+                                    <option value="false">Deshabilitado</option>
+                                </select>
+                                <!-- <input type="text" formControlName="ingresos" size="61" class="form-control" id="ingresos"> -->
+                                <div *ngIf="formularioUsuarios.controls.ingresos.errors?.required && !formularioUsuarios.controls.ingresos.pristine" class="alert alert-danger">
+                                    Ingresos es requerido
+                                </div>
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group"> Egresos
+                                <font color="red">*</font>
+                                <select formControlName="egresos" class="form-control" id="egresos" required>
+                                    <option [ngValue]=null disabled>{{'general.selectOption'|translate}}</option>
+                                    <option value="true">Habilitado</option>
+                                    <option value="false">Deshabilitado</option>
+                                </select>
+                                <!-- <input type="text" formControlName="egresos" size="61" class="form-control" id="egresos"> -->
+                                <div *ngIf="formularioUsuarios.controls.egresos.errors?.required && !formularioUsuarios.controls.egresos.pristine" class="alert alert-danger">
+                                    Egresos es requerido
+                                </div>
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group"> Reporte
+                                <font color="red">*</font>
+                                <select formControlName="reportes" class="form-control" id="reportes" required>
+                                    <option [ngValue]=null disabled>{{'general.selectOption'|translate}}</option>
+                                    <option value="true">Habilitado</option>
+                                    <option value="false">Deshabilitado</option>
+                                </select>
+                                <!-- <input type="text" formControlName="reportes" size="61" class="form-control" id="reportes"> -->
+                                <div *ngIf="formularioUsuarios.controls.reportes.errors?.required && !formularioUsuarios.controls.reportes.pristine" class="alert alert-danger">
+                                    Reportes es requerido
+                                </div>
+                            </div>
+                        </dt>
+                    </dl>
+                    <!-- <div class="form-group"> Empresa <input type="text" formControlName="empresa" size="61" class="form-control" id="empresa"></div>
+          <div class="form-group"> Nombre Empresa <input type="text" formControlName="nombreEmpresa" size="61" class="form-control" id="nombreEmpresa"></div> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-option" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-colorblue" [disabled]="!formularioUsuarios.valid">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal_eliminar -->
+<div class="modal fade" id="eliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">Borrar concepto</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de querer borrar el concepto {{entidad_elimar?.nombre}}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-option" data-dismiss="modal">Cancelar</button>
+                <button type="button" (click)="remove_usuario(entidad_elimar?.id)" class="btn btn-colorblue">Borrar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+@import '../../theme/sass/conf/conf';
+
+.table > thead > tr > th:first-child,
+.table > tbody > tr > td:first-child {
+  text-align: left;
+}
+
+.summaryHeader{
+    color: #878787;
+    text-align: right;
+    float: right;
+}
+
+.tableDatosGenerales, .tableIncidencias{
+    overflow-wrap: break-word;
+    td{
+        padding: 10px;
+    }   
+}
+
+.companyName{
+    background-color: $blue-lighter;
+    color:black;
+    font-size: 18px;
+    padding: 15px;
+    padding-left: 30px;
+    min-height: 70px;
+    margin: 0px!important;
+
+}
+
+.iconSummary{
+    color: $blue-light;
+}
+
+.datosGeneralesContainer{
+    max-width: 450px;
+}
+
+.btn-colorblue,
+.btn-colorblue:hover,
+.btn-colorblue:active {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: $blue-light;
+}
+
+.btn-cancelar,
+.btn-cancelar:hover,
+.btn-cancelar:active {
+  color: black;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #DCDCDC;
+  justify-content: center;
+  
+}
+
+.padre {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+.hijo {
+    padding: 10px;
+    margin: 10px;
+    width: 100%;
+  }
+  .right{
+    float: right;
+}
+
+.esp{
+margin-right: 15px;
+}
+
+.font{
+font-family: 'Source Sans Pro', sans-serif;
+}
+
+#rfc{
+  border-left: 5px solid #a94442;
+}
+#rfc.ok{
+  border-left: 5px solid #42A948;
+}
+
+  
+  .titlletext{
+    color: $bootstrap-panel-header-bg;
+  }

@@ -1,1 +1,111 @@
-/* You can add global styles to this file, and also import other style files */
+.completer-dropdown {
+  max-height: 350px !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 90% !important;
+}
+
+
+.concepto-cell {
+  padding-bottom: 1em;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+}
+
+.concepto-cell label {
+  font-weight: bold;
+}
+
+.concepto-cell-row {
+  flex-direction: row;
+  margin-top: auto;
+}
+
+.concepto-cell-row label {
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 1em;
+}
+
+.concepto-cell-row input {
+  width: 18px;
+  height: 18px;
+}
+
+.alert-shadow-border{
+  border: 1px solid #ed7878;
+    &:focus {
+      box-shadow: none;
+      border-color: #ed7878;
+    }
+}
+.alert-shadow-border-completer .completer-input{
+  border: 1px solid #ed7878;
+  &:focus {
+    box-shadow: none;
+    border-color: #ed7878;
+  }
+}
+
+.success-shadow-border{
+  border: 1px solid #a6c733;
+    &:focus {
+      box-shadow: none;
+      border-color: #a6c733;
+    }
+}
+.success-shadow-border-completer .completer-input{
+  border: 1px solid#a6c733;
+  &:focus {
+    box-shadow: none;
+    border-color: #a6c733;
+  }
+}
+
+.tab-sliding {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.tab-sliding .tab-pane.active {
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  visibility: visible;
+  max-height: 100%;
+  transition-delay: 0s;
+  background-color: white;
+}
+
+.tab-sliding .tab-pane.active ~ .tab-pane {
+  margin-left: 100%;
+  margin-right: -200%;
+}
+
+.tab-sliding .tab-pane {
+  margin-left: -100%;
+}
+
+.tab-sliding .tab-pane {
+  max-width: 100%;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  display: block !important;
+  -webkit-transform: none;
+  transform: none;
+  visibility: hidden;
+  max-height: 0;
+  transition: margin-left, margin-right, max-height, visibility, -webkit-transform;
+  transition: margin-left, margin-right, transform, max-height, visibility;
+  transition: margin-left, margin-right, transform, max-height, visibility, -webkit-transform;
+  transition-duration: 350ms, 350ms, 350ms, 350ms, 0s;
+  transition-delay: 0s, 0s, 0s, 0s, 340ms;
+}
+
+.tab-sliding .tab-pane:not(.active) {
+  pointer-events: none;
+}

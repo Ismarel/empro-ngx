@@ -1,0 +1,4 @@
+<div style=" white-space: nowrap;
+  overflow: hidden;">
+<a *ngIf="isValidUrl(url)" [href]="sanitizeURL(url)" target="_blank" [ngStyle]="stylesObj" class="wrapText"> {{alias?alias:url}} </a><span *ngIf="!isValidUrl(url)&&!hideInvalid" [ngStyle]="stylesObj" class="wrapText"> {{alias?alias:url?url:'n/a'}}</span>
+</div>

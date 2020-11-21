@@ -1,0 +1,6 @@
+<a style="cursor: pointer" (click)="toogleSort()" class="text-nowrap">
+  <ng-content></ng-content><!-- Content inside selector-->
+  <i *ngIf="sortOrder && isEqualToCurrent" class="fa fa-caret-up text-success" aria-hidden="true"></i>
+  <i *ngIf="!sortOrder && isEqualToCurrent" class="fa fa-caret-down text-warning" aria-hidden="true"></i>
+  <i *ngIf="!isEqualToCurrent" class="fa fa-arrows-v iconColorDisable" aria-hidden="true"></i>
+</a>

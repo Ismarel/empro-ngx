@@ -16,7 +16,7 @@
 }
 
 .al-msg-center {
-  float: right;
+  float: left;
   padding: 0;
   list-style: none;
   margin: 13px 47px 0 0;
@@ -29,9 +29,9 @@
       margin-left: 0;
     }
     & > a {
-      color: $sidebar-text;
+      color:gray;
       text-decoration: none;
-      font-size: 13px;
+      font-size: 25px;
       position: relative;
       span {
         display: inline-block;
@@ -71,10 +71,10 @@
       }
       &.msg {
         span {
-          background-color: $primary;
+          background-color: red;
         }
         .notification-ring {
-          border-color: $primary;
+          border-color: red;
         }
       }
     }
@@ -208,13 +208,14 @@
   &.profile-dropdown {
     width: 145px;
     top: 55px;
-    right: -25px;
+    right: 0px;
     a {
       text-align: left;
       border: none;
       text-decoration: none;
       color: $dropdown-text;
       padding: 4px 16px 4px 20px;
+      padding-left: 0px;
       &.signout {
         border-top: 1px solid $default;
       }
@@ -251,6 +252,16 @@
       border: 10px solid transparent;
       border-bottom-color: $default;
     }
+  }
+  .icono{
+    
+      width: 24px;
+      height: 24px;
+      
+      left: -50%;
+      top: 30%;
+      position: absolute;
+      
   }
 }
 

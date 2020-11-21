@@ -1,0 +1,46 @@
+import { Empresa } from './empresa';
+import { Banco } from './banco';
+import { Sucursal } from './sucursal';
+import { TipoRegimen } from './tipo-regimen';
+import { TipoContrato } from './tipo-contrato';
+import { TipoJornada } from './tipo-jornada';
+import { PeriodicidadPago } from './periodicidad-pago';
+export class Trabajador {
+    id: number;
+    nombre: String;
+    banco: Banco;
+    empresa: Empresa;
+    correo: String;
+    fechaModificacion: number;
+    fechaCreacion: number;
+    tipoTrabajador: boolean;// Confianza ->false , Sindicalizado ->true
+    salarioBase: any;
+    salarioDiario: any;
+    sucursal: Sucursal;
+    tipoRegimen: TipoRegimen;
+    rfc: String;
+    correosExtras: String;
+    cp: String;
+    calle: String;
+    numeroInterior: String;
+    numeroExterior: String;
+    colonia: String;
+    localidad: String;
+    municipio: String;
+    estado: String;
+    pais: string;
+    area: string;
+    claveInterbancaria: string;
+    curp: string;
+    fechaInicioLaboral: number;
+    nss: string;
+    numeroEmpleado: number;
+    puesto: string;
+    referencia: string;
+    registroPatronal: string;
+    tipoContrato: TipoContrato;
+    periodicidad: PeriodicidadPago;
+    jornada: TipoJornada;
+    horasDia: number;
+    antiguedad: number;
+}

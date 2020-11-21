@@ -1,0 +1,26 @@
+<div>
+  <h1> <i class="fa fa-vcard-o iconSummary"></i> <span class="color">Parte 1
+    1. Datos fiscales de tu empresa</span> </h1>
+  <button (click)="change(2)">Continuar</button>
+  <!-- <app-trtabla></app-trtabla> -->
+</div>
+
+<div *ngIf="change(2)">
+  <h1> <i class="fa fa-vcard-o iconSummary"></i> <span class="color">Parte 2
+    2. Sube tu cédula de identificación fiscal y el logotipo de tu empresa</span> </h1>
+  <button (click)="change(3)">Continuar</button>
+  <!-- <app-trnuevo></app-trnuevo> -->
+</div>
+
+<div *ngIf="change(3)">
+  <h1> <i class="fa fa-vcard-o iconSummary"></i> <span class="color">Parte 3
+  3. Registra tu certificado o sello digital</span> </h1>
+  <button (click)="change(4)">Continuar</button>
+  <!-- <app-trabajador-detalle></app-trabajador-detalle> -->
+</div>
+<div *ngIf="change(4)">
+  <h1> <i class="fa fa-vcard-o iconSummary"></i> <span class="color">Parte 4
+    4. Registra tu régimen fiscal</span> </h1>
+  <button (click)="change(5)">Continuar</button>
+  <!-- <app-trabajador-detalle></app-trabajador-detalle> -->
+</div>

@@ -1,0 +1,450 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Consultar Nómina
+        </div>
+    </div>
+    <div class="card-block">
+        <form role="form" autocomplete="off" [formGroup]="myGroupConsultaNomina" (ngSubmit)="onSearchConsultaNomina()" novalidate id="form">
+            <div class="container form-group">
+                <dl class="row">
+                    <div class="col-lg-1">
+                        <label for="" translate>Año</label>
+                        <font color="red">*</font>
+                    </div>
+                    <!--  -->
+                    <div class="col-lg-2">
+                        <select class="form-control" id="anioBusqueda" formControlName="anioBusqueda">
+                            <option>2021</option>
+                            <option>2020</option>
+                            <option>2019</option>
+                            <option>2018</option>
+                            <option>2017</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="" translate>Mes de inicio del periodo</label>
+                        <font color="red">*</font>
+                    </div>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="mesBusquedaIni" formControlName="mesBusquedaIni">
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="" translate>Mes final del periodo</label>
+                        <font color="red">*</font>
+                    </div>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="mesBusquedaFin" formControlName="mesBusquedaFin">
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="" translate>Periodicidad</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="periodicidad" formControlName="periodicidadBusqueda">
+                            <option value="1">Diario</option>
+                            <option value="2">Semanal</option>
+                            <option value="3">Quincenal</option>
+                            <option value="4">Mensual</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-1">
+                        <label for="" translate>Nombre del Trabajador</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <!-- <input type="text" formControlName="nombreTrabajador" class="form-control"> -->
+                        <autocomplete-generic (onIdSelected)="onSelectedTrabajador($event)" entidad='trabajador' [enabled]="true" textplaceholder='Buscar...' #autocompleteTrabajador></autocomplete-generic>
+                    </div>
+                </dl>
+                <hr>
+                <dl class="row">
+                    <!-- Deshabilitar botón al realizar la consulta, habilitar cuando se hacen cambios en la búsqueda -->
+                    <div class="col-lg-2">
+                        <button type="submit" class="btn btn-primary btn-raised font" [disabled]="!myGroupConsultaNomina.valid">Consultar Nómina</button>
+                    </div>
+                </dl>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="clearfix">
+            <div class="row">
+                <div class="col-12">
+                    Nominas timbradas de los ultimos 3 periodos -
+                    <small>Selecciona la nómina que deseas ver.</small>
+                    <div class="float-right">
+                        <a class="fa fa-chevron-circle-down" aria-hidden="true" (click)="onShowHideNomTimbradas()" id="faChevronShow"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-block" id="cardNomTimbradas">
+        <!-- Nominas timbradas -->
+        <dl class="row" *ngFor="let item of dataNomina |paginate: { itemsPerPage: rowsOnPage, currentPage: page, totalItems: totalNominas }">
+            <div class="col-lg-6">
+                <font color="#297bb7">
+                    <a (click)="onTablaFilterLast(item)">
+                        <b>{{item.cadenaPeriodoNomina}}</b>
+                    </a>
+                </font>
+                <a (click)="onDescargaSearch(item)">
+                    <u>Descargar</u>
+                </a>
+            </div>
+        </dl>
+        <dl class="row" *ngFor="let item of semanaNomina">
+            <div class="col-lg-6">
+                <font color="#297bb7">
+                    <a (click)="onTablaFilterLast(item)">
+                        <b>{{item.cadenaPeriodoNomina}}</b>
+                    </a>
+                </font>
+                <a (click)="onDescargaSearch(item)">
+                    <u>Descargar</u>
+                </a>
+            </div>
+        </dl>
+        <dl class="row" *ngFor="let item of quincenaNomina">
+            <div class="col-lg-6">
+                <font color="#297bb7">
+                    <a (click)="onTablaFilterLast(item)">
+                        <b>{{item.cadenaPeriodoNomina}}</b>
+                    </a>
+                </font>
+                <a (click)="onDescargaSearch(item)">
+                    <u>Descargar</u>
+                </a>
+            </div>
+        </dl>
+        <dl class="row" *ngFor="let item of mesNomina">
+            <div class="col-lg-6">
+                <font color="#297bb7">
+                    <a (click)="onTablaFilterLast(item)">
+                        <b>{{item.cadenaPeriodoNomina}}</b>
+                    </a>
+                </font>
+                <a (click)="onDescargaSearch(item)">
+                    <u>Descargar</u>
+                </a>
+            </div>
+        </dl>
+
+        <!--  <dl class="row" *ngFor="let nomina of dataNomina">
+            <div class="col-lg-6">
+                <font color="#297bb7">
+                    <a (click)=onTablaFilterLast(nomina)>
+                        <b>{{nomina.cadenaPeriodoNomina}}</b>
+                    </a>
+                </font>
+                <a (click)="onDescargaSearch(nomina)">
+                    <u>Descargar</u>
+                </a>
+            </div>
+        </dl> -->
+
+    </div>
+</div>
+<div *ngIf="tablita == 1 || tablita == 2" class="card">
+    <div class="card-header">
+        <div class="card-title">Resultado de búsqueda para {{anioBusca}},{{mesBuscaIni === "1" ? "Enero" : ""}} {{mesBuscaIni === "2" ? "Febrero" : ""}} {{mesBuscaIni === "3" ? "Marzo" : ""}} {{mesBuscaIni === "4" ? "Abril" : ""}}
+            {{mesBuscaIni === "5" ? "Mayo" : ""}} {{mesBuscaIni === "6" ? "Junio" : ""}} {{mesBuscaIni === "7" ? "Julio" : ""}} {{mesBuscaIni === "8" ? "Agosto" : ""}}
+            {{mesBuscaIni === "9" ? "Septiembre" : ""}} {{mesBuscaIni === "10" ? "Octubre" : ""}} {{mesBuscaIni === "11" ? "Noviembre" : ""}}
+            {{mesBuscaIni === "12" ? "Diciembre" : ""}} - {{mesBuscaFin === "1" ? "Enero" : ""}} {{mesBuscaFin === "2" ? "Febrero" : ""}} {{mesBuscaFin === "3" ? "Marzo" : ""}}
+            {{mesBuscaFin === "4" ? "Abril" : ""}} {{mesBuscaFin === "5" ? "Mayo" : ""}} {{mesBuscaFin === "6" ? "Junio" : ""}} {{mesBuscaFin === "7" ? "Julio" : ""}}
+            {{mesBuscaFin === "8" ? "Agosto" : ""}} {{mesBuscaFin === "9" ? "Septiembre" : ""}} {{mesBuscaFin === "10" ? "Octubre" : ""}} {{mesBuscaFin === "11" ? "Noviembre" : ""}}
+            {{mesBuscaFin === "12" ? "Diciembre" : ""}}
+        </div>
+    </div>
+    <div class="card-block">
+        <!-- Meter *ngfor según las listas que aparezcan. -->
+        <dl class="row" *ngFor="let item of dataH |paginate: { itemsPerPage: rowsOnPage, currentPage: page, totalItems: totalNominas }">
+            <div class="col-lg-6">
+                <font color="#297bb7">
+                    <a (click)="onTablaFilter(item)">
+                        <b>{{item.cadenaPeriodoNomina}}</b>
+                    </a>
+                </font>
+                <a (click)="onDescargaSearch(item)">
+                    <u>Descargar</u>
+                </a>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<!-- Tabla -->
+<div *ngIf="tablita == 2 || tablita == 3" class="">
+    <div class="container-fluid">
+        <table class="table table-striped table-vcenter table-bordered tableDatosGenerales">
+            <thead class="">
+                <tr>
+                    <td colspan="12">
+                        <div class="top_table row padSearch">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <form [formGroup]="formularioFilterQuery" novalidate>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-search"></i>
+                                                </span>
+                                                <input type="search" class="form-control" placeholder="Buscar en esta lista..." formControlName="query">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal" (click)="cancelarNomina()">Cancelar Nómina</button>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button type="button" class="btn btn-secondary btn-raised" data-dismiss="modal" (click)="generateCSV()">Descargar Nómina</button>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <select name="ingresos_data_length" class="form-control" [(ngModel)]="rowsOnPage" (change)="onChangeSize()">
+                                            <option [value]="2">2</option>
+                                            <option [value]="10">10</option>
+                                            <option [value]="20">20</option>
+                                            <option [value]="30">30</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <sorter-table by='folio' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Folio fiscal</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='nombre' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Nombre del Receptor</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='rfc' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">RFC del receptor</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='puesto' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Puesto</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='salario' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Salario</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='estatus' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Estatus</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='periodicidad' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Periodicidad</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='periodo' [currentSort]="sortBy" (onSort)="onSort($event)" style="font-weight: bold">Periodo</sorter-table>
+                    </th>
+                    <th style="min-width: 100px; font-weight: bold">Incidencias</th>
+                    <th style="min-width: 100px; font-weight: bold">Timbres</th>
+                    <th style="min-width: 100px; font-weight: bold">Descargar</th>
+                    <th style="min-width: 100px; font-weight: bold">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of data |paginate: { itemsPerPage: rowsOnPage, currentPage: page, totalItems: totalNominas }">
+                    <td scope="row">{{item.folio}}</td>
+                    <td>{{ item.trabajador.nombre }}</td>
+                    <td>{{ item.trabajador.rfc}}</td>
+                    <td>{{ item.trabajador.puesto }}</td>
+                    <td>{{ item.trabajador.salarioBase | currency:'MXN':'symbol':'4.2-2' }}</td>
+                    <td>{{ item.estatus === 2 ? "No timbrada" : "Timbrada" }}</td>
+                    <td>{{ item.configuracion.periodicidad.descripcion }}</td>
+                    <td> {{ item.cadenaPeriodoNomina.split(' - ')[1].substr(4) }} </td>
+                    <td class="text-center">
+                        <button type="button" (click)="prepareIncidencia(item.trabajador)" class="btn btn-option btn-sm fa fa-eye" data-toggle="modal" data-target="#Incidencia" *ngIf="item.trabajador.trabajadorIncidenciaList?.length > 0"></button>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" (click)="cancelarCFDI(item)" class="btn btn-warning btn-sm">Cancelar CFDI</button>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-secondary btn-sm">PDF</button>
+                        <button type="button" class="btn btn-secondary btn-sm">XML</button>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal">
+                            <i class="fa fa-envelope"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="12">
+                        <nav aria-label="Page navigation example">
+                            <pagination-template #p="paginationApi" (pageChange)="pageChanged($event)">
+                                <ul class="pagination float-left padNum">
+                                    <li class="page-item">
+                                        <span> 1 - </span>
+                                        <span> {{rowsOnPage}} </span>
+                                        <span> de </span>
+                                        <span> {{ totalNominas }} </span>
+                                    </li>
+                                </ul>
+                                <ul class="pagination float-right">
+                                    <li class="page-item" [class.active]="p.isFirstPage()">
+                                        <a class="page-link  boton espa" *ngIf="!p.isFirstPage()" (click)="p.previous()" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item" *ngFor="let page of p.pages" [class.active]="p.getCurrent() === page.value">
+                                        <a class="page-link redonditos boton espa" (click)="p.setCurrent(page.value)"> {{ page.label }}</a>
+                                    </li>
+                                    <li class="page-item" [class.active]="p.isLastPage()">
+                                        <a class="page-link  boton espa" *ngIf="!p.isLastPage()" (click)="p.next()" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </pagination-template>
+                        </nav>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Incidencia-->
+<div class="modal fade" id="Incidencia" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    Incidencia de <label class="text-primary">{{ trabaNombre }}</label>.
+                </h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="">
+                    <font class="text-primary">Ausentismos</font>
+                </label>
+                <div *ngFor="let itemrow of incidencias; let i=index">
+                    <div class="form-group">
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                Tipo de Incidencia
+                                <input type="text" class="form-control" readonly="readonly" value="{{ itemrow.tipoIncidencia.descripcion }}">
+                            </div>
+                            <div class="col-lg-3">
+                                Incapacidad
+                                <input type="text" class="form-control" readonly="readonly" value="{{ itemrow.tipoIncapacidad.descripcion }}">
+                            </div>
+                            <div class="col-lg-3">
+                                fecha de inicio
+                                <input type="date" class="form-control" readonly="readonly" value="{{ itemrow.fechaInicio }}">
+                            </div>
+                            <div class="col-lg-3">
+                                fecha de fin
+                                <input type="date" class="form-control" readonly="readonly" value="{{ itemrow.fechaFin }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <label for="">
+                    <font class="text-primary">Percepciones</font>
+                </label>
+                <div *ngFor="let itemrow of percepciones; let i=index">
+                    <div class="form-group">
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                Percepción
+                                <input type="text" class="form-control" readonly="readonly" value="{{ itemrow.nominaPercepcion.nombre }}">
+                            </div>
+                            <div class="col-lg-6">
+                                Concepto
+                                <input type="text" class="form-control" readonly="readonly" value="{{ itemrow.conceptoPercepcion }}">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="offset-lg-2 col-lg-4">
+                                <span *ngIf="itemrow.nominaPercepcion.percepcion.id < 19 || itemrow.nominaPercepcion.percepcion.id > 21">Monto</span>
+                                <span *ngIf="itemrow.nominaPercepcion.percepcion.id == 19">Horas extras</span>
+                                <span *ngIf="itemrow.nominaPercepcion.percepcion.id == 20">Domingos laborados</span>
+                                <span *ngIf="itemrow.nominaPercepcion.percepcion.id == 21">Días de vacaciones</span>
+                                <input type="text" class="form-control" readonly="readonly" value="{{ itemrow.montoPercepcion }}">
+                            </div>
+                            <div class="col-lg-4">
+                                Número de nominas que se repetirá.
+                                <input type="text" class="form-control" readonly="readonly" value="{{ itemrow.nNominasPercepcion }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <label for="">
+                    <font class="text-primary">Otra Deducción</font>
+                </label>
+                <div *ngFor="let itemrow of deducciones">
+                    <div class="form-group">
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                Deducción
+                                <input type="text" class="form-control" readonly="readonly" value="{{ itemrow.nominaDeduccion.nombre }}">
+                            </div>
+                            <div class="col-lg-6">
+                                Concepto
+                                <input type="text" class="form-control" readonly="readonly" value="{{ itemrow.conceptoDeduccion }}">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="offset-lg-2 col-lg-4">
+                                Monto
+                                <input type="text" class="form-control" readonly="readonly" value="{{ itemrow.montoDeduccion }}">
+                            </div>
+                            <div class="col-lg-4">
+                                Número de nominas que se repetirá.
+                                <input type="text" class="form-control" readonly="readonly" value="{{ itemrow.nNominasDeduccion }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-opcion btn-raised float-right" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Fin Modal Incidencia-->

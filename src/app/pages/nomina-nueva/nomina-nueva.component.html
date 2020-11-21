@@ -1,0 +1,530 @@
+    
+<div *ngIf="changeOption == 1">
+
+    <div class="row end-sm">
+        <div class="col-12">
+            <h1>
+                <i class="fa fa-vcard-o iconSummary"></i>
+                <span class="color">Agregar Nómina</span>
+            </h1>
+        </div>
+    </div>
+
+    <!-- Empieza formulario para agregar-->
+    <form [formGroup]="formAddNomina" (ngSubtim)="agregarNomina()" novalidate>
+        <div class="modal-body">
+            <hr>
+
+            <dl class="row">
+
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                        <label for="" translate>
+                            Empleado <font color="red">*</font>
+                        </label>
+                        <autocomplete-generic (onIdSelected)="onSelectedTrabajador($event)" entidad='trabajador' [enabled]="true" textplaceholder='Buscar...' #autocompleteTrabajador></autocomplete-generic>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-12">
+                    <!-- inicio seccion Periodo Diario -->
+                    <div class="form-group" id="periodoDiario" style="display: none;">
+                        <div id="periodoDiarioLabel">
+                            <label class="mr-2">
+                                Elige el primer día del periodo
+                            </label>
+                        </div>
+                        <div>
+                            <input type="date" formControlName="periodoDiario" (change)="checkPeriodo()" class="form-control" id="datePeriodoDiario">
+                        </div>
+                    </div>
+                    <!-- inicio seccion Periodo Semanal -->
+                    <div id="primerDiaPeriodo" class="form-group" style="display: none;">
+                        <div>
+                            <label class="mr-2" translate>
+                                Elige el primer día del periodo
+                            </label>
+                        </div>
+                        <div class="mr-2" id="primerDiaPeriodoInput">
+                            <input type="date" formControlName="fecha" (change)="checkPeriodo()" class="form-control" required>
+                        </div>
+                    </div>
+
+
+                    <!-- Inicio seccion Periodo Quincenal y Mensual -->
+                        <div id="quincenalPeriodo" style="display: none;">
+                            <label class="mr-2" translate>
+                                Elige el mes
+                            </label>
+                        </div>
+                        <div class="form-group" id="monthsOfyear" style="display: none;">
+                            <select class="form-control" formControlName="periodoMesQuincena" name="months" (change)="checkPeriodo()">
+                                <option value="1">Enero</option>
+                                <option value="2">febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">May</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </div>
+                        <div class="ml-2 mr-2" id="periodoLabelTwo" style="display: none;">
+                            <label for="" translate>Periodo</label>
+                        </div>
+                        <div class="form-group" id="periodoSelect" style="display: none;">
+                            <select class="form-control" id="sel1" formControlName="periodoQuincenal" (change)="checkPeriodo()">
+                                <option value="0">1 - 15</option>
+                                <option value="1">16 - </option>
+                            </select>
+                        </div>
+                    
+                </div>
+
+                <!--
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Lugar de expedición <font color="red">*</font>
+                        <autocomplete-generic entidad='codigopostal' (onIdSelected)="onCodigoPostalSelected($event)" [enabled]="true" textplaceholder='Buscar codigo Postal' #autocompleteCodigoPostal required></autocomplete-generic>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Moneda <font color="red">*</font>
+                        <select formControlName="moneda" class="form-control" id="moneda" required>
+                            <option [ngValue]="null" disabled>Selecciona una opción</option>
+                            <option [ngValue]="0">MXN (pesos mexicanos)</option>
+                            <option [ngValue]="1">$ (dolares)</option>
+                            <option [ngValue]="2">€ (euros)</option>
+                        </select>
+                    </div>
+                </dt>
+
+                <dt class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        Fecha pago <font color="red">*</font>
+                        <input formControlName="fechaPago" type="date" class="form-control" id="fechaPago">
+                    </div>
+                </dt>
+
+                <dt class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        Fecha inicial pago <font color="red">*</font>
+                        <input formControlName="fechaInicialPago" type="date" class="form-control" id="fechaInicialPago">
+                    </div>
+                </dt>
+
+                <dt class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        Fecha fianal de pago <font color="red">*</font>
+                        <input formControlName="fechaFinalPago" type="date" class="form-control" id="fechaFinalPago">
+                    </div>
+                </dt>
+
+                <dt class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        Tipo de nómina <font color="red">*</font>
+                        <select formControlName="tipoNomina" class="form-control" id="tipoNomina" required>
+                            <option [ngValue]="null" disabled>Selecciona una opción</option>
+                            <option [ngValue]="0">Diario</option>
+                            <option [ngValue]="1">Semanal<option>
+                            <option [ngValue]="2">Catorcenal</option>
+                            <option [ngValue]="3">Quincenal</option>
+                            <option [ngValue]="4">Mensual</option>
+                            <option [ngValue]="5">Bimestral</option>
+                            <option [ngValue]="6">Unidad obra</option>
+                            <option [ngValue]="7">Comisión</option>
+                            <option [ngValue]="8">Precio alzado</option>
+                            <option [ngValue]="9">Decenal</option>
+                            <option [ngValue]="10">Otra Periodicidad</option>
+                        </select>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Número de dias pagados <font color="red">*</font>
+                        <input type="number" formControlName="diasPagados" class="form-control" id="diasPagados" required>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Clave entidad federativa <font color="red">*</font>
+                        <select formControlName="claveEF" class="form-control" id="claveEF" required>
+                            <option [ngValue]="null" disabled>Selecciona una opción</option>
+                        </select>
+                    </div>
+                </dt>
+                
+                <!-- Empieza formulario de conceptos --
+                <dt class="col-sm-12">
+                    <hr class="borde">
+                    <div class="color">
+                        <h2>Conceptos</h2>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-12">
+                    <form [formGroup]="conceptoForm">
+                        <div formArrayName="itemRows">
+                            <div *ngFor="let itemrow of conceptoForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-6">
+                                                    <label for="cantidad[{{i}}]" class="esp">Cantidad<font color="red">*</font> </label>
+                                                    <input formControlName="cantidad" type="number" class="form-control" id="cantidad[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-3 col-sm-6">
+                                                    <label for="unidad[{{i}}]" class="esp">Unidad <font color="red">*</font> </label>
+                                                    <autocomplete-generic entidad='unidad' (onIdSelected)="onIdUnidadSelected($event)" [enabled]="true" textplaceholder='Buscar Unidad' #autocompleteUnidadService required></autocomplete-generic>
+                                                </div>
+                                                <div class="col-md-3 col-sm-6">
+                                                    <label for="precioUnitario[{{i}}]" class="esp">Precio unitario <font color="red">*</font> </label>
+                                                    <input formControlName="precioUnitario" type="number" class="form-control" id="precioUnitario[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-3 col-sm-6">
+                                                    <label for="importeConcepto[{{i}}]" class="esp">Importe <font color="red">*</font> </label>
+                                                    <input formControlName="importeConcepto" type="number" class="form-control" id="importeConcepto[{{i}}]" maxlength="110">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-11">
+                                                    <label for="descripcion[{{i}}]" class="esp">Descripción <font color="red">*</font> </label>
+                                                    <input formControlName="descripcion" type="text" class="form-control" id="descripcion[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button (click)="deleteRow(1, i)" style="position: absolute; bottom: 5px;" class="btn btn-danger">X</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </dt>
+
+                <dt class="col-1">
+                    <button class="btn btn btn-primary btn-raised font" (click)="addRow(1)" data-toggle="button" type="button">Agregar</button>
+                </dt>
+                <!-- Termina formulario de conceptos -->
+
+                <!-- Empieza formulario de percepciones --
+                <dt class="col-sm-12">
+                    <hr class="borde">
+                    <div class="color">
+                        <h2>Percepciones</h2>
+                    </div>
+                </dt>
+                
+                <dt class="col-sm-12">
+                    <form [formGroup]="percepcionForm">
+                        <div formArrayName="itemRows">
+                            <div *ngFor="let itemrow of percepcionForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-6">
+                                                    <label for="tipoPercepcion[{{i}}]" class="esp">Tipo de percepción <font color="red">*</font> </label>
+                                                    <select formControlName="tipoPercepcion" class="form-control" id="tipoPercepcion[{{i}}]">
+                                                        <option [ngValue]="0" disabled>Selecciona una opción</option>
+                                                        <option *ngFor="let percepcion of percepciones" [ngValue]="percepcion">{{percepcion}}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2 col-sm-6">
+                                                    <label for="clavePercepcion[{{i}}]" class="esp">Clave propia <font color="red">*</font> </label>
+                                                    <input formControlName="clavePercepcion" type="text" class="form-control" id="clavePercepcion[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-2 col-sm-6">
+                                                    <label for="conceptoPercepcion[{{i}}]" class="esp">Concepto <font color="red">*</font> </label>
+                                                    <input formControlName="conceptoPercepcion" type="text" class="form-control" id="conceptoPercepcion[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-2 col-sm-6">
+                                                    <label for="gravadoPercepcion[{{i}}]" class="esp">Importe gravado <font color="red">*</font> </label>
+                                                    <input formControlName="gravadoPercepcion" type="number" class="form-control" id="gravadoPercepcion[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-2 col-sm-6">
+                                                    <label for="exentoPercepcion[{{i}}]" class="esp">Importe exento<font color="red">*</font> </label>
+                                                    <input formControlName="exentoPercepcion" type="number" class="form-control" id="exentoPercepcion[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-1 col-sm-6">
+                                                    <button (click)="deleteRow(2, i)" style="position: absolute; bottom: 5px;" class="btn btn-danger">X</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </dt>
+
+                <dt class="col-1">
+                    <button class="btn btn btn-primary btn-raised font" (click)="addRow(2)" data-toggle="button" type="button">Agregar</button>
+                </dt>
+                <!-- Termina formulario de percepciones -->
+
+                <!-- Empieza formulario de Deducciones --
+                <dt class="col-sm-12">
+                    <hr class="borde">
+                    <div class="color">
+                        <h2>Deducciones</h2>
+                    </div>
+                </dt>
+                
+                <dt class="col-sm-12">
+                    <form [formGroup]="deduccionForm">
+                        <div formArrayName="itemRows">
+                            <div *ngFor="let itemrow of deduccionForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-6">
+                                                    <label for="tipoDeduccion[{{i}}]" class="esp">Tipo de deducción <font color="red">*</font> </label>
+                                                    <select formControlName="tipoDeduccion" class="form-control" id="tipoDeduccion[{{i}}]">
+                                                        <option [ngValue]="0" disabled>Selecciona una opción</option>
+                                                        <option *ngFor="let deduccion of deducciones" [ngValue]="deduccion">{{deduccion}}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2 col-sm-6">
+                                                    <label for="claveDeduccion[{{i}}]" class="esp">Clave propia <font color="red">*</font> </label>
+                                                    <input formControlName="claveDeduccion" type="text" class="form-control" id="claveDeduccion[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-2 col-sm-6">
+                                                    <label for="conceptoDeduccion[{{i}}]" class="esp">Concepto <font color="red">*</font> </label>
+                                                    <input formControlName="conceptoDeduccion" type="text" class="form-control" id="conceptoDeduccion[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-2 col-sm-6">
+                                                    <label for="gravadoDeduccion[{{i}}]" class="esp">Importe gravado <font color="red">*</font> </label>
+                                                    <input formControlName="gravadoDeduccion" type="number" class="form-control" id="gravadoDeduccion[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-2 col-sm-6">
+                                                    <label for="exentoDeduccion[{{i}}]" class="esp">Importe exento<font color="red">*</font> </label>
+                                                    <input formControlName="exentoDeduccion" type="number" class="form-control" id="exentoDeduccion[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-1 col-sm-6">
+                                                    <button (click)="deleteRow(3, i)" style="position: absolute; bottom: 5px;" class="btn btn-danger">X</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </dt>
+
+                <dt class="col-1">
+                    <button class="btn btn btn-primary btn-raised font" (click)="addRow(3)" data-toggle="button" type="button">Agregar</button>
+                </dt>
+                <!-- Termina formulario de Deducciones -->
+
+                <!-- Empieza formulario de otros pagos --
+                <dt class="col-sm-12">
+                    <hr class="borde">
+                    <div class="color">
+                        <h2>Otros pagos</h2>
+                    </div>
+                </dt>
+                
+                <dt class="col-sm-12">
+                    <form [formGroup]="pagosForm">
+                        <div formArrayName="itemRows">
+                            <div *ngFor="let itemrow of pagosForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-6">
+                                                    <label for="tipoPago[{{i}}]" class="esp">Tipo de deducción <font color="red">*</font> </label>
+                                                    <select formControlName="tipoPago" class="form-control" id="tipoPago[{{i}}]">
+                                                        <option [ngValue]="0" disabled>Selecciona una opción</option>
+                                                        <option *ngFor="let deduccion of deducciones" [ngValue]="deduccion">{{deduccion}}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2 col-sm-6">
+                                                    <label for="clavePago[{{i}}]" class="esp">Clave propia <font color="red">*</font> </label>
+                                                    <input formControlName="clavePago" type="text" class="form-control" id="clavePago[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-3 col-sm-6">
+                                                    <label for="conceptoPago[{{i}}]" class="esp">Concepto <font color="red">*</font> </label>
+                                                    <input formControlName="conceptoPago" type="text" class="form-control" id="conceptoPago[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-3 col-sm-6">
+                                                    <label for="importePago[{{i}}]" class="esp">Importe <font color="red">*</font> </label>
+                                                    <input formControlName="importePago" type="number" class="form-control" id="importePago[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-1 col-sm-6">
+                                                    <button (click)="deleteRow(4, i)" style="position: absolute; bottom: 5px;" class="btn btn-danger">X</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </dt>
+
+                <dt class="col-1">
+                    <button class="btn btn btn-primary btn-raised font" (click)="addRow(4)" data-toggle="button" type="button">Agregar</button>
+                </dt>
+                <!-- Termina formulario de otros pagos -->
+
+                <!-- Empieza formulario de incapacidades --
+                <dt class="col-sm-12">
+                    <hr class="borde">
+                    <div class="color">
+                        <h2>Incapacidades</h2>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-12">
+                    <form [formGroup]="incaForm">
+                        <div formArrayName="itemRows">
+                            <div *ngFor="let itemrow of incaForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-md-4 col-sm-6">
+                                                    <label for="tipoIncapacidad[{{i}}]" class="esp">Tipo de incapacidad <font color="red">*</font> </label>
+                                                    <select formControlName="tipoIncapacidad" class="form-control" id="tipoIncapacidad[{{i}}]">
+                                                        <option [ngValue]="4" disabled>Selecciona una opción</option>
+                                                        <option [ngValue]="1">Enfermedad general<option>
+                                                        <option [ngValue]="2">Riesgo de trabajo</option>
+                                                        <option [ngValue]="3">Accidente de trayecto</option>
+                                                        <option [ngValue]="5">Maternidad</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 col-sm-6">
+                                                    <label for="diasIncapacidad[{{i}}]" class="esp">Dias de incapacidad <font color="red">*</font> </label>
+                                                    <input formControlName="diasIncapacidad" type="number" class="form-control" id="diasIncapacidad[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-4 col-sm-6">
+                                                    <label for="importeIncapacidad[{{i}}]" class="esp">Importe <font color="red">*</font> </label>
+                                                    <input formControlName="importeIncapacidad" type="number" class="form-control" id="importeIncapacidad[{{i}}]" maxlength="110">
+                                                </div>
+                                                <div class="col-md-1 col-sm-12">
+                                                    <button (click)="deleteRow(5, i)" style="position: absolute; bottom: 5px;" class="btn btn-danger">X</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </dt>
+
+                <dt class="col-12">
+                    <button class="btn btn btn-primary btn-raised font" (click)="addRow(5)" data-toggle="button" type="button">Agregar</button>
+                </dt>
+                <!-- Termina formulario de incapacidades --
+
+                <dt class="col-sm-12">
+                    <hr class="borde">
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Descuentos
+                        <input type="text" formControlName="descuentos" class="form-control" id="descuentos">
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Motivo de descuento
+                        <input type="text" formControlName="motivo" class="form-control" id="motivo">
+                    </div>
+                </dt>
+                
+                <dt class="col-sm-4">
+                    <div class="form-group">
+                        Subtotal <font color="red">*</font>
+                        <input type="text" formControlName="subtotal" class="form-control" id="subtotal" required>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-4">
+                    <div class="form-group">
+                        Monto ISR
+                        <input type="text" formControlName="montoISR" class="form-control" id="montoISR">
+                    </div>
+                </dt>
+
+                <dt class="col-sm-4">
+                    <div class="form-group">
+                        Total <font color="red">*</font>
+                        <input type="text" formControlName="total" class="form-control" id="total" required>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Frecuencia de pago <font color="red">*</font>
+                        <select formControlName="frecuenciaPago" class="form-control" id="frecuenciaPago" required>
+                            <option [ngValue]="null" disabled>Selecciona una opción</option>
+                        </select>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Condiciones de pago
+                        <input type="text" formControlName="condicionPago" class="form-control" id="condicionPago">
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Método de pago
+                        <input type="text" formControlName="metodoPago" class="form-control" id="metodoPago">
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Número de cuenta del pago
+                        <input type="text" formControlName="numCuenta" class="form-control" id="numCuenta">
+                    </div>
+                </dt>
+
+                <dt class="col-12">
+                    <div class="form-group">
+                        Observaciones 
+                        <input type="text" formControlName="observaciones" class="form-control" id="observaciones">
+                    </div>
+                </dt>-->
+
+            </dl>
+        </div>
+
+        <div class="modal-footer">
+            <div class="row row-footer">
+                <div class="conte left">
+                    <button class="btn btn-primary btn-raised font" (click)="change(2)">Cancelar</button>
+                </div>
+                <div class="conte right">
+                    <button class="btn btn btn-primary btn-raised font" id="btnGenerate" (click)="crearConfiguracionNomina()" data-toggle="button" type="button" disabled>Generar Nómina</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <!-- Termina formulario para agregar -->
+</div>
+<div *ngIf="changeOption == 2">
+    <app-cfdi></app-cfdi>
+</div>

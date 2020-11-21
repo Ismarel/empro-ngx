@@ -1,0 +1,10 @@
+@import '../../theme/sass/conf/conf';
+@import '../../pages/empresa/empresa.scss';
+
+.btn-opcion,
+.btn-opcion:hover,
+.btn-opcion:active {
+  color: black;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #DCDCDC;
+}

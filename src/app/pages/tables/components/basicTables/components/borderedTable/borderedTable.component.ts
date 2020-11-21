@@ -1,16 +1,16 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {BasicTablesService} from '../../basicTables.service';
+import { BasicTablesService } from '../../basicTables.service';
 
 @Component({
-  selector: 'bordered-table',
-  templateUrl: './borderedTable.html',
+    selector: 'bordered-table',
+    templateUrl: './borderedTable.html',
 })
 export class BorderedTable {
 
-  metricsTableData:Array<any>;
+    metricsTableData: Array<any>;
 
-  constructor(private _basicTablesService: BasicTablesService) {
-    this.metricsTableData = _basicTablesService.metricsTableData;
-  }
+    constructor(private _basicTablesService: BasicTablesService) {
+        this.metricsTableData = _basicTablesService.metricsTableData;
+    }
 }

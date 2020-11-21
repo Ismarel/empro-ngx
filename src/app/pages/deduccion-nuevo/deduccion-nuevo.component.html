@@ -1,0 +1,68 @@
+<br>
+<br>
+<hr>
+<!--///////////////////////////////////////////////////-->
+<!--Agregar-->
+<div class="" id="agregarDeduccion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form [formGroup]="myGroupDeducciones" (ngSubmit)="agregarDeduccion()">
+        <div class="padre">
+            <!--Empiezan Datos Deduccion-->
+            <div class="hijo">
+                <div class="">
+                    <div class="">
+                        <div class="">
+                            <div class="col-12 color">
+                                <h2>Datos Deduccion</h2>
+                            </div>
+                        </div>
+                        <div class="">
+                            <br>
+                            <div class="padre_a row">
+                                <div class="hijo_a col-sm-6 col-12">
+
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!nombre.valid && nombre.touched), 'has-success': (nombre.valid && nombre.touched)}">
+                                        <label for="nombre" class="esp">Nombre de la deducción <font color="red">*</font> </label>
+                                        <input [formControl]="nombre" type="text" class="form-control" id="nombre" maxlength="110">
+                                        <!-- <div *ngIf="myGroupTrabajadores.controls.nombre.errors?.required" class="alert alert-danger">
+                      El nombre es requerido
+                    </div> -->
+                                    </div>
+
+                                </div>
+                                <div class="hijo_a col-sm-6 col-12">
+                                    <!-- [ngClass]="{'has-error': (!sucursal.valid && sucursal.touched), 'has-success': (sucursal.valid && sucursal.touched)}" -->
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!tipoDeduccion.valid && tipoDeduccion.touched), 'has-success': (tipoDeduccion.valid && tipoDeduccion.touched)}">
+                                        <label for="tipoDeduccion" class="esp">Tipo de deducción <font color="red">*</font></label>
+                                        <autocomplete-generic entidad='tipoDeduccion' (onIdSelected)="onTipoDeduccionSelected($event)" [enabled]="true" textplaceholder='Buscar deducción' #autocompleteTipoDeduccion></autocomplete-generic>
+                                        <!-- <div *ngIf="myGroupTrabajadores.controls.sucursal.errors?.required" class="alert alert-danger">
+                      La sucursal es requerida
+                    </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Empieza group button -->
+                            <div class="padre_a row">
+                                <div class="hijo_a col-sm-6 col-12 button">
+                                </div>
+                                <div class="hijo_a col-sm-6 col-12 button" style="justify-content: space-around;">
+                                    <button type="button" class="btn btn-secondary" (click)="cambio('1')">Cancelar</button>
+                                    <button [disabled]="!myGroupDeducciones.valid" type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                            <!-- Acaba group button -->
+                            <div class="padre_a pie">
+                                <div class="hijo_a float-none">
+                                    <div class="alert alert-danger text-center" *ngIf="mensajeError">
+                                        {{mensajeError}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Acaban Datos Deduccion-->
+        </div>
+    </form>
+</div>

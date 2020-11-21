@@ -1,0 +1,445 @@
+<div class="row">
+    <div class="col-12 ">
+        <!-- <h1 class="fa fa-cog"> Sucursales</h1> -->
+        <h1 class="titlletext">
+            <i class="fa fa-cog iconEngrane"></i> Información</h1>
+        <hr>
+    </div>
+    <div class="col-12 ">
+        <!-- <h1 class="fa fa-cog"> Sucursales</h1> -->
+        <h4>La configuración de los datos en esta sección es importante para poder emitir facturas y registrar egresos con CFDI´s.</h4>
+        <hr>
+    </div>
+</div>
+
+
+<dl class="row">
+    <dt class="col-sm-7">
+        <div class="">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Datos Generales
+                        <a class="float-right" tooltip-location="left" tooltip-animate tooltip="Son los datos que identifican a tu empresa como el nombre o razón social, el RFC, la dirección, el registro patronal, etc.
+              ">
+                            <i class="fa fa-question-circle fa-2x iconQuestion"></i>
+                        </a>
+
+
+                    </div>
+
+                </div>
+                <div class=" companyName row align-items-center justify-content-end">
+                    <div class="mr-auto">
+                        <label>{{empresa.nombre?empresa.nombre:'na'}}</label>
+                    </div>
+                    <div class="float-right ">
+                        <i class="fa fa-building fa-3x iconSummary " aria-hidden="true"></i>
+                    </div>
+                </div>
+
+
+
+                <div class="card-block">
+
+                    <table class="tableDatosGenerales">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.rfc' | translate}}</td>
+                                <td>{{empresa.rfc?empresa.rfc:'NO INGRESADO'}}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.calle'| translate }}</td>
+                                <td>{{empresa.calle?empresa.calle:'NO INGRESADO'}}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.numExterior' | translate}}</td>
+                                <td>{{empresa.numExterior?empresa.numExterior:'NO INGRESADO'}}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.numInterior' | translate}}</td>
+                                <td>{{empresa.numInterior?empresa.numInterior:'NO INGRESADO'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.lugarExpedicion' | translate}}</td>
+                                <td>{{empresa.lugarExpedicion?empresa.lugarExpedicion:'NO INGRESADO'}}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.colonia' | translate}}</td>
+                                <td>{{empresa.colonia?empresa.colonia:'NO INGRESADO'}}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.localidad' | translate}}</td>
+                                <td>{{empresa.localidad?empresa.localidad:'NO INGRESADO'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.referencia' | translate}}</td>
+                                <td>{{empresa.referencia?empresa.referencia:'NO INGRESADO'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.municipio' | translate}}</td>
+                                <td>{{empresa.municipio?empresa.municipio:'NO INGRESADO'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.estado'|translate}}</td>
+                                <td>{{empresa.estado?empresa.estado:'NO INGRESADO'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.pais'|translate}}</td>
+                                <td>{{empresa.pais?empresa.pais:'NO INGRESADO'}}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.registroPatronal' | translate}}</td>
+                                <td>{{empresa.registroPatronal?empresa.registroPatronal:'NO INGRESADO'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="summaryHeader">{{'empresa.riesgoPuesto' | translate}}</td>
+                                <td>{{empresa.riesgoPuesto?empresa.riesgoPuesto.nombre:'NO INGRESADO'}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <!--
+      <div class="row">
+        <label class="" translate>{{'empresa.rfc'}}</label> {{empresa.rfc?empresa.rfc:'NO INGRESADO'}}
+      </div>
+
+      <div class="row">
+        <label class="" translate>{{'empresa.calle'}}</label> {{empresa.calle?empresa.calle:'NO INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.numext'}}</label> {{empresa.numExterior?empresa.numExterior:'NO INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.numint'}}</label> {{empresa.numInterior?empresa.numInterior:'NO INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.colonia'}}</label> {{empresa.colonia?empresa.colonia:'NO INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.localidad'}}</label> {{empresa.localidad?empresa.localidad:'NO INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.referencia'}}</label> {{empresa.referencia?empresa.referencia:'NO INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.municipio'}}</label> {{empresa.municipio?empresa.municipio:'NO INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.estado'}}</label> {{empresa.estado?empresa.estado:'NO INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.pais'}}</label> {{empresa.pais?empresa.pais:'NO INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.lugarExpedicion'}}</label> {{empresa.lugarExpedicion?empresa.lugarExpedicion:'NO
+        INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.registroPatronal'}}</label> {{empresa.registroPatronal?empresa.registroPatronal:'NO
+        INGRESADO'}}
+
+      </div>
+      <div class="row">
+        <label class="" translate>{{'empresa.riesgoPuesto'}}</label> {{empresa.riesgoPuesto?empresa.riesgoPuesto.nombre:'NO
+        INGRESADO'}}
+
+      </div>
+      -->
+                    <button type="button" class="btn btn-opcion btn-raised float-center" data-toggle="modal" data-target="#myModal" translate (click)="prepareEdit()">{{'general.btneditarDatos'}}</button>
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </dt>
+    <dt class="col-sm-5">
+        <dl class="row">
+            <dt class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Cédula de identificación fiscal
+                            <!-- <div class="panel blue-tooltip " data-toggle="tooltip" data-html="true" data-placement="top" title='Documentos cobrados.'>
+                  <i class="fa fa-question-circle fa-2x iconQuestion float-right"></i>
+                </div> -->
+                            <a class="float-right" tooltip-location="left" tooltip-size="large" tooltip="La Cédula de Identificación Fiscal es un documento oficial que expide la Secretaría 
+                de Hacienda y Crédito Público, el cual contiene el Registro Federal de Contribuyentes 
+                (RFC, clave de identificación), tus obligaciones como contribuyente  y tu domicilio fiscal. 
+                (poner ilustración de ejemplo)">
+                                <i class="fa fa-question-circle fa-2x iconQuestion"></i>
+                            </a>
+
+
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <h4 align="center">Arrastra tu imagen para subirla.</h4>
+                        <h6 align="center">Formato requerido pdf o jpg.</h6>
+                        <div id="dZUpload2" class="dropzone">
+                            <div class="dz-default dz-message"></div>
+                        </div>
+                        <!--<button type="button" class="btn btn-lg btn-block fa fa-upload" id="btnAddLogo" (click)="file.click()"> Subir Archivo</button>-->
+                    </div>
+                </div>
+            </dt>
+            <dt class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Logotipo de la empresa
+                            <a class="float-right" tooltip-location="left" tooltip-animate tooltip="Este logotipo aparecerá en tus facturas">
+                                <i class="fa fa-question-circle fa-2x iconQuestion"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="card-block">
+                        <h4 align="center">Arrastra tu imagen para subirla.</h4>
+                        <h6 align="center">Formato requerido pdf o jpg.</h6>
+                        <div id="dZUpload3" class="dropzone">
+                            <div class="dz-default dz-message"></div>
+                        </div>
+                        <!--<button type="button" class="btn btn-lg btn-block fa fa-upload" id="btnAddLogo" (click)="file.click()"> Subir Archivo</button>-->
+                    </div>
+                </div>
+            </dt>
+        </dl>
+    </dt>
+</dl>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">Editar datos generales</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formEmpresa" (ngSubmit)="onSubmitEdit()" novalidate>
+                    <hr>
+                    <div class="form-group">
+                        <label for="nombre" translate>{{'empresa.nombre'}}</label>
+                        <font color="red">*</font>
+                        <input type="text" formControlName="nombre" class="form-control" id="nombre" required>
+                        <div *ngIf="formEmpresa.controls.nombre.errors?.required || nomEmp == false" class="alert alert-danger">
+                            Nombre es requerido
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="rfc" translate>RFC de la empresa</label>
+                        <font color="red">*</font>
+                        <!--<input type="text" formControlName="rfc" class="form-control" id="rfc" minlength="10" maxlength="11" required>-->
+                        <input type="text" formControlName="rfc" class="form-control" id="rfc" minlength="10" maxlength="13" required (keyup)="onKey($event)" onkeyup="this.value=this.value.toUpperCase();" disabled>
+                        <div *ngIf="formEmpresa.controls.rfc.errors?.required" class="alert alert-danger">
+                            RFC es requerido mayor de 10 caracteres y menor a 11
+                        </div>
+                        <div *ngIf="rfcEmp == false" class="alert alert-danger">
+                            El RFC no es valido
+                        </div>
+                    </div>
+                    <hr>
+                    <h4 class="iconSummary"> Direccíón de la empresa</h4>
+                    <div class="form-group">
+                        <label for="calle" translate>{{'empresa.calle'}}</label>
+                        <font color="red">*</font>
+                        <input type="text" formControlName="calle" class="form-control" id="calle" minlength="1" maxlength="30" required>
+                        <div *ngIf="formEmpresa.controls.calle.errors?.required || calleEmp == false" class="alert alert-danger">
+                            Calle es requerido
+                        </div>
+                    </div>
+
+                    <dl class="row">
+                        <dd class="col-sm-6">
+                            <div class="form-group">
+                                <label for="numExterior" translate>{{'empresa.numExterior'}}</label>
+                                <font color="red">*</font>
+                                <input type="text" formControlName="numExterior" class="form-control" id="numExterior" minlength="1" maxlength="5" required>
+                                <div *ngIf="formEmpresa.controls.numExterior.errors?.required || numEmp == false" class="alert alert-danger">
+                                    Número Exterior es requerido
+                                </div>
+                            </div>
+                        </dd>
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                <label for="numInterior" translate>{{'empresa.numInterior'}}</label>
+                                <input type="text" formControlName="numInterior" class="form-control" id="numInterior" minlength="1" maxlength="5">
+
+                            </div>
+                        </dt>
+
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                <label for="lugarExpedicion" translate>{{'empresa.lugarExpedicion'}}</label>
+                                <font color="red">*</font>
+                                <!-- <input type="text" formControlName="lugarExpedicion" class="form-control" id="lugarExpedicion"> -->
+                                <autocomplete-generic entidad='codigopostal' (onIdSelected)="onCodigoPostalSelected($event)" [enabled]="true" textplaceholder='Buscar codigo Postal' #autocompleteCodigoPostal required></autocomplete-generic>
+                                <div *ngIf="cpEmp == false" class="alert alert-danger">
+                                    Lugar de Expedición o CP es requerido
+                                </div>
+                            </div>
+                        </dt>
+                        <dd class="col-sm-6">
+                            <div class="form-group">
+                                <label for="colonia" translate>{{'empresa.colonia'}}</label>
+                                <font color="red">*</font>
+                                <!-- <label for="colonia" translate>{{'empresa.colonia'}}</label> -->
+
+                                <select formControlName="colonia" class="form-control" id="colonia" required>
+                                    <option [ngValue]="0" disabled>{{'general.selectOption'|translate}}</option>
+                                    <option *ngFor="let colonia of colonias" [ngValue]="colonia">{{colonia}}</option>
+                                </select>
+                                <div *ngIf="formEmpresa.controls.colonia.errors?.required || colEmp == false" class="alert alert-danger">
+                                    Colonia es requerido
+                                </div>
+                            </div>
+                        </dd>
+                        <dt class="col-sm-6">
+
+                            <div class="form-group">
+                                <label for="localidad" translate>{{'empresa.localidad'}}</label>
+                                <input type="text" formControlName="localidad" class="form-control" id="localidad" minlength="0" maxlength="20">
+                            </div>
+                        </dt>
+                        <dd class="col-sm-6">
+                            <!-- <div class="form-group">
+                <label for="referencia" translate>{{'empresa.referencia'}}</label>
+                <input type="text" formControlName="referencia" class="form-control" id="referencia">
+              </div> -->
+                            <div class="form-group">
+                                <label for="municipio" translate>{{'empresa.municipio'}}</label>
+                                <font color="red">*</font>
+                                <input type="text" formControlName="municipio" class="form-control" id="municipio" disabled required>
+                            </div>
+                        </dd>
+
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                <label for="estado" translate>{{'empresa.estado'}}</label>
+                                <font color="red">*</font>
+                                <input type="text" formControlName="estado" class="form-control" id="estado" disabled required>
+                            </div>
+
+                        </dt>
+                        <dd class="col-sm-6">
+                            <div class="form-group">
+                                <label for="pais" translate>{{'empresa.pais'}}</label>
+                                <font color="red">*</font>
+                                <input type="text" formControlName="pais" class="form-control" id="pais" minlength="2" maxlength="15" required>
+                                <div *ngIf="formEmpresa.controls.pais.errors?.required || paisEmp == false" class="alert alert-danger">
+                                    País es requerido
+                                </div>
+                            </div>
+                        </dd>
+
+                    </dl>
+
+
+                    <div class="form-group">
+                        <label for="registroPatronal" translate>{{'empresa.registroPatronal'}}</label>
+                        <input type="text" formControlName="registroPatronal" class="form-control" id="registroPatronal" minlength="2" maxlength="10" placeholder="A10 10101 10 1" (keyup)="activeRiesgo($event)" onkeyup="this.value=this.value.toUpperCase();">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="riesgoPuesto" translate>{{'empresa.riesgoPuesto'}}</label>
+                        <autocomplete-generic entidad='riesgo' (onIdSelected)="onIdRiesgoSelected($event)" [enabled]="onRiesgo" textplaceholder='Buscar riesgo' #autocompleteRiesgo required></autocomplete-generic>
+                        <!--<input type="text" formControlName="riesgoPuesto" class="form-control" id="riesgoPuesto">-->
+                    </div>
+                    <hr>
+                    <button type="submit" [disabled]="!formEmpresa.valid" class="btn btn-colorblue btn-raised float-right" translate>{{'general.btnguardar'}}</button>
+                    <button type="button" class="btn btn-opcion btn-raised float-right" data-dismiss="modal" translate>{{'general.btncancelar'}}</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card">
+    <div class="card-header ">
+        <div class="card-title">
+            Administración de certificados o sellos digitales
+            <a class="float-right" tooltip-location="left" tooltip-size="large" tooltip="Tu certificado digital, es un archivo electrónico mediante el cual el SAT garantiza y valida 
+        la autenticidad de tu firma autografa, el cual te entregaron en el momento de hacer al tramite de tu
+        e.firma en el SAT y tiene la extensión .CER.  
+        Tu sello digital, valida la emision de tus facturas electrónicas. A través de este módulo de EMPRO
+        podrás dar de alta todos los que posees.
+        ">
+                <i class="fa fa-question-circle fa-2x iconQuestion"></i>
+            </a>
+        </div>
+    </div>
+    <div class="card-block">
+        <app-certificados></app-certificados>
+
+    </div>
+
+</div>
+
+<div class="card card">
+    <div class="card-header">
+        <div class="card-title">
+            Régimen(es) fiscal(es)
+
+            <a class="float-right" tooltip-location="left" tooltip-size="large" tooltip="Es el conjunto de derechos y obligaciones que surgen del desarrollo de una actividad económica. 
+        En este módulo puedes dar de alta el o los régimenes fiscales con los que se identifique mas tu 
+        actividad diaria.        
+        ">
+                <i class="fa fa-question-circle fa-2x iconQuestion"></i>
+            </a>
+
+        </div>
+
+
+    </div>
+    <div class="card-block">
+        <app-regimenes></app-regimenes>
+    </div>
+
+</div>
+
+<div class="card card">
+    <div class="card-header ">
+        <div class="card-title">
+            Administración de folios
+
+            <a class="float-right" tooltip-location="left" tooltip-size="large" tooltip="Aquí puedes asignar la numeracion interna del consecutivo de tus comprobantes
+         fisales (independiet a tu Folio Fiscal)">
+                <i class="fa fa-question-circle fa-2x iconQuestion"></i>
+            </a>
+
+        </div>
+    </div>
+    <div class="card-block">
+        <app-folios></app-folios>
+    </div>
+
+</div>

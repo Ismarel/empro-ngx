@@ -1,0 +1,296 @@
+<div class="row">
+    <div class="col-12">
+        <h1 class="titlletext">
+            <i class="fa fa-cog iconEngrane float-left"></i> Sucursales </h1>
+    </div>
+    <div class="col-12">
+        <div class="button">
+            <button class="btn btn-colorblue btn-raised esp font" (click)="prepareAdd()" data-toggle="modal" data-target="#Sucursales">
+                <i class="fa fa-plus"></i> Agregar Sucursal</button>
+            <div class="dropdown righta">
+                <button class="btn btn-option btn-raised font dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-cog"></i> Opciones
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" (click)="exportarExcel()">Exportar<br>sucursales</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<hr>
+<!--///////////////////////////////////////////////////-->
+<div class="container-fluid">
+    <!-- Start Search Tabla -->
+    <div class="table-responsive">
+        <table class="table table-striped table-vcenter table-bordered tableDatosGenerales">
+            <thead class="">
+                <tr>
+                    <td colspan="5">
+                        <div class="top_table row padSearch">
+                            <div class="col-xs-8 col-sm-8 col-md-4">
+                                <form [formGroup]="formularioFilterQuery" novalidate>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                        <input type="search" class="form-control" placeholder="Buscar en esta lista..." formControlName="querySucursales">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 offset-md-4">
+                                <div class="float-right">
+                                    <select name="usuarios_data_length" class="form-control" [(ngModel)]="rowsOnPage" (change)="onChangeSize()">
+                                        <!-- <option [value]="2">2</option> -->
+                                        <option [value]="10">10</option>
+                                        <option [value]="20">20</option>
+                                        <option [value]="30">30</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+                <!-- End Search Tabla -->
+                <tr class="bor_inf">
+
+                    <th>
+                        <sorter-table by='nombre' [currentSort]="sortBy" (onSort)="onSort($event)">Nombre de la sucursal</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='calle' [currentSort]="sortBy" (onSort)="onSort($event)">Direccion</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='cp' [currentSort]="sortBy" (onSort)="onSort($event)">Código Postal</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='responsable' [currentSort]="sortBy" (onSort)="onSort($event)">Responsable</sorter-table>
+                    </th>
+
+                    <th style="min-width: 100px">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="tableDatosGenerales">
+                <tr class="bor" *ngFor="let item of data |paginate: { itemsPerPage: rowsOnPage, currentPage: page, totalItems: totalSucursales }">
+
+                    <td scope="row">{{item.nombre}}</td>
+                    <td>{{item.calle}} </td>
+                    <!--Direccion-->
+                    <td>{{item.cp}}</td>
+                    <td>{{item.responsable.nombre}}</td>
+
+                    <td class="text-center">
+                        <button type="button" (click)="prepareEdit(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#Sucursales">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button type="button" (click)="onClick_elim(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#eliminar">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+
+                </tr>
+            </tbody>
+
+
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <!--Init Paginacion-->
+                        <nav aria-label="Page navigation example">
+                            <pagination-template #p="paginationApi" (pageChange)="pageChanged($event)">
+                                <ul class="pagination float-left padNum">
+                                    <li class="page-item">
+                                        <span> 1 - </span>
+                                        <span> {{rowsOnPage}} </span>
+                                        <span> de </span>
+                                        <span> {{totalSucursales}}</span>
+                                    </li>
+                                </ul>
+                                <ul class="pagination float-right">
+
+                                    <li class="page-item" [class.active]="p.isFirstPage()">
+                                        <a class="page-link  boton espa" *ngIf="!p.isFirstPage()" (click)="p.previous()" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="page-item" *ngFor="let page of p.pages" [class.active]="p.getCurrent() === page.value">
+                                        <a class="page-link redonditos boton espa" (click)="p.setCurrent(page.value)"> {{ page.label }}</a>
+                                    </li>
+
+                                    <li class="page-item" [class.active]="p.isLastPage()">
+                                        <a class="page-link  boton espa" *ngIf="!p.isLastPage()" (click)="p.next()" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </pagination-template>
+                        </nav>
+                        <!--Fin Paginacion-->
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+
+<!--Fin tabla-->
+
+<!--MODAL AGREGAR/EDITAR-->
+<div class="modal fade" id="Sucursales" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">{{!isEdit?'Agregar Sucursal':'Editar Sucursal'}}</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="formularioSucursal" (ngSubmit)="onSubmitSucursales()" novalidate>
+                <div class="modal-body">
+                    <hr>
+                    <dl class="row">
+                        <dt class="col-sm-12">
+                            <div class="form-group">
+                                Nombre
+                                <font color="red">*</font>
+                                <input type="text" formControlName="nombre" size="61" class="form-control" id="nombre" (keyup)="checkValidators($event, 1)" onkeyup="this.value=this.value.toUpperCase();" required>
+                                <div *ngIf="formularioSucursal.controls.nombre.errors?.required && !formularioSucursal.controls.nombre.pristine" class="alert alert-danger">
+                                    Nombre es requerido
+                                </div>
+                            </div>
+                        </dt>
+
+
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Calle
+                                <font color="red">*</font>
+                                <input type="text" formControlName="calle" size="61" class="form-control" id="calle" (keyup)="checkValidators($event, 2)" onkeyup="this.value=this.value.toUpperCase();" required>
+                                <div *ngIf="formularioSucursal.controls.calle.errors?.required && !formularioSucursal.controls.calle.pristine" class="alert alert-danger">
+                                    Calle es requerida
+                                </div>
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Núm. exterior
+                                <font color="red">*</font>
+                                <input type="number" formControlName="n_exterior" class="form-control" id="n_exterior" min="0" (keyup)="checkValidators($event, 3)" onkeyup="this.value=this.value.toUpperCase();" required>
+                                <div *ngIf="formularioSucursal.controls.n_exterior.errors?.required && !formularioSucursal.controls.n_exterior.pristine" class="alert alert-danger">
+                                    Número exterior es requerido
+                                </div>
+                            </div>
+                        </dt>
+
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Núm. interiror
+                                <input type="text" formControlName="n_interior" class="form-control" id="n_interiror">
+                            </div>
+                        </dt>
+
+
+
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Código Postal
+                                <font color="red">*</font>
+                                <!-- <input type="text" formControlName="lugarExpedicion" class="form-control" id="lugarExpedicion"> -->
+                                <autocomplete-generic entidad='codigopostal' (onIdSelected)="onCodigoPostalSelected($event)" required [enabled]="true" textplaceholder='Buscar codigo Postal' #autocompleteCodigoPostal id="codigopostal"></autocomplete-generic>
+                                <div *ngIf="cpSucursal == false" class="alert alert-danger">
+                                    Código Postal es requerido
+                                </div>
+                            </div>
+                        </dt>
+
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Colonia
+                                <font color="red">*</font>
+                                <!-- <label for="colonia" translate>{{'empresa.colonia'}}</label> -->
+                                <select formControlName="colonia" class="form-control" id="colonia" required>
+                                    <option [ngValue]="0" disabled>{{'general.selectOption'|translate}}</option>
+                                    <option *ngFor="let colonia of colonias" [ngValue]="colonia">{{colonia}}</option>
+                                </select>
+                                <div *ngIf="cpSucursal == false" class="alert alert-danger">
+                                    Colonia es requerido
+                                </div>
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Localidad
+                                <input type="text" formControlName="localidad" size="61" class="form-control" id="localidad">
+                            </div>
+                        </dt>
+
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Delegación o municipio
+                                <font color="red">*</font>
+                                <input type="text" formControlName="municipio" size="61" class="form-control" id="municipio" disabled required>
+                            </div>
+                        </dt>
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                Estado
+                                <font color="red">*</font>
+                                <input type="text" formControlName="estado" size="61" class="form-control" id="estado" disabled required>
+                            </div>
+                        </dt>
+
+                        <dt class="col-sm-6">
+                            <div class="form-group">
+                                País
+                                <font color="red">*</font>
+                                <input type="text" formControlName="pais" size="61" class="form-control" id="pais" (keyup)="checkValidators($event, 4)" onkeyup="this.value=this.value.toUpperCase();" required>
+                                <div *ngIf="formularioSucursal.controls.pais.errors?.required && !formularioSucursal.controls.pais.pristine" class="alert alert-danger">
+                                    País es requerido
+                                </div>
+                            </div>
+                        </dt>
+
+                    </dl>
+                    <hr>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" [disabled]="!formularioSucursal.valid" class="btn btn-colorblue btn-raised">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal_eliminar -->
+<div class="modal fade" id="eliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">Borrar sucursal</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de querer borrar la sucursal {{entidad_eliminar?.nombre}}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+                <button type="button" (click)="remove_sucursal(entidad_eliminar?.id)" class="btn btn-colorblue btn-raised">Borrar</button>
+            </div>
+        </div>
+    </div>
+</div>

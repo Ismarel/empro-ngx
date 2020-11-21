@@ -28,14 +28,19 @@ $angle-right: '\f101';
       height: auto;
       line-height: 29px;
       &:hover {
-        color: $primary;
+        color: white;
       }
     }
     &.selected:not(.with-sub-menu) > a {
       border: none;
-      background-color: $primary;
+        border-left: tint($primary, 25%) 6px solid;
+      
+        background-color: shade($primary, 50%);
       &:hover {
-        color: $sidebar-text;
+        border-left: tint($primary, 25%) 6px solid;
+        
+        background-color: shade($primary, 50%);
+        color: white;
       }
     }
 
@@ -78,11 +83,12 @@ $angle-right: '\f101';
     float: none;
     padding: 0;
     &.selected:not(.with-sub-menu) {
-      background-color: $primary;
+      border-left: tint($primary, 25%) 6px solid;                
+      background-color: shade($primary, 50%);
       a.al-sidebar-list-link {
-        color: $sidebar-text;
+        color: white;
         b {
-          color: $sidebar-text;
+          color: white;
         }
       }
     }
@@ -122,9 +128,13 @@ $angle-right: '\f101';
     overflow: hidden;
     cursor: pointer;
     &:hover {
-      color: $primary;
+      color: white;
+        border-left: tint($primary, 25%) 6px solid;              
+        background-color: shade($primary, 50%);
       b {
-        color: $primary;
+        color: white;
+        background-color: shade($primary, 50%);
+        
       }
     }
     i {

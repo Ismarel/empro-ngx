@@ -1,0 +1,730 @@
+<style type="">
+  .button { float: right; }
+</style>
+<div class="button">
+
+  <button class="btn btn-colorblue btn-raised float-right esp font" (click)="cambio('1')">Regresar a lista de trabajadores</button>
+
+</div>
+
+<br>
+<br>
+<hr>
+
+<div class="padre">
+
+  <div class="hijo">
+
+    <div class=" datosGeneralesContainer">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Datos Generales</div>
+        </div>
+        <div class=" companyName row align-items-center justify-content-end">
+          <div class="mr-auto">
+            <label>{{ trabajador.nombre?trabajador.nombre:'na' }}</label>
+          </div>
+          <div class="float-right ">
+            <i class="fa fa-user fa-3x iconSummary " aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="card-block">
+          <table class="tableDatosGenerales">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="summaryHeader">Correo: </td>
+                <td>{{trabajador.correo?trabajador.correo:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">RFC: </td>
+                <td>{{trabajador.rfc?trabajador.rfc:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Calle: </td>
+                <td>{{trabajador.calle?trabajador.calle:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Num. Exterior: </td>
+                <td>{{trabajador.numeroExterior?trabajador.numeroExterior:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Num Interior: </td>
+                <td>{{trabajador.numeroInterior?trabajador.numeroInterior:'N/A'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Colonia: </td>
+                <td>{{trabajador.colonia?trabajador.colonia:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Localidad Receptor: </td>
+                <td>{{trabajador.localidad?trabajador.localidad:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Referencia Receptor: </td>
+                <td>{{trabajador.referencia?trabajador.referencia:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Delegación o Municipio: </td>
+                <td>{{trabajador.municipio?trabajador.municipio:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Estado: </td>
+                <td>{{trabajador.estado?trabajador.estado:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">País Receptor: </td>
+                <td>{{trabajador.pais?trabajador.pais:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Codigo Postal: </td>
+                <td>{{trabajador.cp?trabajador.cp:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Nota Imprimible 1: </td>
+                <td>No ingresado</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Nota Imprimible 2: </td>
+                <td>No ingresado</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Correos CPP: </td>
+                <td>{{trabajador.correosExtras?trabajador.correosExtras:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Comentarios: </td>
+                <td>No ingresado</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="right">
+            <!-- Boton que abre modal para editar Datos Generales -->
+            <button type="button" (click)="prepareEditDG(trabajador)" class="btn btn-primary" data-toggle="modal" data-target="#editarDatosGenerales">Editar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hijo">
+
+    <div class=" datosGeneralesContainer">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Datos de Empleado</div>
+        </div>
+        <div class=" companyName row align-items-center justify-content-end">
+          <div class="mr-auto">
+            <label>{{ trabajador.nombre?trabajador.nombre:'na' }}</label>
+          </div>
+          <div class="float-right ">
+            <i class="fa fa-building fa-3x iconSummary " aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="card-block">
+          <table class="tableDatosGenerales">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="summaryHeader">Registro Patronal: </td>
+                <td>{{trabajador.registroPatronal?trabajador.registroPatronal:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Núm. Empleado: </td>
+                <td>{{trabajador.numeroEmpleado?trabajador.numeroEmpleado:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">CURP: </td>
+                <td>{{trabajador.curp?trabajador.curp:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">ID Tipo Régimen: </td>
+                <!-- <td>{{trabajador.tipoRegimen.nombre?trabajador.tipoRegimen.nombre:'NO INGRESADO'}}</td> -->
+                <td>{{trabajador.tipoRegimen?(trabajador.tipoRegimen.nombre?trabajador.tipoRegimen.nombre:'NO INGRESADO'):'NO
+                  INGRESADO'}}
+                </td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Núm. Seguridad Social: </td>
+                <td>{{trabajador.nss?trabajador.nss:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Departamento: </td>
+                <td>{{trabajador.area?trabajador.area:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">CLABE Interbancaria: </td>
+                <td>{{trabajador.claveInterbancaria?trabajador.claveInterbancaria:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Banco: </td>
+                <!-- <td>{{trabajador.banco.nombre?trabajador.banco.nombre:'NO INGRESADO'}}</td> -->
+                <td>{{trabajador.banco?(trabajador.banco.nombre?trabajador.banco.nombre:'NO INGRESADO'):'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Fecha inicio relación laboral: </td>
+                <td>{{trabajador.fechaInicioLaboral?(trabajador.fechaInicioLaboral|date:"dd/MM/yyyy"):'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Antigüedad (Años cumplidos): </td>
+                <td>{{trabajador.antiguedad?trabajador.antiguedad:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Puesto: </td>
+                <td>{{trabajador.puesto?trabajador.puesto:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Tipo Contrato: </td>
+                <!-- <td>{{trabajador.tipoContrato.descripcion?trabajador.tipoContrato.descripcion:'NO INGRESADO'}}</td> -->
+                <td>{{trabajador.tipoContrato?(trabajador.tipoContrato.descripcion?trabajador.tipoContrato.descripcion:'NO INGRESADO'):'NO
+                  INGRESADO'}}
+                </td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Tipo Jornada: </td>
+                <!-- <td>{{trabajador.jornada.descripcion?trabajador.jornada.descripcion:'NO INGRESADO'}}</td> -->
+                <td>{{trabajador.jornada?(trabajador.jornada.descripcion?trabajador.jornada.descripcion:'NO INGRESADO'):'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Perioricidad Pago: </td>
+                <!-- <td>{{trabajador.periodicidad.descripcion?trabajador.periodicidad.descripcion:'NO INGRESADO'}}</td> -->
+                <td>{{trabajador.periodicidad?(trabajador.periodicidad.descripcion?trabajador.periodicidad.descripcion:'NO INGRESADO'):'NO
+                  INGRESADO'}}
+                </td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Salario diario: </td>
+                <td>{{trabajador.salarioDiario?trabajador.salarioDiario:'NO INGRESADO'}}</td>
+              </tr>
+              <tr>
+                <td class="summaryHeader">Salario base de cotización: </td>
+                <td>{{trabajador.salarioBase?trabajador.salarioBase:'NO INGRESADO'}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="right">
+            <!-- Boton que abre modal para editar Datos Laborales -->
+            <button type="button" (click)="prepareEditDE(trabajador)" class="btn btn-primary" data-toggle="modal" data-target="#editarDatosEmpleado">Editar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="padre" *ngIf="incidencias.length > 0">
+  <div class="hijo">
+    <div class="incidenciasContainer">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Incidencias</div>
+        </div>
+        <!-- <div class="companyName row align-items-center justify-content-end">
+          <div class="mr-auto">
+            <label>{{ trabajador.nombre?trabajador.nombre:'na' }}</label>
+          </div>
+          <div class="float-right ">
+            <i class="fa fa-user fa-3x iconSummary " aria-hidden="true"></i>
+          </div>
+        </div> -->
+        <div class="card-block">
+          <!-- Start Tabla -->
+          <div class="container-fluid">
+            <div class="">
+              <table class="table table-striped table-vcenter table-bordered tableIncidencias">
+                <thead class="">
+                  <tr class="bor_inf">
+                    <th>Incidencia</th>
+                    <th>Incapacidad</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                  </tr>
+                </thead>
+                <tbody class="tableIncidencias">
+                  <tr class="bor" *ngFor="let item of incidencias">
+                    <td scope="row">{{item.tipoIncidencia.descripcion}}</td>
+                    <td>{{item.tipoIncapacidad.descripcion}}</td>
+                    <td>{{item.fechaInicio}}</td>
+                    <td>{{item.fechaFin}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <!--Fin tabla-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="padre" *ngIf="percepcionesT.length > 0">
+  <div class="hijo">
+    <div class="incidenciasContainer">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Percepciones</div>
+        </div>
+        <!-- <div class="companyName row align-items-center justify-content-end">
+          <div class="mr-auto">
+            <label>{{ trabajador.nombre?trabajador.nombre:'na' }}</label>
+          </div>
+          <div class="float-right ">
+            <i class="fa fa-user fa-3x iconSummary " aria-hidden="true"></i>
+          </div>
+        </div> -->
+        <div class="card-block">
+          <div class="top_table row">
+            <div style="width: 98%;">
+                <div class="button">
+                    <button class="btn btn-colorblue btn-raised fa fa-plus" data-toggle="modal" data-target="#Percepcion" style="margin-bottom: 15px;" translate> Agregar Percepción</button>
+                </div>
+            </div>
+          </div>
+          <!-- Start Tabla -->
+          <div class="container-fluid">
+            <div class="">
+              <table class="table table-striped table-vcenter table-bordered tableIncidencias">
+                <thead class="">
+                  <tr class="bor_inf">
+                    <th>Percepción</th>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                    <th>Número de Nominas</th>
+                  </tr>
+                </thead>
+                <tbody class="tableIncidencias">
+                  <tr class="bor" *ngFor="let item of percepcionesT">
+                    <td>{{item.nominaPercepcion.nombre}}</td>
+                    <td>{{item.conceptoPercepcion}}</td>
+                    <td>{{item.montoPercepcion}}</td>
+                    <td>{{item.nNominasPercepcion}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <!--Fin tabla-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="padre" *ngIf="deduccionesT.length > 0">
+  <div class="hijo">
+    <div class="incidenciasContainer">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Deducciones</div>
+        </div>
+        <!-- <div class="companyName row align-items-center justify-content-end">
+          <div class="mr-auto">
+            <label>{{ trabajador.nombre?trabajador.nombre:'na' }}</label>
+          </div>
+          <div class="float-right ">
+            <i class="fa fa-user fa-3x iconSummary " aria-hidden="true"></i>
+          </div>
+        </div> -->
+        <div class="card-block">
+          <div class="top_table row">
+              <div style="width: 98%;">
+                  <div class="button">
+                      <button class="btn btn-colorblue btn-raised fa fa-plus" data-toggle="modal" data-target="#Deduccion" style="margin-bottom: 15px;" translate> Agregar Deducción</button>
+                  </div>
+              </div>
+          </div>
+          <!-- Start Tabla -->
+          <div class="container-fluid">
+            <div class="">
+              <table class="table table-striped table-vcenter table-bordered tableIncidencias">
+                <thead class="">
+                  <tr class="bor_inf">
+                    <th>Deducción</th>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                    <th>Número de Nominas</th>
+                  </tr>
+                </thead>
+                <tbody class="tableIncidencias">
+                  <tr class="bor" *ngFor="let item of deduccionesT">
+                    <td>{{item.nominaDeduccion.nombre}}</td>
+                    <td>{{item.conceptoDeduccion}}</td>
+                    <td>{{item.montoDeduccion}}</td>
+                    <td>{{item.nNominasDeduccion}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <!--Fin tabla-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal agregar percepción -->
+<div class="modal fade" id="Percepcion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title" id="exampleModalLabel" translate>Agregar Percepción</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <dl class="row">
+              <dt class="col-sm-12">
+                  <br>
+                  <select [formControl]="percepcion" class="form-control" id="percepcion">
+                    <option [ngValue]="0" disabled>{{'general.selectOption'|translate}}</option>
+                    <option *ngFor="let percepcion of percepciones" [ngValue]="percepcion">{{percepcion}}</option>
+                </select>
+              </dt>
+          </dl>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-colorblue btn-raised">Guardar</button>
+          </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal agregar deducción -->
+<div class="modal fade" id="Deduccion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title" id="exampleModalLabel" translate>Agregar Deducción</h1>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <dl class="row">
+              <dt class="col-sm-12">
+                  <br>
+                  <select [formControl]="deduccion" class="form-control" id="deduccion">
+                    <option [ngValue]="0" disabled>{{'general.selectOption'|translate}}</option>
+                    <option *ngFor="let deduccion of deducciones" [ngValue]="deduccion">{{deduccion}}</option>
+                  </select>
+              </dt>
+          </dl>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-colorblue btn-raised">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Editar Datos Generales -->
+<div class="modal fade" id="editarDatosGenerales" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel">Editar Datos Generales</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <form [formGroup]="myGroupDatosGeneralesEditar" (ngSubmit)="onSubmitEditarDG()" novalidate>
+        <div class="modal-body">
+
+          <dl class="row">
+
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Nombre
+                <font color="red">*</font>
+                <input type="text" formControlName="nombre" size="61" class="form-control" id="nombre" maxlength="110">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Correo
+                <font color="red">*</font>
+                <input type="text" formControlName="correo" size="61" class="form-control" id="correo" maxlength="60">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                RFC
+                <font color="red">*</font>
+                <!--<input type="text" formControlName="rfc" size="61" class="form-control" id="rfc" maxlength="13">-->
+                <input type="text" formControlName="rfc" size="61" class="form-control" id="rfc" minlength="10" maxlength="13" required (keyup)="onKey($event)" onkeyup="this.value=this.value.toUpperCase();" disabled>
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Calle
+                <input type="text" formControlName="calle" size="61" class="form-control" id="calle" maxlength="150">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Numero Exterior
+                <font color="red">*</font>
+                <input type="text" formControlName="numeroExterior" size="61" class="form-control" id="numeroExterior" maxlength="10">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Numero Interior
+                <input type="text" formControlName="numeroInterior" size="61" class="form-control" id="numeroInterior" maxlength="10">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Colonia
+                <select formControlName="colonia" class="form-control" id="colonia">
+                      <option [ngValue]="0" disabled>{{'general.selectOption'|translate}}</option>
+                      <option *ngFor="let colonia of colonias" [ngValue]="colonia">{{colonia}}</option>
+                    </select>
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Localidad
+                <input type="text" formControlName="localidad" size="61" class="form-control" id="localidad" maxlength="100">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Referencia
+                <input type="text" formControlName="referencia" size="61" class="form-control" id="referencia" maxlength="180">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Delegación o Municipio
+                <input type="text" formControlName="municipio" size="61" class="form-control" id="municipio" disabled>
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Estado
+                <font color="red">*</font>
+                <input type="text" formControlName="estado" size="61" class="form-control" id="estado" disabled>
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                País
+                <input type="text" formControlName="pais" size="61" class="form-control" id="pais" maxlength="100">
+              </div>
+            </dt>
+
+            <dt class="col-sm-6">
+              <div class="form-group">
+                <label for="cp">Codigo Postal <font color="red">*</font></label>
+                <!-- <input type="text" formControlName="cp" class="form-control" id="cp"> -->
+                <autocomplete-generic entidad='codigopostal' (onIdSelected)="onCodigoPostalSelected($event)" [enabled]="true" #autocompleteCodigoPostal></autocomplete-generic>
+              </div>
+            </dt>
+
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Correos CPP
+                <input type="text" formControlName="correosExtras" size="61" class="form-control" id="correosExtras" maxlength="200">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="alert alert-danger text-center" *ngIf="mensajeError">
+                {{mensajeError}}
+              </div>
+            </dt>
+          </dl>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button [disabled]="!myGroupDatosGeneralesEditar.valid" type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Editar Datos Laborales -->
+<div class="modal fade" id="editarDatosEmpleado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel">Editar Datos de Empleado</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <form [formGroup]="myGroupDatosEmpleadoEditar" (ngSubmit)="onSubmitEditarDE()" novalidate>
+        <div class="modal-body">
+          <dl class="row">
+
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Registro Patronal
+                <input type="text" formControlName="registroPatronal" size="61" class="form-control" id="registroPatronal" maxlength="15" style="color: darkgray;" disabled>
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Número de Empleado
+                <font color="red">*</font>
+                <input type="text" formControlName="numeroEmpleado" size="61" class="form-control" id="numeroEmpleado" maxlength="11">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                CURP
+                <font color="red">*</font>
+                <input type="text" formControlName="curp" size="61" class="form-control" id="curp" maxlength="18" disabled>
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                <label for="tipoRegimen">Tipo Régimen</label>
+                <font color="red">*</font>
+                <autocomplete-generic entidad='regimenes' (onIdSelected)="onIdRegimenesSelected($event)" [enabled]="true" #autocompleteTipoRegimen></autocomplete-generic>
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Núm. Seguridad Social
+                <font color="red">*</font>
+                <input type="text" formControlName="nss" size="61" class="form-control" id="nss" maxlength="11">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Departamento
+                <font color="red">*</font>
+                <input type="text" formControlName="area" size="61" class="form-control" id="area" maxlength="70">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                CLABE Interbancaria
+                <input type="text" formControlName="claveInterbancaria" size="61" class="form-control" id="claveInterbancaria" maxlength="17">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                <label for="banco">Banco</label>
+                <autocomplete-generic entidad='bancos' (onIdSelected)="onBancoSelected($event)" [enabled]="true" #autocompleteBanco></autocomplete-generic>
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Fecha inicio relación laboral
+                <font color="red">*</font>
+                <input type="date" formControlName="fechaInicioLaboral" size="61" class="form-control" id="fechaInicioLaboral">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Puesto
+                <font color="red">*</font>
+                <input type="text" formControlName="puesto" size="61" class="form-control" id="puesto" maxlength="100">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+
+              <!-- <div class="form-group">
+                  Tipo Contrato
+                  <font color="red">*</font>
+                  <input type="text" formControlName="tipoContrato" size="61" class="form-control" id="tipoContrato">
+                </div> -->
+              <div class="form-group">
+                <label for="tipoContrato">Tipo Contrato</label>
+                <font color="red">*</font>
+                <autocomplete-generic entidad='tipoContratos' (onIdSelected)="onTipoContratoSelected($event)" [enabled]="true" #autocompleteTipoContrato
+                  required></autocomplete-generic>
+              </div>
+
+            </dt>
+
+            <dt class="col-sm-12">
+
+              <!-- <div class="form-group">
+                  Tipo Jornada
+                  <font color="red">*</font>
+                  <input type="text" formControlName="jornada" size="61" class="form-control" id="jornada">
+                </div> -->
+              <div class="form-group">
+                <label for="jornada">Tipo Jornada</label>
+                <font color="red">*</font>
+                <!--<autocomplete-generic entidad='jornadas' (onIdSelected)="onTipoJornadaSelected($event)" [enabled]="true" #autocompleteJornada required></autocomplete-generic>-->
+                  <select class="form-control" formControlName="jornada">
+                      <option value="{{jornada.value}}" *ngFor="let jornada of jornadas">{{jornada.label}}</option>
+                  </select>
+              </div>
+            </dt>
+
+            <dt class="col-sm-12">
+
+              <!-- <div class="form-group">
+                  Perioricidad Pago
+                  <font color="red">*</font>
+                  <input type="text" formControlName="periodicidad" size="61" class="form-control" id="periodicidad">
+                </div> -->
+              <div class="form-group">
+                <label for="periodicidad">Periodicidad Pago</label>
+                <font color="red">*</font>
+                <!-- <autocomplete-generic entidad='periodicidades' (onIdSelected)="onPeriodicidadSelected($event)" [enabled]="true" #autocompletePeriodicidad
+                  required></autocomplete-generic> -->
+                  <select class="form-control" formControlName="periodicidad">
+                    <option value="1">Diario</option>
+                    <option value="2">Semanal</option>
+                    <option value="3">Quincenal</option>
+                    <option value="4">Mensual</option>
+                  </select>
+              </div>
+
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Salario diario
+                <font color="red">*</font>
+                <input type="text" formControlName="salarioDiario" size="61" class="form-control" id="salarioDiario">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="form-group">
+                Salario base de cotización
+                <font color="red">*</font>
+                <input type="text" formControlName="salarioBase" size="61" class="form-control" id="salarioBase">
+              </div>
+            </dt>
+            <dt class="col-sm-12">
+              <div class="alert alert-danger text-center" *ngIf="mensajeError">
+                {{mensajeError}}
+              </div>
+            </dt>
+          </dl>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button  type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,117 @@
+@import '../../theme/sass/conf/conf';
+@import '../../pages/empresa/empresa.scss';
+
+.perfilName {
+  background-color: $bootstrap-panel-header-bg;
+  color: white;
+  font-size: 18px;
+  padding: 15px;
+  padding-left: 30px;
+  min-height: 100%;
+  width: 100%;
+  padding-bottom: 35px;
+  margin: auto;
+  max-width: 1000px;
+}
+
+#contentInfo {
+  height: 100%;
+  left: 5px;
+  margin: auto;
+}
+
+.photopefil {
+  display: flex;
+  flex-direction: column;
+}
+
+.photopefil .espaciado {
+  margin: auto;
+}
+
+.perfilfoto {
+  max-height: 200px;
+  object-fit: scale-down;
+}
+
+.boton_2 {
+  text-decoration: none;
+  padding: 7px;
+  font-family: arial;
+  text-transform: uppercase;
+  padding-left: 3px;
+  padding-right: 3px;
+  font-weight: 100;
+  font-size: 9px;
+  color: white;
+  background-color: black;
+  width: 70px;
+}
+
+.boton_2:hover {
+  color: black;
+  background-color: gray;
+  text-decoration: none;
+}
+
+.espaciado {
+  padding-bottom: 7px;
+}
+
+@media screen and (max-width:1300px) {
+
+  /* reglas CSS */
+  #contentInfo {
+    left: 15px;
+  }
+
+  .fa-camera {
+    margin-left: 25px;
+  }
+}
+
+@media screen and (max-width:1050px) {
+
+  /* reglas CSS */
+  #contentInfo {
+    left: 35px;
+  }
+}
+
+@media screen and (max-width:750px) {
+
+  /* reglas CSS */
+  #contentInfo {
+    left: 55px;
+  }
+}
+
+@media screen and (max-width:575px) {
+
+  /* reglas CSS */
+  #contentInfo {
+    left: 15px;
+  }
+
+  .fa-camera {
+    margin-left: 0px;
+  }
+}
+
+.notiswitch {
+  display: flex;
+}
+
+.notiswitchlabel {
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+.notiswitchlabelri {
+  padding-right: 1em;
+}
+
+#card-perfil {
+  max-width: 1000px;
+  margin: auto;
+}

@@ -1,0 +1,453 @@
+@import '../../theme/sass/conf/conf';
+
+@media only screen and (max-width: 770px) and (min-width: 600px)  {
+  .card-title {
+    font-size: 14px;
+  }
+}
+
+#dZUpload3, #dZUpload2{
+  width: 170px;
+  margin: auto;
+}
+
+.tableDatosGenerales{
+    overflow-wrap: break-word;
+    td{
+        padding: 10px;
+    }   
+}
+
+.iconSummary{
+    color: $blue-light;
+}
+
+.iconEngrane{
+  color: 	#A9A9A9;
+}
+
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+.center{
+   display:inline-block
+}
+.fuenteColor{
+    color: #23ADD7;
+}
+.hrPunteado{
+    border: 1px dashed #278e79;
+}
+
+/*SwitchButton*/
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {display:none;}
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #0489B1;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #0B6138;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #0B6138;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .styled-select {
+    background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+    height: 29px;
+    overflow: hidden;
+    width: 240px;
+ }
+ 
+ .semi-square {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.blue    { background-color: #3b8ec2; }
+.blue select    { color: #fff; }
+
+.summaryHeader{
+    color: #878787;
+    text-align: right;
+    float: right;
+}
+
+
+
+.companyName{
+    background-color: $blue-lighter;
+    color:black;
+    font-size: 18px;
+    padding: 15px;
+    padding-left: 30px;
+    min-height: 70px;
+    margin: 0px!important;
+
+}
+
+
+
+.padre {
+  display: flex;
+  justify-content: center;
+}
+.hijo {
+  padding: 10px;
+  margin: 10px;
+}
+
+.btn-colorblue,
+.btn-colorblue:hover,
+.btn-colorblue:active {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: $blue-light;
+}
+
+.btn-cancelar,
+.btn-cancelar:hover,
+.btn-cancelar:active {
+  color: black;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #DCDCDC;
+  justify-content: center;
+  
+}
+
+.padre_a {
+  display: flex;
+  justify-content: center;
+  width: 450px;
+}
+.hijo_a {
+  padding: 10px;
+  margin: 10px;
+  width: 33%;
+}
+.esp{
+  margin-right: 15px;
+  }
+.espa{
+    margin-right: 10px;
+    }
+.font{
+  font-family: 'Source Sans Pro', sans-serif;
+  }
+
+.redonditos{
+    border-radius: 50%;
+  }
+
+.boton{
+    background: white;
+}
+.boton:hover{
+    background: $blue-light !important;
+}
+.boton:focus{
+  background: red !important;
+  color: white !important;
+}
+
+.bor{
+  border-style: solid;
+  border-width: 1px;
+}
+.padSearch{
+  padding-right: 20px;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+.padNum{
+  padding-left: 10px;
+  padding-top: 10px;
+}
+.bor_inf{
+  
+  border-bottom: solid 4px !important;
+  font-weight: bold !important;
+  border-color:#d3d3d3 !important;
+  
+}
+
+
+#rfc{
+  border-left: 5px solid #a94442;
+}
+#rfc.ok{
+  border-left: 5px solid #42A948;
+}
+
+.titlletext{
+  
+  color: $bootstrap-panel-header-bg;
+}
+
+.iconQuestion{
+  color: $blue-light;
+  margin: -8px;
+
+}
+
+/* Clase que tendra el tooltip */  
+.cssToolTip {
+  position: relative; /* Esta clase tiene que tener posicion relativa */
+  color: #ff8c00; /* Color del texto */
+ }
+  
+ /* El tooltip */
+ .cssToolTip span {
+  background: $blue-light; 
+  border: 2px solid $blue-light;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px #333;
+  color: white;
+  display: none; /* El tooltip por defecto estara oculto */
+  font-size: 0.8em;
+  padding: 5px 5px 5px 15px;
+  max-width: 6000px;
+  position: absolute; /* El tooltip se posiciona de forma absoluta para no modificar el aspezto del resto de la pagina */
+  width: 350px;
+  height: 130px;
+
+ }
+  
+ /* El tooltip cuando se muestra */
+ .cssToolTip:hover span {
+  display: inline; /* Para mostrarlo simplemente usamos display block por ejemplo */
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* Tooltip container */
+body{
+  text-align:center;
+  padding:50px;
+  font-family: verdana;
+  font-size : 14px;
+  table{
+    width: 100%;
+    tr{
+      td{
+        padding: 20px 0;
+        a{
+          text-decoration : none;
+          color: #333;
+        }
+      }
+    }
+  }
+}
+
+*[tooltip] {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  cursor : help;
+  &:after,&:before{
+    visibility: hidden;
+    position: absolute;
+    margin: 0;
+    z-index: 5000;
+  
+   }
+  &:before {
+    border-style: solid;
+    border-color: #333 transparent;
+    content: "";
+  }
+  &:after{
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    color: #fff;
+    content: attr(tooltip);
+    padding: 5px 15px;
+    font-size: 80%;
+  }
+  
+//   Tooltip Locations
+  &,&[tooltip-location="bottom"]{
+    &:before {
+      border-width: 0 6px 6px 6px;
+      bottom: auto;
+      top : 20px;
+      left: 50%;
+    }
+    &:after{
+      left: 0px;
+      top: 26px;
+    }
+  }
+  &[tooltip-location="top"]{
+      &:before {
+       border-width: 6px 6px 0px 6px;
+       top: auto;
+       bottom : 20px;
+    }
+    &:after{
+        top:auto;
+        bottom: 26px;
+    }
+  }
+  &[tooltip-location="right"]{
+     &:before {
+       border-width: 6px 6px 0px 6px;
+       top: 50%;
+       left: 100%;
+      transform: rotate(90deg);
+    }
+    &:after{
+        top : -10%;
+        left : calc(100% + 9px);
+    }
+  }
+  &[tooltip-location="left"]{
+      &:before {
+       border-width: 6px 6px 0px 6px;
+       top: 50%;
+       right: 100%;
+       left: auto;
+      transform: rotate(-90deg);
+      display: inline;
+      
+    }
+    &:after{
+        top : -10%;
+        left : auto;
+        right : calc(100% + 9px);
+      
+    }
+  }
+   &:hover{
+     &:after,&:before{ visibility: visible;  }  
+   }
+  
+  
+//   Tooltip Animation
+  &[tooltip-animate]{
+    &,&[tooltip-location="bottom"]{
+    &:before,&:after { margin: 10px 0px 0px 0px; }
+    }
+    &[tooltip-location="top"]{
+        &:before,&:after { margin: 0px 0px 10px 0px;}
+    }
+    &[tooltip-location="right"]{
+      &:before,&:after { margin: 0px 0px 0px 10px; }
+    }
+    &[tooltip-location="left"]{
+      &:before,&:after { margin: 0px 10px 0px 0px; }
+    }
+    &:after,&:before{ 
+      transition: all 0.3s ease;
+      opacity : 0;
+    }
+    &:hover{
+      &:after,&:before{ 
+        margin: 0;
+        opacity: 1;
+      }
+    }
+  }
+  
+  
+//   Tooltip sizes
+  &[tooltip-size="small"]{
+    &:after{ width: 50px; }
+  }
+  &,&[tooltip-size="medium"]{
+    &:after{ width: 150px; }
+  }
+  &[tooltip-size="large"]{
+    &:after{ width: 400px; 
+      
+    }
+  }
+
+
+
+}
+
+
+
+
+
+  

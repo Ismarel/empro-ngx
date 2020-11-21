@@ -1,0 +1,18 @@
+@import '../../theme/sass/conf/conf';
+
+
+.btn-colorblue,
+.btn-colorblue:hover,
+.btn-colorblue:active {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: $blue-light;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}

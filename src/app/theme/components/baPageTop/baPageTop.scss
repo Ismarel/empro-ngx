@@ -3,8 +3,10 @@
 
 :host /deep/ {
 
+  $size-avatar-img:36px;
+
   .page-top {
-    background-color: $sidebar;
+    background-color: $page-top-bg ;
     position: fixed;
     z-index: 904;
     box-shadow: 2px 0 3px rgba(0, 0, 0, 0.5);
@@ -12,6 +14,7 @@
     width: 100%;
     min-width: $resMin;
     padding: 0 32px 0 40px;
+    
 
     .dropdown-toggle::after {
       display: none;
@@ -25,7 +28,7 @@
   }
 
   a.al-logo {
-    color: $sidebar-text;
+    color: $page-top-text;
     display: block;
     font-size: 24px;
     font-family: $font-family;
@@ -49,13 +52,24 @@
     margin-top: 10px;
   }
 
+  #user-profile-name{
+    margin-top:10px;
+    padding: 5px;
+    color: $page-top-text;
+    height: 66px;
+    &:hover {
+      color: $page-top-text;
+      transition: all .2s ease;
+    }
+  }
+
   .al-user-profile {
     float: right;
     margin-right: 12px;
     transition: all .15s ease-in-out;
     padding: 0;
-    width: 36px;
-    height: 36px;
+    max-width: 400px;
+    height: $size-avatar-img;
     border: 0;
     opacity: 1;
     position: relative;
@@ -103,7 +117,7 @@
     display: block;
     text-decoration: none;
     line-height: 42px;
-    color: $sidebar-text;
+    color: $page-top-text;
     padding: 0;
     float: left;
     margin: 11px 0 0 25px;
@@ -157,7 +171,7 @@
       margin-right: 13px;
     }
     input {
-      color: $sidebar-text;
+      color: $page-top-text;
       background: none;
       border: none;
       outline: none;
@@ -169,8 +183,13 @@
   }
 
   @media screen and (max-width: $resS) {
-    .search {
+    .search,#user-profile-name {
       display: none;
+    }
+    .al-user-profile,.user-profile{
+    //width: $size-avatar-img;
+    min-width: $size-avatar-img!important;
+    transition: all 0s ease-in;
     }
   }
 
@@ -199,4 +218,40 @@
   .profile-toggle-link {
     cursor: pointer;
   }
+}
+.espacioSup{
+  padding-top: 20px;
+  padding-right: 10px;
+}
+
+.parpadea {
+  animation-delay: 2s;
+  animation-name: parpadeo;
+  animation-duration: 4s;
+  animation-timing-function: linear;
+  animation-direction: normal;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name:parpadeo;
+  -webkit-animation-duration: 4s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes parpadeo{  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+   100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {  
+  0% { opacity: 1.0; }
+   50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
 }

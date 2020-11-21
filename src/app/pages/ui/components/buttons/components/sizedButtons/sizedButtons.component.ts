@@ -1,12 +1,12 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 
 @Component({
-  selector: 'sized-buttons',
-  templateUrl: './sizedButtons.html',
+    selector: 'sized-buttons',
+    templateUrl: './sizedButtons.html',
 })
 export class SizedButtons {
 
-  constructor() {
-  }
+    constructor() {
+    }
 }

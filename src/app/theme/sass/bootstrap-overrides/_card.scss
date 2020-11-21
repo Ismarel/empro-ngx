@@ -47,7 +47,7 @@ $card-header-font-size: 16px;
     .card-body {
       height: calc(100% - #{$card-title-height});
       overflow-y: auto;
-      flex: 1;
+      flex: 0 1 auto;
     }
   }
 }
@@ -58,7 +58,7 @@ $card-header-font-size: 16px;
     height: 100%;
   }
   > .card-header {
-    color: $default-text;
+    color: white;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -68,13 +68,14 @@ $card-header-font-size: 16px;
 }
 
 .card-header, .card-footer {
-  color: $content-text;
+  color: white;
   border-bottom: $bootstrap-panel-header-border;
   height: $card-title-height;
   font-size: $card-header-font-size;
   $vertical-padding: ($card-title-height - $card-header-font-size) / 2;
   padding: $vertical-padding 22px;
   background-color: $bootstrap-panel-header-bg;
+  z-index: 10;
 }
 
 .card-title {
@@ -82,7 +83,7 @@ $card-header-font-size: 16px;
   font-size: $card-header-font-size;
   text-transform: uppercase;
   opacity: 0.9;
-  color: $content-text;
+  color: white;
 }
 
 .card-primary {

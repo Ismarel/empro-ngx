@@ -1,0 +1,111 @@
+<style type="text/css">
+  .button {
+    float: right;
+  }
+</style>
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="container-fluid">
+  <!-- Start Search Tabla -->
+  <div class="top_table row">
+    <div class="col-xs-8 col-sm-8 col-md-4">
+      <form [formGroup]="formularioFilterQuery" novalidate>
+        <div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span>
+          <input type="search" class="form-control" placeholder="Buscar en esta lista..." formControlName="query">
+        </div>
+      </form>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 offset-md-4">
+      <div class="button">
+        <button class="btn btn-colorblue btn-raised fa fa-plus" (click)="prepareAdd()" data-toggle="modal" data-target="#Regimenes"> Agregar Régimen</button>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <!-- End Search Tabla -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-vcenter ">
+      <thead>
+        <tr>
+          <!-- <th>
+            <sorter-table by='id' [currentSort]="sortBy" (onSort)="onSort($event)">ID</sorter-table>
+          </th> -->
+          <th>
+            <sorter-table by='tipoRegimen' [currentSort]="sortBy" (onSort)="onSort($event)">Tipo Régimen</sorter-table>
+          </th>
+          <th style="min-width: 100px">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data |paginate: { itemsPerPage: rowsOnPage, currentPage: page, totalItems: total }">
+          <td class="text-center" style="display: flex; align-items: flex-end; justify-content: center;">
+            {{item.tipoRegimen.nombre}} <div *ngIf="idRegimenDefault == item.id"><h5 style="color: red;">*</h5></div>
+          </td>
+          <td class="text-center">
+            <button type="button" (click)="prepareEdit(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#Regimenes"><i class="fa fa-pencil"></i></button>
+            <button type="button" (click)="eliminarRegimen(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#eliminarRegimen"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+<!--MODAL AGREGAR/EDITAR-->
+  <div class="modal fade" id="Regimenes" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{!isEdit?'Agregar regimen fiscal':'Editar regimen fiscal'}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+        <form  [formGroup]="formularioRegimen"  (ngSubmit)="onSubmitRegimenes()" novalidate>
+          <div class="form-group">
+            <label for="tipoRegimen" translate>Tipo Régimen</label>
+            <!-- <input type="text" formControlName="tipoRegimen" class="form-control" id="tipoRegimen" > -->
+            <autocomplete-generic entidad='regimenes' required (onIdSelected)="onIdRegimenesSelected($event)" [enabled]="true" textplaceholder='Buscar regimen'
+            #autocompleteRegimenes></autocomplete-generic>
+            <dl class="row" style="margin: 10px auto;">
+              <dt class="col-sm-1" style="max-width: 50px;">
+                <input type="checkbox" class="form-control" id="regimenDefault" (change)="regimenDefault($event)" style="margin-top: 2px; width: 50px;">
+              </dt>
+              <dt class="col-sm-11" style="max-width: fit-content;">
+                <label for="tipoRegimen" translate>Utilizar este régimen por defecto</label>
+              </dt>
+            </dl>
+          </div>
+              
+          <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal" translate>{{'general.btncancelar'}}</button>
+          <button type="submit"  class="btn btn-colorblue btn-raised" [disabled]="!formularioRegimen.valid" translate>{{'general.btnguardar'}}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Modal_eliminar -->
+  <div class="modal fade" id="eliminarRegimen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title" id="exampleModalLabel">Borrar Régimen</h1>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de querer borrar el Régimen {{entitySelected?.tipoRegimen.nombre}}?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+          <button type="button" (click)="removeRegimen(entitySelected?.id)" class="btn btn-colorblue btn-raised">Borrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

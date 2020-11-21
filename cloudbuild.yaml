@@ -1,0 +1,16 @@
+steps:
+#- name: gcr.io/cloud-builders/wget
+#  args: ['${_WEBHOOK_DEPLOY}']
+
+#substitutions:
+#  _WEBHOOK_DEPLOY: 'http://harav.yalla-ya.net/deploy.php'
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install']
+
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'build:prod']
+
+options:
+    substitution_option: 'ALLOW_LOOSE'
+
+images: ['gcr.io/$PROJECT_ID/empro-app']

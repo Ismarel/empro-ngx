@@ -1,0 +1,708 @@
+<div *ngIf="changeOption == 2">
+    <div class="row end-sm">
+        <div class="col col-lg-12">
+            <h1 class="titlletext">
+                <i class="ion-stats-bars iconEngrane"></i> Agregar Comprobante Fiscal
+            </h1>
+        </div>
+    </div>
+
+
+    <form [formGroup]="formularioComprobanteFiscal" (ngSubmit)="onSubmitComprobantes()" novalidate>
+        <div class="modal-body">
+            <hr>
+            <dl class="row">
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Regimen
+                        <font color="red">*</font>
+                        <!-- <input type="text" formControlName="regimen" class="form-control" id="regimen" required> -->
+                        <autocomplete-generic entidad='regimenEmpresa' required
+                            (onIdSelected)="onIdRegimenEmpresaSelected($event)" [enabled]="true"
+                            textplaceholder='Buscar regimen' #autocompleteRegimenEmpresa [ngClass]="{'alert-shadow-border-completer': !formularioComprobanteFiscal.controls.regimen.value, 'success-shadow-border-completer': formularioComprobanteFiscal.controls.regimen.value}"></autocomplete-generic>
+                        <div *ngIf="formularioComprobanteFiscal.controls.regimen.errors?.required && !formularioComprobanteFiscal.controls.regimen.pristine"
+                            class="alert alert-danger">
+                            Regimen es requerido
+                        </div>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Tipo Comprobante
+                        <font color="red">*</font>
+                        <select formControlName="tipoComprobante" class="form-control" [ngClass]="{'alert-shadow-border': formularioComprobanteFiscal.controls.tipoComprobante.value == null, 'success-shadow-border': formularioComprobanteFiscal.controls.tipoComprobante.value != null}" id="tipoComprobante" required>
+                            <option [ngValue]="null" disabled>{{'general.selectOption'|translate}}</option>
+                            <option [ngValue]="0">Ingreso</option>
+                            <option [ngValue]="1">Egreso</option>
+                            <option [ngValue]="2">Traslado</option>
+                            <option [ngValue]="3">Pago</option>
+
+                        </select>
+                        <div *ngIf="formularioComprobanteFiscal.controls.tipoComprobante.errors?.required && !formularioComprobanteFiscal.controls.tipoComprobante.pristine"
+                            class="alert alert-danger">
+                            Tipo Comprobante es requerido
+                        </div>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Lugar de expedición (Código postal de la sucursal)
+                        <font color="red">*</font>
+                        <input type="text" formControlName="cp" class="form-control" [ngClass]="{'alert-shadow-border': !formularioComprobanteFiscal.controls.cp.value, 'success-shadow-border': formularioComprobanteFiscal.controls.cp.value}"  id="cp" required>
+                        <div *ngIf="formularioComprobanteFiscal.controls.cp.errors?.required && !formularioComprobanteFiscal.controls.cp.pristine"
+                            class="alert alert-danger">
+                            Lugar de expedición requerido
+                        </div>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Moneda
+                        <font color="red">*</font>
+                        <select formControlName="moneda" class="form-control" [ngClass]="{'alert-shadow-border': formularioComprobanteFiscal.controls.moneda.value == null, 'success-shadow-border': formularioComprobanteFiscal.controls.moneda.value != null}" id="moneda" required
+                            (change)="tipoMoneda()">
+                            <option [ngValue]="null" disabled>{{'general.selectOption'|translate}}</option>
+                            <option [ngValue]="0">MXN (pesos mexicanos)</option>
+                            <option [ngValue]="1">$ (dolares)</option>
+                            <option [ngValue]="2">€ (euros)</option>
+
+                        </select>
+                        <div *ngIf="formularioComprobanteFiscal.controls.moneda.errors?.required && !formularioComprobanteFiscal.controls.moneda.pristine"
+                            class="alert alert-danger">
+                            Moneda es requerido
+                        </div>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group" id="tipoCambio" style='display:none;'>
+                        Tipo Cambio
+                        <font color="red">*</font>
+                        <input type="text" minlength="36" maxlength="36" formControlName="tipoCambio"
+                            class="form-control" [ngClass]="{'alert-shadow-border': !formularioComprobanteFiscal.controls.tipoCambio.value, 'success-shadow-border': formularioComprobanteFiscal.controls.tipoCambio.value}" id="tipoCambio">
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Uso CFDI
+                        <font color="red">*</font>
+                        <select formControlName="usoCfdi" class="form-control" [ngClass]="{'alert-shadow-border': formularioComprobanteFiscal.controls.usoCfdi.value == null, 'success-shadow-border': formularioComprobanteFiscal.controls.usoCfdi.value != null}" id="usoCfdi" required>
+                            <option [ngValue]="null" disabled>{{'general.selectOption'|translate}}</option>
+                            <option [ngValue]="1">Adquisición de mercancias</option>
+                            <option [ngValue]="2">Devoluciones, descuentos o bonificaciones</option>
+                            <option [ngValue]="3">Gastos en general</option>
+                            <option [ngValue]="4">Construcciones</option>
+                            <option [ngValue]="5">Mobilario y equipo de oficina por inversiones</option>
+                            <option [ngValue]="6">Equipo de transporte</option>
+                            <option [ngValue]="7">Equipo de computo y accesorios</option>
+                            <option [ngValue]="8">Dados, troqueles, moldes, matrices y herramental</option>
+                            <option [ngValue]="9">Comunicaciones telefónicas</option>
+                            <option [ngValue]="10">Comunicaciones satelitales</option>
+                            <option [ngValue]="11">Otra maquinaria y equipo</option>
+                            <option [ngValue]="12">Honorarios médicos, dentales y gastos hospitalarios.</option>
+                            <option [ngValue]="13">Gastos médicos por incapacidad o discapacidad</option>
+                            <option [ngValue]="14">Gastos funerales.</option>
+                            <option [ngValue]="15">Donativos.</option>
+                            <option [ngValue]="16">Intereses reales efectivamente pagados por créditos hipotecarios
+                                (casa habitación).</option>
+                            <option [ngValue]="17">Aportaciones voluntarias al SAR.</option>
+                            <option [ngValue]="18">Primas por seguros de gastos médicos.</option>
+                            <option [ngValue]="19">Gastos de transportación escolar obligatoria.</option>
+                            <option [ngValue]="20">Depósitos en cuentas para el ahorro, primas que tengan como base
+                                planes de pensiones.</option>
+                            <option [ngValue]="21">Pagos por servicios educativos (colegiaturas)</option>
+                            <option [ngValue]="22">Por definir</option>
+
+                        </select>
+
+                        <!--<input type="text" formControlName="usoCfdi" class="form-control" id="usoCfdi" required>-->
+                        <div *ngIf="formularioComprobanteFiscal.controls.usoCfdi.errors?.required && !formularioComprobanteFiscal.controls.usoCfdi.pristine"
+                            class="alert alert-danger">
+                            Uso CFDI requerido
+                        </div>
+                    </div>
+                </dt>
+
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Nombre del Cliente
+                        <font color="red">*</font>
+                        <!-- <input type="text" formControlName="cliente" class="form-control" id="cliente" required> -->
+                        <autocomplete-generic entidad='nombreClientes' [ngClass]="{'alert-shadow-border-completer': !formularioComprobanteFiscal.controls.nombreCliente.value, 'success-shadow-border-completer': formularioComprobanteFiscal.controls.nombreCliente.value}" [query-params]="parametrosrfc" required
+                            (onIdSelected)="onIdNombreClienteSelected($event)" [enabled]="true"
+                            textplaceholder='Buscar Nombre Cliente' #autocompleteNombreCliente></autocomplete-generic>
+                        <div *ngIf="formularioComprobanteFiscal.controls.nombreCliente.errors?.required && !formularioComprobanteFiscal.controls.nombreCliente.pristine"
+                            class="alert alert-danger">
+                            Nombre del Cliente requerido
+                        </div>
+                    </div>
+                </dt>
+                <dt class="col-md-6 col-sm-5">
+                    <div class="form-group">
+                        RFC del Cliente
+                        <font color="red">*</font>
+                        <input type="text" formControlName="rfcCliente" class="form-control" [ngClass]="{'alert-shadow-border' : !formularioComprobanteFiscal.controls.rfcCliente.value, 'success-shadow-border' : formularioComprobanteFiscal.controls.rfcCliente.value}" id="rfcCliente"
+                            minlength="12" maxlength="13" style="color: darkgray;" required disabled>
+                        <!--<autocomplete-generic entidad='rfcCliente' [query-params]="parametrosrfc" required (onIdSelected)="onIdRfcClienteSelected($event)" [enabled]="true" textplaceholder='Buscar RFC Cliente'
+            #autocompleteRfcCliente></autocomplete-generic>-->
+                        <div *ngIf="formularioComprobanteFiscal.controls.rfcCliente.errors?.required && !formularioComprobanteFiscal.controls.rfcCliente.pristine"
+                            class="alert alert-danger">
+                            RFC del Cliente requerido
+                        </div>
+                    </div>
+                </dt>
+
+                <dt class="col-md-3 col-sm-3">
+                    <div class="form-group">
+                        Serie
+                        <font color="red">*</font>
+                        <!-- <input type="text" formControlName="serie" class="form-control" id="serie" required> -->
+                        <select formControlName="serie" class="form-control" [ngClass]="{'alert-shadow-border': formularioComprobanteFiscal.controls.serie.value == null, 'success-shadow-border': formularioComprobanteFiscal.controls.serie.value != null}" id="serie" (change)="selectSerie($event)">
+                            <option [ngValue]="null" disabled>{{'general.selectOption'|translate}}</option>
+                            <option *ngFor="let data of data" [ngValue]="data.id">
+                                {{ data.serie }}
+                            </option>
+                        </select>
+                        <div *ngIf="formularioComprobanteFiscal.controls.serie.errors?.required && !formularioComprobanteFiscal.controls.serie.pristine"
+                            class="alert alert-danger">
+                            Serie es requerido
+                        </div>
+                    </div>
+                </dt>
+                <dt class="col-md-3 col-sm-4">
+                    <div class="form-group">
+                        <div class="concepto-cell concepto-cell-row concepto-cell-imp" style="padding: 0">
+                            <label for="manualFolio">Folio</label>
+                            <!--<input type="checkbox" class="form-control check" id="cambioManual" formControlName="cambioManual" (change)="enableManual($event)">
+                            <label for="cambioManual" style="margin-left: 0.5em; font-size: 0.7em;">Ingreso Manual
+                            </label>-->
+                        </div>
+                        <input type="text" formControlName="manualFolio" class="form-control" id="manualFolio"
+                            [placeholder]="folioPlaceHolder" [readonly]="disabledManual">
+                        <div *ngIf="formularioComprobanteFiscal.controls.serie.errors?.required && !formularioComprobanteFiscal.controls.serie.pristine"
+                            class="alert alert-danger">
+                            Serie es requerido
+                        </div>
+
+                    </div>
+                </dt>
+                <!--<dt class="col-12" style="text-align: right;font-size: 0.8em;color: red;font-weight: normal;">Ingreso manual del folio no afecta la secuencia de la serie.</dt>-->
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Tipo Relación
+
+                        <select formControlName="tipoRelacion" class="form-control" id="tipoRelacion"
+                            (change)="tipoRelacionUUID($event)">
+                            <option [ngValue]=null>{{'general.selectOption'|translate}}</option>
+                            <option [ngValue]="01">Nota de crédito de los documentos relacionados</option>
+                            <option [ngValue]="02">Nota de débito de los documentos relacionados</option>
+                            <option [ngValue]="03">Devolución de mercancía sobre facturas o traslados previos</option>
+                            <option [ngValue]="04">Sustitución de los CFDI previos</option>
+                            <option [ngValue]="05">Traslados de mercancías facturados previamente</option>
+                            <option [ngValue]="06">Factura generada por los traslados previos</option>
+                            <option [ngValue]="07">CFDI por aplicación de anticipo</option>
+
+                        </select>
+
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group" id="uuid" style='display:none;'>
+                        UUID Relación
+                        <font color="red">*</font>
+                        <input type="text" minlength="36" maxlength="36" formControlName="uuid" class="form-control"
+                            id="uuid">
+                    </div>
+                </dt>
+
+                <dt class="col-sm-12">
+                    <div class="form-group">
+                        <div class="card card">
+                            <div class="card-header ">
+                                <div class="card-title">
+                                    Concepto(s)
+                                </div>
+                            </div>
+                            <div class="card-block">
+                                <dl class="row">
+                                    <div
+                                        class="concepto-cell concepto-cell-row concepto-cell-imp col-md-4 col-sm-5 col-6">
+                                        <input type="checkbox" class="form-control check" id="impuestosxconcepto"
+                                            formControlName="impuestoPorConceptocheck"
+                                            (change)="impuestoPorConcepto($event)">
+                                        <label for="impuestosxconcepto">Impuestos
+                                        </label>
+                                    </div>
+                                </dl>
+                                <dl class="row">
+                                    <dt class="col-sm-12">
+                                        <form [formGroup]="invoiceForm">
+                                            <div formArrayName="itemRows">
+                                                <div *ngFor="let itemrow of invoiceForm.controls.itemRows.controls; let i=index"
+                                                    [formGroupName]="i">
+                                                    <div class="form-group form-concepto" [ngClass]="{'alert-shadow-border': !validsConcepts[i], 'success-shadow-border': validsConcepts[i]}">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="row">
+                                                                    <div class="concepto-cell col-md-3 col-sm-6">
+                                                                        <label for="descripcion">Nombre<font
+                                                                                color="red">*</font>
+                                                                        </label>
+                                                                        <autocomplete-generic
+                                                                            (onIdSelected)="onSelectedTConceptos($event, i)"
+                                                                            id="descripcion" entidad='concepto'
+                                                                            [enabled]="true" textplaceholder='Buscar...'
+                                                                            #autocompleteTConceptos>
+                                                                        </autocomplete-generic>
+                                                                        <input type="text" formControlName="descripcion"
+                                                                            placeholder='Buscar...' class="form-control"
+                                                                            id="concepto[{{i}}]"
+                                                                            (click)="conceptoEdit(i)"
+                                                                            style="position: relative; top: -35px; margin-bottom: -35px; display: block;">
+                                                                    </div>
+                                                                    <div class="concepto-cell col-md-3 col-sm-6">
+                                                                        <label for="claveprodserv[{{i}}]">Clave del
+                                                                            producto o servicio<font color="red">*
+                                                                            </font>
+                                                                        </label>
+                                                                        <input type="text"
+                                                                            formControlName="claveprodserv"
+                                                                            class="form-control"
+                                                                            style="color: darkgray;"
+                                                                            id="claveprodserv[{{i}}]" disabled>
+                                                                        <input type="text" formControlName="idprodserv"
+                                                                            class="form-control" id="idprodserv[{{i}}]"
+                                                                            disabled
+                                                                            style="position: absolute; z-index: -1; visibility: hidden;">
+                                                                    </div>
+                                                                    <div class="concepto-cell col-md-3 col-sm-6">
+                                                                        <label for="cantidad[{{i}}]">Cantidad<font
+                                                                                color="red">*</font>
+                                                                        </label>
+                                                                        <input type="number" formControlName="cantidad"
+                                                                            (change)="calculaTotales(i)"
+                                                                            class="form-control" id="cantidad[{{i}}]">
+                                                                    </div>
+                                                                    <div class="concepto-cell col-md-3 col-sm-6">
+                                                                        <label for="unidad[{{i}}]">Clave de Unidad<font
+                                                                                color="red">*</font>
+                                                                        </label>
+                                                                        <input type="text" formControlName="unidad"
+                                                                            class="form-control"
+                                                                            style="color: darkgray;" id="unidad[{{i}}]"
+                                                                            disabled>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="concepto-cell col-md-3 col-sm-6">
+                                                                        <label
+                                                                            for="claveIdentificacion[{{i}}]">Unidad</label>
+                                                                        <input type="text"
+                                                                            formControlName="claveIdentificacion"
+                                                                            class="form-control"
+                                                                            style="color: darkgray;"
+                                                                            id="claveIdentificacion[{{i}}]" disabled>
+                                                                    </div>
+                                                                    <div class="concepto-cell col-md-3 col-sm-6">
+                                                                        <label for="precioUnitario[{{i}}]">Precio
+                                                                            Unitario<font color="red">*</font>
+                                                                        </label>
+                                                                        <input type="number"
+                                                                            formControlName="precioUnitario"
+                                                                            (change)="calculaTotales(i)"
+                                                                            class="form-control" step='0.1'
+                                                                            id="precioUnitario[{{i}}]">
+                                                                    </div>
+                                                                    <div class="concepto-cell col-md-3 col-sm-6">
+                                                                        <label for="importe[{{i}}]">Importe<font
+                                                                                color="red">*</font>
+                                                                        </label>
+                                                                        <input type="number" formControlName="importe"
+                                                                            class="form-control"
+                                                                            style="color: darkgray;" id="importe[{{i}}]"
+                                                                            disabled>
+                                                                    </div>
+                                                                    <div class="concepto-cell col-md-3 col-sm-6">
+                                                                        <label for="descuento[{{i}}]">Descuento
+                                                                        </label>
+                                                                        <input type="number" formControlName="descuento"
+                                                                            (change)="calculaTotales(i)"
+                                                                            class="form-control" id="descuento[{{i}}]"
+                                                                            value="0.0">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="concepto-cell col-md-12 col-sm-20">
+                                                                        <label class="descripcionAdd[{{i}}]">Descripción
+                                                                        </label>
+                                                                        <input type="text"
+                                                                            formControlName="descripcionAdd"
+                                                                            class="form-control"
+                                                                            id="descripcionAdd[{{i}}]">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-1 flex-content">
+                                                                        <button
+                                                                            *ngIf="invoiceForm.controls.itemRows.controls.length >= 1"
+                                                                            (click)="deleteRow(i)"
+                                                                            class="btn btn-danger flexmarg">X</button>
+                                                                    </div>
+                                                                    <div class="col-11 flex-content">
+                                                                        <div *ngIf="!validsConcepts[i]" class="flexmarg valuealert">
+                                                                            Ingrese un concepto.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </dt>
+                                </dl>
+                                <dl class="row">
+                                    <dt class="col-sm-12" id="impuestosXconceptos" style='display:none;'>
+                                        <div class="form-group">
+
+                                        </div>
+                                    </dt>
+                                </dl>
+                                <dl class="row">
+                                    <dt class="col-sm-12" id="impuestosXconceptoscajas" style='display:none;'>
+                                        <form [formGroup]="invoiceForm">
+                                            <div formArrayName="itemRows">
+                                                <div *ngFor="let itemrow of invoiceForm.controls.itemRows.controls; let i=index"
+                                                    [formGroupName]="i">
+                                                    <div class="form-group form-concepto">
+                                                        <div class="row">
+                                                            <div class="concepto-cell col-lg-3 col-md-4">
+                                                                <div class="concepto-cell concepto-cell-row">
+                                                                    <label for="ivaFrontera[{{i}}]">IVA Frontera 8 %
+                                                                        <font color="red">*</font>
+                                                                    </label>
+                                                                    <input type="checkbox" formControlName="ivaFrontera"
+                                                                        (change)="calculaTotales(i)"
+                                                                        class="form-control check"
+                                                                        id="ivaFrontera[{{i}}]">
+                                                                </div>
+                                                                <div>
+                                                                    <label for="base[{{i}}]">Base<font color="red">*
+                                                                        </font>
+                                                                    </label>
+                                                                    <input type="number" formControlName="base"
+                                                                        style="color: darkgray;" class="form-control"
+                                                                        id="base[{{i}}]" disabled>
+                                                                </div>
+                                                            </div>
+                                                            <div class="concepto-cell col-lg-3 col-md-4">
+                                                                <div>
+                                                                    <label for="ivaRetenido[{{i}}]">Iva Retenido %
+                                                                        (Porcentaje)<font color="red">*</font>
+                                                                    </label>
+                                                                    <select formControlName="ivaRetenido"
+                                                                        class="form-control" id="ivaRetenido[{{i}}]"
+                                                                        (change)="calculaIvaRetenido(i)">
+                                                                        <option [ngValue]="0" selected>
+                                                                            {{'general.selectOption'|translate}}
+                                                                        </option>
+                                                                        <option [ngValue]="1">4 %</option>
+                                                                        <option [ngValue]="2">10.6667 %</option>
+                                                                    </select>
+                                                                    <input type="number" formControlName="ivaPorcentaje"
+                                                                        class="form-control" step='0.1'
+                                                                        id="ivaPorcentaje[{{i}}]"
+                                                                        style="display: none;">
+                                                                </div>
+                                                            </div>
+                                                            <div class="concepto-cell col-lg-3 col-md-4">
+                                                                <div class="concepto-cell concepto-cell-row">
+                                                                    <label for="isrRetenido[{{i}}]">Isr Retenido 10 %
+                                                                        <font color="red">*</font>
+                                                                    </label>
+                                                                    <input type="checkbox" formControlName="isrRetenido"
+                                                                        (change)="calculaTotales(i)"
+                                                                        class="form-control check"
+                                                                        id="isrRetenido[{{i}}]">
+                                                                </div>
+                                                                <label for="ieps[{{i}}]">Ieps Retenido<font color="red">
+                                                                        *</font>
+                                                                </label>
+                                                                <!-- <input type="number" formControlName="ieps" (change)="calculaTotales(i)" class="form-control" id="ieps[{{i}}]">-->
+                                                                <select formControlName="ieps" class="form-control"
+                                                                    id="ieps[{{i}}]" (change)="calculaTotales(i)">
+                                                                    <option [ngValue]="0" selected>
+                                                                        {{'general.selectOption'|translate}}</option>
+                                                                    <option [ngValue]="0.265">26.5 %</option>
+                                                                    <option [ngValue]="0.3">30 %</option>
+                                                                    <option [ngValue]="0.53">53 %</option>
+                                                                    <option [ngValue]="1.6">160 %</option>
+                                                                    <option [ngValue]="0.304">30.4 %</option>
+                                                                    <option [ngValue]="0.25">25 %</option>
+                                                                    <option [ngValue]="0.09">9 %</option>
+                                                                    <option [ngValue]="0.08">8 %</option>
+                                                                    <option [ngValue]="0.07">7 %</option>
+                                                                    <option [ngValue]="0.06">6 %</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="concepto-cell col-lg-3 col-md-0">
+                                                                <div class="concepto-cell concepto-cell-row">
+                                                                    <label for="ivaExcento[{{i}}]">IVA EXCENTO<font
+                                                                            color="red">*</font>
+                                                                    </label>
+                                                                    <input type="checkbox" formControlName="ivaExcento"
+                                                                        (change)="calculaTotales(i)"
+                                                                        class="form-control check"
+                                                                        id="ivaExcento[{{i}}]">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </dt>
+                                </dl>
+                                <dl class="row">
+                                    <dt class="col-sm-4">
+                                        <button type="button" (click)="addNewRow()" class="btn btn-colorblue"><i
+                                                class="fa fa-plus"></i> Agregar Concepto</button>
+                                    </dt>
+                                    <dt class="col-sm-8">
+                                    </dt>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Descuento
+                        <input type="text" formControlName="totaldescuento" style="color: darkgray;"
+                            class="form-control" id="totaldescuento" disabled>
+                    </div>
+                </dt>
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Motivo de Descuento
+                        <input type="text" formControlName="motivoDescuento" class="form-control" id="motivoDescuento">
+                    </div>
+                </dt>
+
+                <dt class="col-sm-4" id="totalivaret" style='display:none;'>
+                    <div class="form-group">
+                        Monto total IVA RETENIDO
+                        <input type="text" formControlName="totalivaretenido" style="color: darkgray;"
+                            class="form-control" id="totalivaretenido" disabled>
+                    </div>
+                </dt>
+                <dt class="col-sm-4" id="totalIeps" style='display:none;'>
+                    <div class="form-group">
+                        Monto total IEPS
+                        <input type="text" formControlName="totalIeps" style="color: darkgray;" class="form-control"
+                            id="totalIeps" disabled>
+                    </div>
+                </dt>
+                <dt class="col-sm-4" id="totalisrret" style='display:none;'>
+                    <div class="form-group">
+                        Monto total ISR
+                        <input type="text" formControlName="totalisrretenido" style="color: darkgray;"
+                            class="form-control" id="totalisrretenido" disabled>
+                    </div>
+                </dt>
+
+
+                <dt class="col-sm-4">
+                    <div class="form-group">
+                        Subtotal
+                        <font color="red">*</font>
+                        <input type="text" formControlName="subtotal" style="color: darkgray;" class="form-control" [ngClass]="{'alert-shadow-border': !formularioComprobanteFiscal.controls.subtotal.value, 'success-shadow-border': formularioComprobanteFiscal.controls.subtotal.value}"
+                            id="subtotal" disabled required>
+                    </div>
+                </dt>
+                <dt class="col-sm-4">
+                    <div class="form-group">
+                        Monto IVA
+                        <font color="red">*</font>
+                        <input type="text" formControlName="montoIva" class="form-control" [ngClass]="{'alert-shadow-border': !formularioComprobanteFiscal.controls.montoIva.value, 'success-shadow-border': formularioComprobanteFiscal.controls.montoIva.value}" style="color: darkgray;"
+                            id="montoIva" disabled required>
+                    </div>
+                </dt>
+                <dt class="col-sm-4">
+                    <div class="form-group">
+                        Total
+                        <font color="red">*</font>
+                        <input type="text" formControlName="total" style="color: darkgray;" class="form-control" [ngClass]="{'alert-shadow-border': !formularioComprobanteFiscal.controls.total.value, 'success-shadow-border': formularioComprobanteFiscal.controls.total.value}"
+                            id="total" disabled required>
+                    </div>
+                </dt>
+
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Forma de Pago
+                        <font color="red">*</font>
+
+                        <select formControlName="formaPago" class="form-control" [ngClass]="{'alert-shadow-border': formularioComprobanteFiscal.controls.formaPago.value == null, 'success-shadow-border': formularioComprobanteFiscal.controls.formaPago.value != null}" id="formaPago"
+                            (change)="formaPagoClic()" required>
+                            <option [ngValue]="null">Seleccione Forma de Pago</option>
+                            <option [ngValue]="1">Efectivo</option>
+                            <option [ngValue]="2">Cheque nominativo</option>
+                            <option [ngValue]="3">Transferencia electrónica de fondos</option>
+                            <option [ngValue]="4">Tarjeta de crédito</option>
+                            <option [ngValue]="5">Monedero electrónico</option>
+                            <option [ngValue]="6">Dinero electrónico</option>
+                            <option [ngValue]="7">Vales de despensa</option>
+                            <option [ngValue]="8">Dación en pago</option>
+                            <option [ngValue]="9">Pago por subrogación</option>
+                            <option [ngValue]="10">Pago por consignación</option>
+                            <option [ngValue]="11">Condonación</option>
+                            <option [ngValue]="12">Compensación</option>
+                            <option [ngValue]="13">Novación</option>
+                            <option [ngValue]="14">Confusión</option>
+                            <option [ngValue]="15">Remisión de deuda</option>
+                            <option [ngValue]="16">Prescripción o caducidad</option>
+                            <option [ngValue]="17">A satisfacción del acreedor</option>
+                            <option [ngValue]="18">Tarjeta de débito</option>
+                            <option [ngValue]="19">Tarjeta de servicios</option>
+                            <option [ngValue]="20">Por definir</option>
+                        </select>
+
+
+                        <!--<input type="text" formControlName="formaPago" class="form-control" id="formaPago" >-->
+                        <div *ngIf="formularioComprobanteFiscal.controls.formaPago.errors?.required && !formularioComprobanteFiscal.controls.formaPago.pristine"
+                            class="alert alert-danger">
+                            Forma de Pago es requerido
+                        </div>
+                    </div>
+                </dt>
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Condiciones de Pago
+                        <input type="text" formControlName="condicionPago" class="form-control" id="condicionPago"
+                            placeholder="De contado/En especie">
+                    </div>
+                </dt>
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Núm de cuenta de pago
+                        <input type="text" formControlName="numeroCuenta" class="form-control" id="numeroCuenta"
+                            placeholder="Banco/Cuenta">
+                    </div>
+                </dt>
+                <dt class="col-sm-6">
+                    <div class="form-group">
+                        Método de pago
+                        <font color="red">*</font>
+                        <select formControlName="metodoPago" class="form-control" [ngClass]="{'alert-shadow-border': formularioComprobanteFiscal.controls.metodoPago.value == null, 'success-shadow-border': formularioComprobanteFiscal.controls.metodoPago.value != null}" id="metodoPago" required>
+                            <option [ngValue]="null" disabled>{{'general.selectOption'|translate}}</option>
+                            <option [ngValue]="0">Pago en una sola exhibición</option>
+                            <option [ngValue]="1">Pago en parcialidades o diferido</option>
+                        </select>
+                        <div *ngIf="formularioComprobanteFiscal.controls.metodoPago.errors?.required && !formularioComprobanteFiscal.controls.metodoPago.pristine"
+                            class="alert alert-danger">
+                            Método de Pago es requerido
+                        </div>
+                    </div>
+                </dt>
+                <dt class="col-sm-12">
+                    <div class="form-group">
+                        Observaciones
+                        <input type="text" formControlName="observacion" class="form-control" id="observacion">
+                    </div>
+                </dt>
+            </dl>
+        </div>
+        <div class="modal-footer">
+            <div class="row row-footer">
+                <div class="conte left">
+                    <button type="button" class="btn btn-option" data-dismiss="modal"
+                        (click)="change(1)">Cancelar</button>
+                </div>
+                <div class="conte right" *ngIf="agregarTimbre == 1">
+                    <button id="savingwhitout" type="submit" class="btn btn-colorblue"
+                        [disabled]="!formularioComprobanteFiscal.valid || !isAllValidConcept">Guardar Comprobante Sin
+                        Timbrar</button>
+                    <button id="savingwhit" type="button" class="btn btn-colorblue"
+                        [disabled]="!formularioComprobanteFiscal.valid || !isAllValidConcept"
+                        (click)="onSubmitTimbrar('create')">Guardar
+                        Comprobante y timbrar</button>
+                </div>
+                <div class="conte right" *ngIf="agregarTimbre == 2">
+                    <button id="savingwhit" type="button" class="btn btn-colorblue"
+                        [disabled]="!formularioComprobanteFiscal.valid || !isAllValidConcept"
+                        (click)="onSubmitTimbrar('editar')">Guardar y
+                        Timbrar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--Add alert-->
+    <div class="modal" tabindex="-1" role="dialog" id="modalMensaje" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog " role="document">
+
+            <form [formGroup]="modalEnvioMail" id="successMail" (ngSubmit)="enviarComprobanteFiscal(entidad_elimar)">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mx-r" style='position:center;' id="tituloAlerta"></h5>
+                        <button type="button" class="close" (click)="isTimbrado()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-auto">
+                        <p style="height: 0px;"></p>
+                        <label style='position:center;' for="envioMail" translate>Se enviarán los archivos de
+                            Comprobantes Fiscales ya timbrados:<br>
+                            Correo(s) del receptor<font color="red">*</font> (puedes separarlos por comas)</label>
+                        <div>
+                            <input class="form-control" id="mails" type="text" name="direccionCorreo"
+                                formControlName="direccionMail" spellcheck="false">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-secondary mx-auto" [disabled]="!modalEnvioMail.valid"
+                            id="buttonAlert"></button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modalError" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog " role="document">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mx-r" style='position:center;' id="tituloAlerta"></h5>
+                    <button (click)="closeError()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-auto">
+                    <p style="height: 0px;"></p>
+                </div>
+                <div class="modal-footer">
+                    <button (click)="closeError()" class="btn btn-secondary mx-auto" id="buttonAlert"
+                        data-dismiss="modal"></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--Add alert-->
+</div>
+
+<div *ngIf="changeOption == 1">
+    <app-comprobantesfiscales></app-comprobantesfiscales>
+</div>

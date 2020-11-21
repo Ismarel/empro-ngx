@@ -1,12 +1,12 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 
 @Component({
-  selector: 'flat-buttons',
-  templateUrl: './flatButtons.html',
+    selector: 'flat-buttons',
+    templateUrl: './flatButtons.html',
 })
 export class FlatButtons {
 
-  constructor() {
-  }
+    constructor() {
+    }
 }

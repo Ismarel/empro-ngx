@@ -1,0 +1,9 @@
+@import '../../../theme/sass/conf/conf';
+@import '../../../pages/empresa/empresa.scss';
+
+.tableDatosGenerales{
+    overflow-wrap: break-word;
+    td{
+        padding: 10px;
+    }   
+}

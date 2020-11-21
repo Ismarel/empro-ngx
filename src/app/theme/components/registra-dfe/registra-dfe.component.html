@@ -1,0 +1,159 @@
+<div class="modal fade" id="dfeModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="overflow-y: auto;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close color" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="progress">
+            <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+              aria-valuemax="100" style="width:0%">
+              0%
+            </div>
+          </div>
+          <br>
+          <h1>
+            <span class="color">1. Datos fiscales de tu empresa</span>
+          </h1>
+          <br>
+          <h4>Es importante completar la información de tu empresa para utilizar EMPRO al 100%, poder facturar, registrar egresos
+            con CFDI´s y timbrar nómina.
+            <br>
+            <a>
+              <u>Me gustaría recibir asesoría para llenar estos datos.</u>
+            </a>
+          </h4>
+          <br>
+          <form [formGroup]="formDFE" (ngSubmit)="onSubmitDFE()" class="align-middle" novalidate>
+            <hr>
+            <div class="modal-body">
+              <dl class="row">
+                <dt class="col-sm-12">
+                  <div class="form-group ">
+                    RFC de la empresa
+                    <!-- <font color="red">*</font> -->
+                    <div style="display: inline">
+                      <a class="" tooltip-location="right" tooltip-animate tooltip="El RFC debe tener el siguiente formato: VECJ880326XXX donde XXX representan la Homoclave">
+                        <i class="fa fa-question-circle fa-lg text-primary "></i>
+                      </a>
+                    </div>
+                    <input [formControl]="rfc" type="text" class="form-control" id="resultRFC" minlength="10" maxlength="13" required (keyup)="onKey($event)" onkeyup="this.value=this.value.toUpperCase();" placeholder="VECJ880326XXX" disabled>
+                  </div>
+                </dt>
+                <dt class="col-sm-6">
+                  <div class="form-group">
+                    Registro Patronal
+                    <!-- <font color="red">*</font> -->
+                    <div style="display: inline;">
+                      <a class="" tooltip-location="right" tooltip-animate tooltip="Clave alfanumérica asignada por el IMSS a todo patrón persona moral o retenedor de cuotas obrero patronales y debe tener el siguiente formato: A10 10101 10 1">
+                        <i class="fa fa-question-circle fa-lg text-primary"></i>
+                      </a>
+                    </div>
+                    <input [formControl]="registroPatronal" type="text" class="form-control" maxlength="20" placeholder="A10 10101 10 1" (keyup)="activeRiesgo($event)" onkeyup="this.value=this.value.toUpperCase();">
+                  </div>
+                </dt>
+                <dt class="col-sm-6">
+                  <div class="form-group">
+                    Riesgo Puesto
+                    <!-- <font color="red">*</font> -->
+                    <div style="display: inline;">
+                      <a class="" tooltip-location="right" tooltip-animate tooltip="Clasificación establecida por el IMSS para cubrir el seguro de riesgos de trabajo según la actividad de la empresa">
+                        <i class="fa fa-question-circle fa-lg text-primary"></i>
+                      </a>
+                    </div>
+                    <!-- <autocomplete-generic entidad='riesgo' (onIdSelected)="onIdRiesgoSelected($event)" [enabled]="true" textplaceholder='Buscar riesgo'
+                      #autocompleteRiesgo required></autocomplete-generic> -->
+                    <select class="form-control" [formControl]="riesgoPuesto" placeholder='Buscar riesgo' disabled>
+                      <option value=0>Seleccione una opcion</option>
+                      <option value=1>Clase I</option>
+                      <option value=2>Clase II</option>
+                      <option value=3>Clase III</option>
+                      <option value=4>Clase IV</option>
+                      <option value=5>Clase V</option>
+                    </select>
+                  </div>
+                </dt>
+                <dt class="col-sm-12">
+                  <div class="form-group">
+                    <hr class="punteado">
+                  </div>
+                </dt>
+                <dt class="col-sm-12">
+                  <div class="form-group">
+                    <span class="text-primary">Dirección fiscal de la empresa</span>
+                    <div style="display: inline;">
+                      <a class="" tooltip-location="right" tooltip-animate tooltip="Es el domicilio del contribuyente o con el que se registro la empresa ante el SAT">
+                        <i class="fa fa-question-circle fa-lg text-primary"></i>
+                      </a>
+                    </div>
+                  </div>
+                </dt>
+                <dt class="col-sm-6">
+                  <div class="form-group">
+                    Calle
+                    <input [formControl]="calle" type="text" size="61" class="form-control" maxlength="100">
+                  </div>
+                </dt>
+                <dt class="col-sm-3">
+                  <div class="form-group">
+                    Núm. Exterior
+                    <input [formControl]="numExterior" type="text" size="61" class="form-control" maxlength="10">
+                  </div>
+                </dt>
+                <dt class="col-sm-3">
+                  <div class="form-group">
+                    Núm. Interior
+                    <input [formControl]="numInterior" type="text" size="61" class="form-control" maxlength="10">
+                  </div>
+                </dt>
+                <dt class="col-sm-6">
+                  <div class="form-group">
+                    Código Postal
+                    <font color="red">*</font>
+                    <autocomplete-generic entidad='codigopostal' (onIdSelected)="onCodigoPostalSelected($event)" [enabled]="true" textplaceholder='Buscar codigo Postal'
+                      #autocompleteCodigoPostal required></autocomplete-generic>
+                  </div>
+                </dt>
+                <dt class="col-sm-12">
+                  <div class="form-group">
+                    <hr class="punteado">
+                    <br>
+                  </div>
+                </dt>
+                <dt class="col-sm-12">
+                  <div class="form-group">
+                    ¿Tienes varias sucursales?
+                    <font color="red">*</font>
+                    <input type="radio" value=""  (click)="checkSucursal()" name="optradio">Si
+                    <input type="radio" value="" (click)="checkSucursal()" name="optradio">No
+                  </div>
+                </dt>
+              </dl>
+            </div>
+            <div class="align-middle">
+              <button type="button" class="btn btn-warning" disabled>Regresar</button>
+              <button type="submit" class="btn btn-primary">Continuar</button>
+            </div>
+            <br>
+            <div class="align-middle">
+              <button type="button" class="btn btn-cancelar" (click)="btnOM()">Hacerlo en otro momento</button>
+            </div>
+          </form>
+          <br>
+          <br>
+          <br>
+          <div class="alert alert-warning" *ngIf="error == true">
+            <label for="">{{mensajeError}}
+              <font *ngIf="showRed == si" color="red">*</font>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

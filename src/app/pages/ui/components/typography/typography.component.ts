@@ -1,12 +1,12 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 
 @Component({
-  selector: 'typography',
-  templateUrl: './typography.html',
+    selector: 'typography',
+    templateUrl: './typography.html',
 })
 export class Typography {
 
-  constructor() {
-  }
+    constructor() {
+    }
 }

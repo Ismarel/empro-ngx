@@ -1,53 +1,160 @@
 <div class="auth-main">
-  <div class="auth-block">
-    <h1>Sign up to ng2-admin</h1>
-    <a routerLink="/login" class="auth-link">Already have an ng2-admin account? Sign in!</a>
+    <div class="auth-block">
+        <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="tab-content tab-sliding" data-swipe="right">
+                    <div id="modal-tab-register" class="tab-pane active show">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="text-center esp">Regístrate</h1>
+                                <button type="button" class="close color" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body ">
+                                <div>
+                                    <br>
+                                    <h3 class="espa">Con este registro podrás contar inmediatamente con los beneficios
+                                        de
+                                        EMPRO</h3>
+                                    <br>
+                                    <br>
+                                </div>
+                                <div class="container">
+                                    <div class="row vdivide">
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
-      <div class="form-group row" [ngClass]="{'has-error': (!name.valid && name.touched), 'has-success': (name.valid && name.touched)}">
-        <label for="inputName3" class="col-sm-2 control-label">Name</label>
+                                        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)"
+                                            class="form-horizontal" style="margin: auto;">
+                                            <div class="padre">
+                                                <div class="float-left">
 
-        <div class="col-sm-10">
-          <input [formControl]="name" type="text" class="form-control" id="inputName3" placeholder="Full Name">
+                                                    <div class="form-group row col-lg-12"
+                                                        [ngClass]="{'has-error': (!name.valid && name.touched), 'has-success': (name.valid && name.touched)}">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-user fa-2x"></i>
+                                                            </span>
+                                                            <input [formControl]="name" type="text" class="form-control"
+                                                                id="inputName3" placeholder="Tu nombre">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row col-lg-12"
+                                                        [ngClass]="{'has-error': (!empresa.valid && empresa.touched), 'has-success': (empresa.valid && empresa.touched)}">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-building fa-2x"></i>
+                                                            </span>
+                                                            <input [formControl]="empresa" type="text"
+                                                                class="form-control" id="inputEmpresa3"
+                                                                placeholder="Nombre de tu empresa">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row col-lg-12"
+                                                        [ngClass]="{'has-error': (!rfc.valid && rfc.touched), 'has-success': (rfc.valid && rfc.touched)}">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-building fa-2x"></i>
+                                                            </span>
+                                                            <input [formControl]="rfc" type="text" class="form-control"
+                                                                id="inputRfc3" placeholder="RFC" minlength="10"
+                                                                maxlength="13" required (keyup)="onKey($event)"
+                                                                onkeyup="this.value=this.value.toUpperCase();">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row col-lg-12"
+                                                        [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-envelope fa-2x"></i>
+                                                            </span>
+                                                            <input [formControl]="email" type="email"
+                                                                class="form-control" id="inputEmail3"
+                                                                placeholder="Email">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row col-lg-12"
+                                                        [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-key fa-2x"></i>
+                                                            </span>
+                                                            <input [formControl]="password" type="password"
+                                                                class="form-control" id="inputPassword3"
+                                                                placeholder="Contraseña">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row col-lg-12"
+                                                        [ngClass]="{'has-error': (!repeatPassword.valid && repeatPassword.touched), 'has-success': (repeatPassword.valid && repeatPassword.touched)}">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-key fa-2x"></i>
+                                                            </span>
+                                                            <input [formControl]="repeatPassword" type="password"
+                                                                class="form-control" id="inputPassword4"
+                                                                placeholder="Confirmar">
+                                                        </div>
+                                                        <span
+                                                            *ngIf="!passwords.valid && (password.touched || repeatPassword.touched)"
+                                                            class="help-block sub-little-text">Las contraseñas no
+                                                            coinciden</span>
+                                                    </div>
+
+                                                    <div>
+                                                        <h6>
+                                                            <span style="color: red">*</span> Datos requeridos</h6>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-10" style="margin: auto;">
+                                                            <button [disabled]="!form.valid" type="submit"
+                                                                class="btn-lg btn-primary btn-auth"
+                                                                data-dismiss="registroModal">Registrarme</button>
+                                                            <br>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <h4>Al dar clic en el botón Registrarme aceptas
+                                                            <a id="terminos-button" href="#" data-toggle="tab"
+                                                                data-target="#modal-tab-terminos" class="toggletab">los
+                                                                Términos y condiciones de EMPRO</a>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="alert alert-danger" *ngIf="mensajeError">
+                                                        {{mensajeError}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="modal-tab-terminos" class="tab-pane" data-swipe-prev="#modal-tab-register">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="position-tl ml-0 mt-0 mt-lg-0" style="position: absolute;opacity: .2;">
+                                    <a href="#" class="btn toggletab" data-toggle="tab" data-target="#modal-tab-register" style="color: white;"><i
+                                            class="fa fa-arrow-left"></i></a>
+                                </div>
+                                <h1 class="text-center espa">Aviso de Privacidad</h1>
+                            </div>
+                            <div class="modal-body" style="padding: 0px;">
+                                <iframe src="assets/images/avisoPrivacidad.pdf#toolbar=0&navpanes=0&statusbar=0" width="100%" height="768px">
+                                    This browser does not support PDFs
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="form-group row" [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
-        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-
-        <div class="col-sm-10">
-          <input [formControl]="email" type="email" class="form-control" id="inputEmail3" placeholder="Email">
-        </div>
-      </div>
-      <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
-        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-
-        <div class="col-sm-10">
-          <input [formControl]="password" type="password" class="form-control" id="inputPassword3" placeholder="Password">
-        </div>
-      </div>
-      <div class="form-group row" [ngClass]="{'has-error': (!repeatPassword.valid && repeatPassword.touched), 'has-success': (repeatPassword.valid && repeatPassword.touched)}">
-        <label for="inputPassword4" class="col-sm-2 control-label">Repeat</label>
-
-        <div class="col-sm-10">
-          <input [formControl]="repeatPassword" type="password" class="form-control" id="inputPassword4" placeholder="Repeat">
-          <span *ngIf="!passwords.valid && (password.touched || repeatPassword.touched)" class="help-block sub-little-text">Passwords don't match.</span>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="offset-sm-2 col-sm-10">
-          <button [disabled]="!form.valid" type="submit" class="btn btn-default btn-auth">Sign up</button>
-        </div>
-      </div>
-    </form>
-
-    <div class="auth-sep"><span><span>or Sign up with one click</span></span></div>
-
-    <div class="al-share-auth">
-      <ul class="al-share clearfix">
-        <li><i class="socicon socicon-facebook" title="Share on Facebook"></i></li>
-        <li><i class="socicon socicon-twitter" title="Share on Twitter"></i></li>
-        <li><i class="socicon socicon-google" title="Share on Google Plus"></i></li>
-      </ul>
     </div>
-  </div>
 </div>

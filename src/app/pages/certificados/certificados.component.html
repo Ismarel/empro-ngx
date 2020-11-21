@@ -1,0 +1,153 @@
+<div class="container-fluid">
+    <!-- Start Search Tabla -->
+    <div class="top_table row">
+        <div class="col-xs-8 col-sm-8 col-md-4">
+            <form [formGroup]="formularioFilterQuery" novalidate>
+                <div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="search" class="form-control" placeholder="Buscar en esta lista..." formControlName="query">
+                </div>
+            </form>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 offset-md-4">
+            <div class="button">
+                <button class="btn btn-colorblue btn-raised fa fa-plus" (click)="prepareAdd()" data-toggle="modal" data-target="#Certificado" translate> {{'certificado.title'}}</button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <!-- End Search Tabla -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-vcenter tableDatosGenerales">
+            <thead>
+                <tr>
+                    <th>
+                        <sorter-table by='numeroCertificado' [currentSort]="sortBy" (onSort)="onSort($event)">Numero de Certificado</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='validoDesde' [currentSort]="sortBy" (onSort)="onSort($event)">Válido Desde</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='validoHasta' [currentSort]="sortBy" (onSort)="onSort($event)">Válido Hasta</sorter-table>
+                    </th>
+                    <th>
+                        <sorter-table by='archivoLlave' [currentSort]="sortBy" (onSort)="onSort($event)">Nombre Archivo Llave</sorter-table>
+                    </th>
+                    <th style="min-width: 100px">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of data |paginate: { itemsPerPage: rowsOnPage, currentPage: page, totalItems: totalCertificados }">
+                    <td *ngIf="item.validoHasta > currentDate" scope="row">{{item.numeroCertificado}}</td>
+                    <td *ngIf="item.validoHasta > currentDate">{{item.validoDesde | date:"dd/MM/yyyy"}}</td>
+                    <td *ngIf="item.validoHasta > currentDate">{{item.validoHasta | date:"dd/MM/yyyy"}}</td>
+                    <td *ngIf="item.validoHasta > currentDate">{{item.archivoLlave}}</td>
+                    <td *ngIf="item.validoHasta > currentDate" class="text-center">
+                        <button type="button" (click)="prepareEdit(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#Certificado"><i class="fa fa-pencil"></i></button>
+                        <button type="button" (click)="onClick_elim(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#eliminarCertificado"><i class="fa fa-trash"></i></button>
+                    </td>
+
+                    <td *ngIf="currentDate > item.validoHasta" style="background-color: #ff000059; position: relative; padding-top: 15px;" scope="row">
+                        <a class="" tooltip-location="right" tooltip-animate tooltip="El certificado caduco y no es valido" style="position: absolute; left: 3px; top: -3px; border-bottom: #ff000000">
+                            <i class="fa fa-question-circle fa-lg" style="color: red;"></i>
+                        </a>{{item.numeroCertificado}}
+                    </td>
+                    <td *ngIf="currentDate > item.validoHasta" style="background-color: #ff000059; padding-top: 15px;">{{item.validoDesde | date:"dd/MM/yyyy"}}</td>
+                    <td *ngIf="currentDate > item.validoHasta" style="background-color: #ff000059; padding-top: 15px;">{{currentDate | date:"dd/MM/yyyy"}}</td>
+                    <td *ngIf="currentDate > item.validoHasta" style="background-color: #ff000059; padding-top: 15px;">{{item.archivoLlave}}</td>
+                    <td *ngIf="currentDate > item.validoHasta" style="background-color: #ff000059; padding-top: 15px;" class="text-center">
+                        <button type="button" (click)="prepareEdit(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#Certificado"><i class="fa fa-pencil"></i></button>
+                        <button type="button" (click)="onClick_elim(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#eliminarCertificado"><i class="fa fa-trash"></i></button>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal_agregar/ EDITAR '_' -->
+    <div class="modal fade" id="Certificado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel" translate>{{!isEdit?'Agregar certificado':'Editar certificado'}}</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form [formGroup]="formCertificado" (ngSubmit)="onSubmitCertificados()" novalidate>
+
+                    <div class="modal-body">
+
+                        <dl class="row">
+                            <dt class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="archivoCer">Subir el archivo del Certificado o sello digital</label>
+                                    <font color="red">*</font>
+                                    <small id="fileHelp" class="form-text text-muted">Archivo con extensión .cer</small>
+                                    <!--<input type="file" accept=".cer" class="form-control-file" id="archivoCer" formControlName="archivoCer" aria-describedby="fileHelp" required>-->
+                                    <input type="file" accept=".cer" class="form-control-file" id="archivoCer" formControlName="archivoCer" aria-describedby="fileHelp" (change)="onFileUpload($event, 'certificado')" required>
+                                </div>
+                            </dt>
+                            
+                            <dt class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="archivoLlave">Subir el archivo de la llave privada de sello digital</label>
+                                    <font color="red">*</font>
+                                    <small id="fileHelp" class="form-text text-muted">Archivo con extensión .key</small>
+                                    <!--<input type="file" accept=".key" class="form-control-file" id="archivoLlave" formControlName="archivoLlave" aria-describedby="fileHelp" required>-->
+                                    <input type="file" accept=".key" class="form-control-file" id="archivoLlave" formControlName="archivoLlave" aria-describedby="fileHelp" (change)="onFileUpload($event, 'llave')" required>
+                                </div>
+                            </dt>
+
+                            <dt class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="password">Contraseña</label>
+                                    <font color="red">*</font>
+                                    <input class="form-control success" type="password" formControlName="password" required (keyup)="checkPassword($event)">
+                                    <div *ngIf="formCertificado.controls.password.errors?.required && !formCertificado.controls.password.pristine" class="alert alert-danger">
+                                        Contraseña es requerida
+                                    </div>
+                                    <div *ngIf="pass == false" class="alert alert-danger">
+                                        La contraseña no pueden ser solo espacios
+                                    </div>
+                                </div>
+                            </dt>
+
+                        </dl>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-colorblue btn-raised" [disabled]="!formCertificado.valid">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal_eliminar -->
+    <div class="modal fade" id="eliminarCertificado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel">Borrar Certificado</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de querer borrar el certificado {{entidad_elimar?.numeroCertificado}}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+                    <button type="button" (click)="removeCertificado(entidad_elimar?.id)" class="btn btn-colorblue btn-raised">Borrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

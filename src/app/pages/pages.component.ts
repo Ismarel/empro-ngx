@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { Routes } from '@angular/router';
+import { Routes, Router } from '@angular/router';
 
 import { BaMenuService } from '../theme';
 import { PAGES_MENU } from './pages.menu';
 
 @Component({
-  selector: 'pages',
-  template: `
+    selector: 'pages',
+    template: `
     <ba-sidebar></ba-sidebar>
     <ba-page-top></ba-page-top>
     <div class="al-main">
@@ -15,27 +15,29 @@ import { PAGES_MENU } from './pages.menu';
         <router-outlet></router-outlet>
       </div>
     </div>
-    <footer class="al-footer clearfix">
-      <div class="al-footer-right" translate>{{'general.created_with'}} <i class="ion-heart"></i></div>
-      <div class="al-footer-main clearfix">
-        <div class="al-copy">&copy; <a href="http://akveo.com" translate>{{'general.akveo'}}</a> 2016</div>
-        <ul class="al-share clearfix">
-          <li><i class="socicon socicon-facebook"></i></li>
-          <li><i class="socicon socicon-twitter"></i></li>
-          <li><i class="socicon socicon-google"></i></li>
-          <li><i class="socicon socicon-github"></i></li>
-        </ul>
-      </div>
+    <footer class="al-footer clearfix container" style="position: fixed">
+      <span class="left">© 2016, Derechos reservados EMPRO</span>
+      <!--<span class="center">Desarrollado por <font color="green">Nordstern Technologies</font></span>-->
+      <span class="right">Términos y condiciones | Aviso de privacidad</span>
     </footer>
     <ba-back-top position="200"></ba-back-top>
-    `
+    `,
 })
-export class Pages {
+export class PagesComponent {
 
-  constructor(private _menuService: BaMenuService,) {
-  }
+    constructor(private _menuService: BaMenuService, private router: Router) {
+    }
 
-  ngOnInit() {
-    this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU);
-  }
+    ngOnInit() {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            // console.log('**** token:', token);
+            this._menuService.updateMenuByRoutes(<Routes>PAGES_MENU);
+        } else {
+            // console.log('usuario no valido');
+            this.router.navigate(['login']);
+        }
+
+    }
 }

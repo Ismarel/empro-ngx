@@ -1,0 +1,441 @@
+<br>
+<br>
+<hr>
+<!--///////////////////////////////////////////////////-->
+<!--Agregar-->
+<div class="" id="agregarTrabajador" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form [formGroup]="myGroupTrabajadores" (ngSubmit)="agregarTrabajador()">
+        <div class="padre">
+            <!--Empiezan Datos Personales-->
+            <div class="hijo">
+                <div class="">
+                    <div class="">
+                        <div class="">
+                            <div class="col-12 color">
+                                <h2>Datos Personales</h2>
+                            </div>
+                        </div>
+                        <div class="">
+                            <br>
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!nombre.valid && nombre.touched), 'has-success': (nombre.valid && nombre.touched)}">
+                                        <label for="nombre" class="esp">Nombre del trabajador <font color="red">*</font> </label>
+                                        <input [formControl]="nombre" type="text" class="form-control" id="nombre" maxlength="110">
+                                        <!-- <div *ngIf="myGroupTrabajadores.controls.nombre.errors?.required" class="alert alert-danger">
+                      El nombre es requerido
+                    </div> -->
+                                    </div>
+
+                                </div>
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!correo.valid && correo.touched), 'has-success': (correo.valid && correo.touched)}">
+                                        <label for="correo" class="esp">Correo (personal o de la empresa) <font color="red">*</font> </label>
+                                        <input [formControl]="correo" type="email" class="form-control" id="correo" maxlength="60">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!rfc.valid && rfc.touched), 'has-success': (rfc.valid && rfc.touched)}">
+                                        <label for="rfc" class="esp">RFC <font color="red">*</font> </label>
+                                        <!--<input [formControl]="rfc" type="text" class="form-control" id="rfc" maxlength="13" onkeyup="this.value=this.value.toUpperCase();" >-->
+                                        <input type="text" [formControl]="rfc" class="form-control" id="rfc" minlength="10" maxlength="13" required (keyup)="onKey($event)" onkeyup="this.value=this.value.toUpperCase();">
+                                        <!-- {{myGroupTrabajadores.controls.rfc.valid}} -->
+                                    </div>
+                                </div>
+                                <div class="hijo_a col-md-6 col-12">
+
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!calle.valid && calle.touched), 'has-success': (calle.valid && calle.touched)}">
+                                        <label for="calle" class="esp">Calle</label>
+                                        <input [formControl]="calle" type="text" class="form-control" id="calle" maxlength="150">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+                                <div class="hijo_a col-sm-4 col-6">
+                                    <div class="form-group float-left col-lg-6" [ngClass]="{'has-error': (!numeroExterior.valid && numeroExterior.touched), 'has-success': (numeroExterior.valid && numeroExterior.touched)}">
+                                        <label for="numeroExterior">Num. Exterior</label>
+                                        <font color="red">*</font>
+                                        <input [formControl]="numeroExterior" type="text" class="form-control" id="numeroExterior" maxlength="10">
+                                    </div>
+                                </div>
+                                <div class="hijo_a col-sm-4 col-6">
+                                    <div class="form-group float-left col-lg-6" [ngClass]="{'has-error': (!numeroInterior.valid && numeroInterior.touched), 'has-success': (numeroInterior.valid && numeroInterior.touched)}">
+                                        <label for="numeroInterior">Num. Interior</label>
+                                        <input [formControl]="numeroInterior" type="text" class="form-control" id="numeroInterior" maxlength="10">
+                                    </div>
+                                </div>
+                                <div class="hijo_a col-sm-4 col-12">
+                                    <!-- [ngClass]="{'has-error': (!cp.valid && cp.touched), 'has-success': (cp.valid && cp.touched)}" -->
+                                    <div class="form-group float-right col-lg-12">
+                                        <label for="lugarExpedicion">Código postal <font color="red">*</font></label>
+                                        <autocomplete-generic (onIdSelected)="onCodigoPostalSelected($event)" entidad='codigopostal' [enabled]="true" textplaceholder='Buscar...' #autocompleteCodigoPostal></autocomplete-generic>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!colonia.valid && colonia.touched), 'has-success': (colonia.valid && colonia.touched)}">
+                                        <label for="colonia" class="esp">Colonia</label>
+                                        <select [formControl]="colonia" class="form-control" id="colonia">
+                                            <option [ngValue]="0" disabled>{{'general.selectOption'|translate}}</option>
+                                            <option *ngFor="let colonia of colonias" [ngValue]="colonia">{{colonia}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!localidad.valid && localidad.touched), 'has-success': (localidad.valid && localidad.touched)}">
+                                        <label for="localidad" class="esp">Localidad</label>
+                                        <input [formControl]="localidad" type="text" class="form-control" id="localidad" maxlength="100">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!municipio.valid && municipio.touched), 'has-success': (municipio.valid && municipio.touched)}">
+                                        <label for="municipio" class="esp">Delegación o Municipio</label>
+                                        <input [formControl]="municipio" type="text" class="form-control" id="municipio" disabled>
+                                    </div>
+                                </div>
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!estado.valid && estado.touched), 'has-success': (estado.valid && estado.touched)}">
+                                        <label for="estado" class="esp">Estado<font color="red">*</font></label>
+                                        <input [formControl]="estado" type="text" class="form-control" id="estado" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!pais.valid && pais.touched), 'has-success': (pais.valid && pais.touched)}">
+                                        <label for="pais" class="esp">País</label>
+                                        <input [formControl]="pais" type="text" class="form-control" id="pais" maxlength="100">
+                                    </div>
+                                </div>
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!referencia.valid && referencia.touched), 'has-success': (referencia.valid && referencia.touched)}">
+                                        <label for="referencia" class="esp">Referencia (Entre que calles, transporte, etc.)</label>
+                                        <input [formControl]="referencia" type="text" class="form-control" id="referencia" maxlength="180">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+                                <div class="hijo_a col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!correosExtras.valid && correosExtras.touched), 'has-success': (correosExtras.valid && correosExtras.touched)}">
+                                        <label for="correosExtras" class="esp">Correo(s) Extra (separados por coma)</label>
+                                        <input [formControl]="correosExtras" type="text" formControlName="correosExtras" size="61" class="form-control" id="correosExtras" maxlength="200">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Acaban Datos Personales-->
+            <hr class="borde">
+            <!--Empiezan Datos Laborales-->
+            <div class="hijo">
+                <div class="">
+                    <div class="">
+                        <div class="">
+                            <div class="col-12 color">
+                                <h2>Datos Laborales</h2>
+                            </div>
+                        </div>
+                        <div class="">
+                            <br>
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12">
+
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!registroPatronal.valid && registroPatronal.touched), 'has-success': (registroPatronal.valid && registroPatronal.touched)}">
+                                        <label for="registroPatronal" class="esp">Registro Patronal</label>
+                                        <input [formControl]="registroPatronal" type="text" class="form-control" id="registroPatronal" maxlength="15" style="color: darkgray;" disabled>
+                                    </div>
+                                </div>
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!numeroEmpleado.valid && numeroEmpleado.touched), 'has-success': (numeroEmpleado.valid && numeroEmpleado.touched)}">
+                                        <label for="numeroEmpleado" class="esp">Número de empleado <font color="red">*</font> </label>
+                                        <input [formControl]="numeroEmpleado" type="number" class="form-control" id="numeroEmpleado" maxlength="11" min="0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!curp.valid && curp.touched), 'has-success': (curp.valid && curp.touched)}">
+                                        <label for="curp" class="esp">CURP <font color="red">*</font> </label>
+                                        <input [formControl]="curp" type="text" class="form-control" id="curp" maxlength="18" onkeyup="this.value=this.value.toUpperCase();">
+                                    </div>
+                                </div>
+
+                                <div class="hijo_a col-md-6 col-12">
+                                    <!-- [ngClass]="{'has-error': (!tipoRegimen.valid && tipoRegimen.touched), 'has-success': (tipoRegimen.valid && tipoRegimen.touched)}" -->
+                                    <div class="form-group float-right col-lg-12">
+                                        <label for="tipoRegimen" class="esp">Tipo de régimen <font color="red">*</font></label>
+                                        <select class="form-control" [formControl]="tipoRegimen" (ngModelChange)="onTipoRegimenChanged($event)">
+                                            <option value="">Seleccione Opcion</option>
+                                            <option value="0">Sueldos y Salarios</option>
+                                            <option value="1">Ingresos Asimilados a Salarios</option>
+                                        </select>
+                                        <!-- <input [formControl]="tipoRegimen" type="text" class="form-control" id="tipoRegimen"> -->
+                                        <!-- <autocomplete-generic entidad='regimenes' (onIdSelected)="onIdRegimenesSelected($event)" [enabled]="true" textplaceholder='Buscar regimen'
+                      #autocompleteAddRegimenes></autocomplete-generic>-->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="padre_a row">
+
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!nss.valid && nss.touched), 'has-success': (nss.valid && nss.touched)}">
+                                        <label for="nss" class="esp">Número de Seguridad Social <font color="red">*</font> </label>
+                                        <input [formControl]="nss" type="text" class="form-control" id="nss" minlength="11" maxlength="11">
+                                    </div>
+
+                                </div>
+
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!departamento.valid && departamento.touched), 'has-success': (departamento.valid && departamento.touched)}">
+                                        <label for="departamento" class="esp">Área o departamento de la empresa <font color="red">*</font> </label>
+                                        <input [formControl]="departamento" type="text" class="form-control" id="departamento">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!claveInterbancaria.valid && claveInterbancaria.touched), 'has-success': (claveInterbancaria.valid && claveInterbancaria.touched)}">
+                                        <label for="claveInterbancaria" class="esp">CLABE INTERBANCARIA</label>
+                                        <input [formControl]="claveInterbancaria" type="text" class="form-control" id="claveInterbancaria" maxlength="17">
+                                    </div>
+                                </div>
+
+                                <div class="hijo_a col-md-6 col-12">
+                                    <!-- [ngClass]="{'has-error': (!banco.valid && banco.touched), 'has-success': (banco.valid && banco.touched)}" -->
+                                    <div class="form-group float-right col-lg-12">
+                                        <label for="banco" class="esp">Banco</label>
+                                        <autocomplete-generic entidad='bancos' (onIdSelected)="onBancoSelected($event)" [enabled]="true" textplaceholder='Buscar banco' #autocompleteBanco></autocomplete-generic>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!fechaInicioLaboral.valid && fechaInicioLaboral.touched), 'has-success': (fechaInicioLaboral.valid && fechaInicioLaboral.touched)}">
+                                        <label for="fechaInicioLaboral" class="esp">Fecha inicio relación laboral <font color="red">*</font></label>
+                                        <input [formControl]="fechaInicioLaboral" type="date" class="form-control" id="fechaInicioLaboral">
+                                    </div>
+
+                                </div>
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!puesto.valid && puesto.touched), 'has-success': (puesto.valid && puesto.touched)}">
+                                        <label for="puesto" class="esp">Puesto <font color="red">*</font> </label>
+                                        <input [formControl]="puesto" type="text" class="form-control" id="puesto" maxlength="100">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12">
+                                    <!-- [ngClass]="{'has-error': (!tipoContrato.valid && tipoContrato.touched), 'has-success': (tipoContrato.valid && tipoContrato.touched)}" -->
+                                    <div class="form-group float-left col-lg-12">
+                                        <label for="tipoContrato" class="esp">Tipo contrato <font color="red">*</font></label>
+                                        <autocomplete-generic entidad='tipoContratos' (onIdSelected)="onTipoContratoSelected($event)" [enabled]="true" textplaceholder='Buscar tipo de contrato' #autocompleteTipoContrato></autocomplete-generic>
+                                    </div>
+                                </div>
+
+                                <div class="hijo_a col-md-6 col-12">
+                                    <!-- [ngClass]="{'has-error': (!jornada.valid && jornada.touched), 'has-success': (jornada.valid && jornada.touched)}" -->
+                                    <div class="form-group float-right col-lg-12">
+                                        <label for="jornada" class="esp">Tipo jornada <font color="red">*</font></label>
+                                        <!--<autocomplete-generic entidad='jornadas' (onIdSelected)="onTipoJornadaSelected($event)" [enabled]="true" textplaceholder='Buscar tipo de jornada'
+                      #autocompleteJornada></autocomplete-generic>-->
+                                        <select class="form-control" [formControl]="jornada">
+                                            <option value="">Seleccione Opcion</option>
+                                            <option value="{{jornada.value}}" *ngFor="let jornada of jornadas">{{jornada.label}}</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!horasDia.valid && horasDia.touched), 'has-success': (horasDia.valid && horasDia.touched)}">
+                                        <label for="horasDia" class="esp">Horas de trabajo al día</label>
+                                        <input [formControl]="horasDia" type="number" class="form-control" id="horasDia" min="0">
+                                    </div>
+                                </div>
+
+                                <div class="hijo_a col-md-6 col-12">
+                                    <!-- [ngClass]="{'has-error': (!periodicidad.valid && periodicidad.touched), 'has-success': (periodicidad.valid && periodicidad.touched)}" -->
+                                    <div class="form-group float-right col-lg-12">
+                                        <label for="periodicidad" class="esp">Perioricidad Pago <font color="red">*</font></label>
+                                        <!-- <autocomplete-generic entidad='periodicidad' (onIdSelected)="onPeriodicidadSelected($event)" [enabled]="true" textplaceholder='Buscar tipo de periodicidad'
+                      #autocompletePeriodicidad></autocomplete-generic> -->
+                                        <select class="form-control" [formControl]="periodicidad">
+                                            <option value="1">Diario</option>
+                                            <option value="2">Semanal</option>
+                                            <option value="3">Quincenal</option>
+                                            <option value="4">Mensual</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="padre_a row">
+
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!salarioDiario.valid && salarioDiario.touched), 'has-success': (salarioDiario.valid && salarioDiario.touched)}">
+                                        <label for="salarioDiario" class="esp">Salario Diario <font color="red">*</font></label>
+                                        <input [formControl]="salarioDiario" type="number" class="form-control" min="0">
+                                    </div>
+                                </div>
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!salarioBase.valid && salarioBase.touched), 'has-success': (salarioBase.valid && salarioBase.touched)}">
+                                        <label for="salarioBase" class="esp">Salario base de cotización <font color="red">*</font> </label>
+                                        <input [formControl]="salarioBase" type="number" class="form-control" id="salarioBase" min="0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-left col-lg-12" *ngIf="sucursales">
+                                        <label for="sucursal" class="esp">Sucursal donde labora <font color="red">*</font></label>
+                                        <input [formControl]="sucursal" type="text" class="form-control" id="sucursal">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="borde">
+
+                            <div class="padre_a row">
+                                <div class="col-12 color">
+                                    <h2>Deducciones y Percepciones</h2>
+                                </div>
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12">
+                                        <label for="deducciones" class="esp">Deducciones</label>
+                                        <input style="margin-bottom: 15px;" type="text" class="form-control" placeholder="IMMS" disabled>
+                                        <input style="margin-bottom: 15px;" type="text" class="form-control" placeholder="ISR" disabled>
+                                        <input style="margin-bottom: 15px;" type="text" class="form-control" placeholder="Vejez" disabled>
+
+
+                                        <form [formGroup]="dedForm">
+                                            <div formArrayName="itemRows">
+                                                <div *ngFor="let itemrow of dedForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <select formControlName="deduccion" class="form-control" id="deduccion">
+                                                                    <option [ngValue]="0" selected disabled>{{'general.selectOption'|translate}}</option>
+                                                                    <option *ngFor="let deduccion of deducciones" [ngValue]="deduccion">{{deduccion}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <button *ngIf="dedForm.controls.itemRows.controls.length >= 1" (click)="deleteDeduccion(i)" class="btn btn-danger">X</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+
+
+                                        <div class="button" style="padding-top: 20px;">
+                                            <button class="btn btn-colorblue btn-raised fa fa-plus" (click)="addDeduccion()" style="margin-bottom: 15px;" translate> Agregar Deducción</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="hijo_a col-md-6 col-12">
+                                    <div class="form-group float-right col-lg-12">
+                                        <label for="percepciones" class="esp">Percepciones</label>
+
+                                        <form [formGroup]="perForm">
+                                            <div formArrayName="itemRows">
+                                                <div *ngFor="let itemrow of perForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <!-- <input type="text" formControlName="percepcion" placeholder="Busca percepción..." class="form-control" id="percepcion[{{i}}]"> -->
+                                                                <select [formControl]="percepcion" class="form-control" id="percepcion">
+                                                                    <option [ngValue]="0" disabled>{{'general.selectOption'|translate}}</option>
+                                                                    <option *ngFor="let percepcion of percepciones" [ngValue]="percepcion">{{percepcion}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <button *ngIf="perForm.controls.itemRows.controls.length >= 1" (click)="deletePercepcion(i)" class="btn btn-danger">X</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+
+                                        <div class="button" style="padding-top: 20px;">
+                                            <button class="btn btn-colorblue btn-raised fa fa-plus" (click)="addNewPercepcion()" style="margin-bottom: 15px;" translate> Agregar Percepción</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Empieza Rounded switch -->
+                            <div class="padre_a row">
+                                <div class="hijo_a col-md-6 col-12 button">
+                                    <div class="switch-left">
+                                        <label for="">De Confianza <font color="red">*</font></label>
+                                    </div>
+                                    <div class="switch-center" [ngClass]="{'has-error': (!tipoTrabajador.valid && tipoTrabajador.touched), 'has-success': (tipoTrabajador.valid && tipoTrabajador.touched)}">
+                                        <label class="switch">
+                                            <input [formControl]="tipoTrabajador" type="checkbox" id="tipoTrabajador" checked="false" value="false">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <div class="switch-right">
+                                        <label for="" class="esp">Sindicalizado <font color="red">*</font></label>
+                                    </div>
+                                </div>
+                                <div class="hijo_a col-md-6 col-12 button" style="justify-content: space-around;">
+                                    <div class="hijo float-left">
+                                        <button type="button" class="btn btn-secondary" (click)="cambio('1')">Cancelar</button>
+                                    </div>
+                                    <div class="hijo float-left">
+                                        <button [disabled]="!myGroupTrabajadores.valid" type="submit" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Acaba Rounded switch -->
+                            <!-- Empieza Mensaje de error -->
+                            <div class="padre_a pie">
+                                <div class="hijo_a float-none">
+                                    <div class="alert alert-danger text-center" *ngIf="mensajeError">
+                                        {{mensajeError}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Termina Mensaje de error -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Acaban Datos Laborales-->
+        </div>
+    </form>
+</div>

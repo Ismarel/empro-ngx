@@ -1,0 +1,82 @@
+@import '../../theme/sass/conf/conf';
+@import '../../pages/empresa/empresa.scss';
+
+.tableDatosGenerales .table-cancel {
+    background-color: #f2dede;
+    background: url("../../../assets/icon/cancelstamp.png"), #f2dede;
+}
+
+.tableDatosGenerales .waitcanceled {
+    -webkit-animation: fundocor 3s linear 0s infinite alternate;
+    /* chamada para Chrome, Safari, Opera */
+    animation: fundocor 3s linear 0s infinite alternate;
+    /* chamada padrão */
+}
+
+.tableDatosGenerales .endcanceled {
+    -webkit-animation: fundocor 3s linear 0s alternate;
+    /* chamada para Chrome, Safari, Opera */
+    animation: fundocor 3s linear 0s alternate;
+    /* chamada padrão */
+}
+
+.errorMessag {
+    line-height: normal;
+    font-size: 10px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+.errorMessageMsg{
+    padding: 6px;
+}
+
+@-webkit-keyframes fundocor {
+    0% {
+        background: #e9e9e9;
+        color: #666666;
+    }
+
+    25% {
+        background: #e9e7ea;
+        color: #8a8a8a;
+    }
+
+    50% {
+        background: #ebe4e8;
+        color: #afafaf;
+    }
+
+    75% {
+        background: #efe1e4;
+        color: #afafaf;
+    }
+
+    100% {
+        background: #f2dede;
+        color: #ffffff;
+    }
+}
+
+/* animação padrão */
+@keyframes fundocor {
+    0% {
+        background: #e9e9e9;
+    }
+
+    25% {
+        background: #e9e7ea;
+    }
+
+    50% {
+        background: #ebe4e8;
+    }
+
+    75% {
+        background: #efe1e4;
+    }
+
+    100% {
+        background: #f2dede;
+    }
+}

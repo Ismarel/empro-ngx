@@ -1,0 +1,106 @@
+<div class="modal fade" id="csdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" style="overflow-y: auto;">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close color" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0"
+              aria-valuemax="100" style="width:50%">
+              50%
+            </div>
+          </div>
+          <br>
+          <h1>
+            <span class="color">
+              3. Registra tu certificado o sello digital</span>
+          </h1>
+          <br>
+          <h4>Puedes subir más de uno posteriormente, si es que lo requieres.
+            <br>
+            <!-- <a href=""> -->
+              <u>Me gustaría recibir asesoría para llenar estos datos.</u>
+            <!-- </a> -->
+          </h4>
+          <br>
+          <form [formGroup]="formCertificado" (ngSubmit)="onSubmitAgregar()" novalidate>
+            <hr>
+            <div class="modal-body">
+              <dl class="row">
+                <dt class="col-sm-12">
+                  <div class="form-group">
+                    Subir el archivo del Certificado o sello digital
+                    <font color="red">*</font>
+                    <br>
+                    <small>Archivo con extensión .cer</small>
+                    <div id="dZUploadCSDCER" class="dropzone">
+                      <div class="dz-default dz-message"></div>
+                    </div>
+                  </div>
+                </dt>
+                <!--<dt class="col-sm-12">
+                  <div class="form-group">
+                    Número de certificado
+                    <font color="red">*</font>
+                    <input type="number" [formControl]="numeroCertificado" size="61" class="form-control" id="" onKeyPress="if(this.value.length==10 || this.value.length>=10) return false;" required>
+                  </div>
+                </dt>
+                <dt class="col-sm-6">
+                  <div class="form-group">
+                    Válido desde
+                    <font color="red">*</font>
+                    <input type="date" [formControl]="validoDesde" size="61" class="form-control" id="" required>
+                  </div>
+                </dt>
+                <dt class="col-sm-6">
+                  <div class="form-group">
+                    Válido hasta
+                    <font color="red">*</font>
+                    <input type="date" [formControl]="validoHasta" size="61" class="form-control" id="" required>
+                  </div>
+                </dt>-->
+                <dt class="col-sm-12">
+                  <div class="form-group">
+                    Subir el archivo de la llave privada de sello digital
+                    <font color="red">*</font>
+                    <br>
+                    <small>Archivo con extensión .key</small>
+                    <div id="dZUploadCSDKEY" class="dropzone">
+                      <div class="dz-default dz-message"></div>
+                    </div>
+                  </div>
+                </dt>
+                <dt class="col-sm-12">
+                  <div class="form-group">
+                    Escribe la contraseña de acceso de tu llave
+                    <font color="red">*</font>
+                    <input type="password" [formControl]="password" size="61" class="form-control" required>
+                  </div>
+                </dt>
+              </dl>
+            </div>
+            <div class="align-middle">
+              <button type="button" class="btn btn-warning" (click)="btnPrev()">Regresar</button>
+              <button type="submit" class="btn btn-primary">Continuar</button>
+            </div>
+            <br>
+            <div class="align-middle">
+              <button type="submit" class="btn btn-cancelar" (click)="btnOM()">Hacerlo en otro momento</button>
+            </div>
+          </form>
+          <br>
+          <div class="alert alert-warning" *ngIf="error == true">
+            <label for="">Favor de llenar los campos obligatorios marcados con
+              <font color="red">*</font>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>

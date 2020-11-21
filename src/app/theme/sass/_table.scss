@@ -1,5 +1,5 @@
-.table {
-  margin-bottom: 0px;
+.table{
+  margin-bottom: 10px;
   & > thead {
     & > tr {
       & > th {
@@ -240,8 +240,15 @@ input.search-input {
   border: 1px solid $border-light;
 }
 
+.table-bordered > tfoot > tr > th,
+.table-bordered > tfoot > tr > td{
+  padding-top: 10px;
+  padding-bottom: 25px;
+}
+
 .table-striped > tbody > tr:nth-of-type(odd) {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: $table-striped;
+
 }
 
 @mixin color-row($color) {
@@ -294,7 +301,11 @@ th {
 .pagination > li > a,
 .pagination > li > span{
   color: $default-text;
-  border-color: $border;
+  border-color: transparent;
+}
+
+.pagination > li{
+  color: $blue-light!important;
 }
 
 
@@ -316,20 +327,24 @@ th {
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-  background-color: rgba(0,0,0,.3)!important;
-  border-color: $border!important;
+  background-color:$blue-light!important;
+  border-color: transparent!important;
 }
 
 .pagination > li > a:hover,
 .pagination > li > span:hover,
 .pagination > li > a:focus,
 .pagination > li > span:focus{
-  background-color: rgba(0,0,0,.2);
+  background-color: rgba(255, 255, 255, 0.2);
   color: $default-text;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,{
+  color: white !important;
 }
 
 .page-item.disabled .page-link, .page-item.disabled .page-link:focus, .page-item.disabled .page-link:hover {
-  background-color: rgba(255,255,255,.1);
+  background-color: rgba(255, 255, 255, 0.1);
   color: $default-text;
 }
 

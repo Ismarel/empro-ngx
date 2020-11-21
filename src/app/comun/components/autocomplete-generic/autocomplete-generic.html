@@ -1,0 +1,9 @@
+<!--<div [ngClass]="{'has-error':required && !idSelected && componenteAutocomplete.dirty ,'has-success':idSelected }">-->
+<div>
+    <ng2-completer [dataService]="dataRemote" [minSearchLength]="0" [placeholder]="textPlaceHolder" [clearSelected]="false" (selected)="onSelected($event)" [textSearching]="'Espere un momento...'" pause="400" textNoResults="No hay ningún resultado" [clearUnselected]="true" [autoMatch]="true" matchClass='text-success' [(ngModel)]="searchStr" id="searchStr" name='searchStr' [disableInput]="!enabled" (keyup)="onKey($event)" [inputClass]="'form-control'" [fillHighlighted]="false" #componenteAutocomplete="ngModel">
+    </ng2-completer>
+    <span [hidden]="idSelected||!enabled" style="color:gray">
+        <!-- <small class="float-right animation-slideUp"> Sin coincidencias</small> -->
+        <!--<small *ngIf="required" class="pull-right" [ngClass]="{'text-danger animation-slideUp':!idSelected && componenteAutocomplete.dirty ,'text-success':idSelected,'':componenteAutocomplete.pristine&&!idSelected}"> Sin coincidencias</small>-->
+    </span>
+</div>

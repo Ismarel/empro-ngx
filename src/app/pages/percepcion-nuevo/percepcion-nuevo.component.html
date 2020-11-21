@@ -1,0 +1,68 @@
+<br>
+<br>
+<hr>
+<!--///////////////////////////////////////////////////-->
+<!--Agregar-->
+<div class="" id="agregarPercepcion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form [formGroup]="myGroupPercepciones" (ngSubmit)="agregarPercepcion()">
+        <div class="padre">
+            <!--Empiezan Datos Percepcion-->
+            <div class="hijo">
+                <div class="">
+                    <div class="">
+                        <div class="">
+                            <div class="col-12 color">
+                                <h2>Datos Percepcion</h2>
+                            </div>
+                        </div>
+                        <div class="">
+                            <br>
+                            <div class="padre_a row">
+                                <div class="hijo_a col-sm-6 col-12">
+
+                                    <div class="form-group float-left col-lg-12" [ngClass]="{'has-error': (!nombre.valid && nombre.touched), 'has-success': (nombre.valid && nombre.touched)}">
+                                        <label for="nombre" class="esp">Nombre de la percepción <font color="red">*</font> </label>
+                                        <input [formControl]="nombre" type="text" class="form-control" id="nombre" maxlength="110">
+                                        <!-- <div *ngIf="myGroupTrabajadores.controls.nombre.errors?.required" class="alert alert-danger">
+                      El nombre es requerido
+                    </div> -->
+                                    </div>
+
+                                </div>
+                                <div class="hijo_a col-sm-6 col-12">
+                                    <!-- [ngClass]="{'has-error': (!sucursal.valid && sucursal.touched), 'has-success': (sucursal.valid && sucursal.touched)}" -->
+                                    <div class="form-group float-right col-lg-12" [ngClass]="{'has-error': (!tipoPercepcion.valid && tipoPercepcion.touched), 'has-success': (tipoPercepcion.valid && tipoPercepcion.touched)}">
+                                        <label for="tipoPercepcion" class="esp">Tipo de percepción <font color="red">*</font></label>
+                                        <autocomplete-generic entidad='tipoPercepcion' (onIdSelected)="onTipoPercepcionSelected($event)" [enabled]="true" textplaceholder='Buscar percepción' #autocompleteTipoPercepcion></autocomplete-generic>
+                                        <!-- <div *ngIf="myGroupTrabajadores.controls.sucursal.errors?.required" class="alert alert-danger">
+                      La sucursal es requerida
+                    </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Empieza group button -->
+                            <div class="padre_a row">
+                                <div class="hijo_a col-sm-6 col-12 button">
+                                </div>
+                                <div class="hijo_a col-sm-6 col-12 button" style="justify-content: space-around;">
+                                    <button type="button" class="btn btn-secondary" (click)="cambio('1')">Cancelar</button>
+                                    <button [disabled]="!myGroupPercepciones.valid" type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                            <!-- Acaba group button -->
+                            <div class="padre_a pie">
+                                <div class="hijo_a float-none">
+                                    <div class="alert alert-danger text-center" *ngIf="mensajeError">
+                                        {{mensajeError}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Acaban Datos Percepcion-->
+        </div>
+    </form>
+</div>

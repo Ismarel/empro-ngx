@@ -1,24 +1,64 @@
-<div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)"
-     [ngClass]="{scrolled: isScrolled}">
-  <a routerLink="/pages/dashboard" class="al-logo clearfix"><span>ng2-</span>admin</a>
-  <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
+<app-registra-dfe></app-registra-dfe>
+<app-registra-cfdi></app-registra-cfdi>
+<app-registra-csd></app-registra-csd>
+<app-registra-rf></app-registra-rf>
 
-  <div class="search">
-    <i class="ion-ios-search-strong" ng-click="startSearch()"></i>
-    <input id="searchInput" type="text" placeholder="Search for...">
-  </div>
+<div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)" [ngClass]="{scrolled: isScrolled}">
+    <a routerLink="/pages/dashboard" class="al-logo clearfix">
+        <span>EMP</span>RO</a>
+    <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
 
-  <div class="user-profile clearfix">
-    <div class="dropdown al-user-profile">
-      <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
-        <img src="{{ ( 'Nasta' | baProfilePicture ) }}">
+    <div class="search">
+        <i class="ion-ios-search-strong" ng-click="startSearch()"></i>
+        <input id="searchInput" type="text" placeholder="Search for...">
+    </div>
+
+    <!--<div class="col-lg-10">
+    <div class="dropdown al-user-profile float-right">
+      <a routerLink="" class="al-logo clearfix dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
+        <img src="{{ ( 'Nasta' | baProfilePicture ) }}"> Gan
       </a>
       <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
-        <li class="dropdown-item"><a href><i class="fa fa-user"></i>Profile</a></li>
-        <li class="dropdown-item"><a href><i class="fa fa-cog"></i>Settings</a></li>
-        <li class="dropdown-item"><a href class="signout"><i class="fa fa-power-off"></i>Sign out</a></li>
+        <li class="dropdown-item"><a href><i class="fa fa-user"></i>Perfil</a></li>
+        <li class="dropdown-item"><a href><i class="fa fa-cog"></i>Configuración</a></li>
+        <li class="dropdown-item"><a href class="signout"><i class="fa fa-power-off"></i>Cerrar Sesión</a></li>
       </ul>
     </div>
     <ba-msg-center></ba-msg-center>
-  </div>
+  </div>-->
+
+    <!-- Estos botones aparecerán con condiciones... -->
+    <div class="clearfix pull-left espacioSup">
+        <button *ngIf="quitarBoton == true" class="btn parpadea" [ngClass]="{'btn-danger': variable1===true, 'btn-warning': variable2===true, 'btn-info': variable3===true, 'btn-success': variable4===true}" type="button" (click)="onCheckEmpty()">Completar datos de mi empresa: {{valorBoton}}</button>
+    </div>
+    <!-- El botón de la cuenta de prueba tendrá un contador de 30 a 0 dependiendo de los días que hayan pasado al activar la cuenta gratis -->
+    <!-- <div class="clearfix pull-left espacioSup">
+      <button class="btn btn-info">Versión Gratis: Tienes X días de prueba</button>
+    </div> -->
+
+    <div class="user-profile clearfix">
+        <div class="dropdown al-user-profile">
+            <span class="pull-right">
+                <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
+                    <span class="pull-right profile-toggle-link" id="user-profile-name"> {{nombre}}
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                    <img [src]="url ? url : 'https://www.w3schools.com/howto/img_avatar.png'">
+                    <!--<img src="{{ ( 'perfil' | baProfilePicture ) }}">-->
+                </a>
+                <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
+                    <li class="dropdown-item">
+                        <a routerLink="/pages/miempresa/perfil">
+                            <i class="fa fa-user"></i>Perfil</a>
+                    </li>
+                    <!-- <li class="dropdown-item"><a href><i class="fa fa-cog"></i>Settings</a></li>  -->
+                    <li class="dropdown-item">
+                        <a href="#" (click)="Signout()" class="signout">
+                            <i class="fa fa-power-off"></i>Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </span>
+        </div>
+        <ba-msg-center></ba-msg-center>
+    </div>
 </div>

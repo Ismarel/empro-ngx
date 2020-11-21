@@ -1,0 +1,49 @@
+<div *ngIf="changeOption == 1">
+    <div class="row end-sm">
+        <div class="col-12">
+            <h1>
+                <i class="fa fa-vcard-o iconSummary"></i>
+                <span class="color">Generar CFDI´s de Nómina</span>
+            </h1>
+        </div>
+        <div class="col-12">
+            <div class="button">
+                <div class="lefta">
+                    <button class="btn btn-primary btn-raised font" type="button" disabled>Generar Nómina</button>
+                </div>
+                <div class="leftb">
+                    <button class="btn btn btn-primary btn-raised font" (click)="change(2)" data-toggle="button" type="button">Consultar CFDI´s</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <app-nomina></app-nomina>
+</div>
+
+<div *ngIf="changeOption == 2">
+    <div class="row end-sm">
+        <div class="col-12">
+            <h1>
+                <i class="fa fa-vcard-o iconSummary"></i>
+                <span class="color">Consultar CFDI´s de Nómina</span>
+            </h1>
+        </div>
+        <div class="col-12">
+            <div class="button">
+                <div class="lefta">
+                    <button class="btn btn-primary btn-raised font" (click)="change(1)" data-toggle="button" type="button">Generar Nómina</button>
+                </div>
+                <div class="leftb">
+                    <button class="btn btn btn-primary btn-raised font" type="button" disabled>Consultar CFDI´s</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <app-nomina-consulta></app-nomina-consulta>
+</div>
+
+<div *ngIf="changeOption == 3">
+    <app-nomina-nueva></app-nomina-nueva>
+</div>

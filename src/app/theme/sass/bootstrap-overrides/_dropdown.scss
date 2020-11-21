@@ -1,7 +1,12 @@
 .dropdown-item {
-  line-height: 1;
+    line-height: 1;
 }
 
 .dropdown-menu {
-  font-size: inherit;
+    //font-size: inherit;
+    font-size: 14px;
+    min-width: 140px;
+    text-align: center;
+    margin-left: 20px;
+    cursor: pointer;
 }

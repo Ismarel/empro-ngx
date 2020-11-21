@@ -1,0 +1,19 @@
+@import '../../../../theme/sass/conf/conf';
+@import '../../../../pages/empresa/empresa.scss';
+
+.esp{ margin-right: 15px;}
+
+.btn-colorblue,
+.btn-colorblue:hover,
+.btn-colorblue:active{
+    color: white;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: $blue-light;
+}
+
+.tableDatosGenerales{
+    overflow-wrap: break-word;
+    td{
+        padding: 10px;
+    }   
+}

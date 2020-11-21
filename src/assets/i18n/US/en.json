@@ -1,26 +1,55 @@
 {
   "login": {
-    "title": "Sign in to ng2-admin",
-    "signup_link": "New to ng2-admin? Sign up!",
+    "title": "Inicio de Sesion",
+    "signup_link": "Registrate AQUÍ",
     "email": "Email",
+    "usuario":"Usuario",
+    "contrasenia":"Contraseña",
     "password": "Password",
-    "sign_in": "Sign in",
+    "sign_in": "Iniciar",
+    "remember":"Recordar Contraseña",
     "forgot_password": "Forgot password?",
     "sign_from_app_text": "or Sign in with one click",
     "share_on_facebook": "Share on Facebook",
     "share_on_twitter": "Share on Twitter",
     "share_on_google_plus": "Share on Google Plus"
   },
+
+
+  
   "general": {
+    "selectOption":"Selecciona una opción",
     "akveo": "Akveo",
     "home": "Home",
+    "btneditarDatos": "Editar Datos",    
+    "btncancelar": "Cancelar",
+    "btnguardar": "Guardar",
     "forms": {
       "option1": "Option 1"
     },
     "menu": {
       "dashboard": "Dashboard",
-      "editors": "Editors",
-      "ck_editor": "CKEditor",
+      "miempresa": "Mi Empresa",
+      "informacion": "Información",
+      "conceptos": "Conceptos",
+      "clientes": "Clientes",
+      "usuarios": "Usuarios",
+      "proveedores": "Proveedores",
+      "bancos":"Bancos",
+      "comprobantesfiscales":"Comprobantes Fiscales",
+      "nomina":"Nómina",
+      "ingresos":"Ingresos",
+      "egresos":"Egresos",
+      "reportes":"Reportes",
+      
+  
+      
+
+
+
+
+
+
       "components": "Components",
       "tree_view": "Tree View",
       "charts": "Charts",
@@ -90,6 +119,7 @@
     "coffee_script": "CoffeeScript",
     "lua": "Lua"
   },
+  
   "chart": {
     "lines": "Lines",
     "bars": "Bars",
@@ -103,5 +133,31 @@
     "simple_pie": "Simple Pie",
     "pie_with_labels": "Pie with labels",
     "donut": "Donut"
+  },
+  "empresa": {
+    "title": "Datos Generales: ",
+    "nombre": "Nombre de la empresa",
+    "rfc": "RFC: ",
+    "calle": "Calle: ",
+    "numExterior": "Núm. Exterior: ",
+    "numInterior": "Núm. Interior: ",
+    "colonia": "Colonia: ",
+    "localidad": "Localidad: ",
+    "referencia": "Referencia: ",
+    "municipio": "Delegación o Municipio: ",
+    "estado": "Estado: ",
+    "pais": "País: ",
+    "lugarExpedicion": "Lugar Expedición o CP: ",
+    "registroPatronal": "Registro Patronal: ",
+    "riesgoPuesto": "Riesgo Puesto: ",
+    "admincertifi": "Administración de Certificados"
+  },
+  "certificado": {
+    "title": "Agregar Certificados",
+    "numeroCertificado": "Número Certificado ",
+    "validoDesde": "Valido Desde: ",
+    "validoHasta": "Valido Hasta: ",
+    "archivoLlave": "Nombre Archivo "
+    
   }
 }

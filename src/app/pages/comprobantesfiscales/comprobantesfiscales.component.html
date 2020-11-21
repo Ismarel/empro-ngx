@@ -1,0 +1,282 @@
+<div *ngIf="changeOption == 1">
+    <div class="row end-sm">
+        <div class="col-12">
+            <h1 class="titlletext">
+                <i class="ion-stats-bars iconEngrane"></i> Comprobantes Fiscales
+            </h1>
+        </div>
+        <div class="col-12">
+            <div class="button">
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop2" class="btn btn-colorblue btn-raised esp font" (click)="change(2)">
+                        <i class="fa fa-plus"></i> Agregar Comprobante fiscal</button>
+                </div>
+
+                <div class="dropdown righta">
+                    <button class="btn btn-option btn-raised font dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cog"></i> Opciones
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" (click)="exportarExcel()">Exportar<br>Comprobantes<br>Fiscales</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <hr>
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <table class="table table-striped table-vcenter table-bordered">
+                <thead class="">
+                    <tr>
+                        <td colspan="16">
+                            <div class="top_table row padSearch">
+                                <div class="col-xs-8 col-sm-8 col-md-4">
+                                    <form [formGroup]="formularioFilterQuery" novalidate>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-search"></i>
+                                            </span>
+                                            <input type="search" class="form-control" placeholder="Buscar en esta lista..." formControlName="queryComprobantesFiscales">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 offset-md-4">
+                                    <div class="float-right">
+                                        <select name="usuarios_data_length" class="form-control" [(ngModel)]="rowsOnPage" (change)="onChangeSize()">
+                                            <!--<option [value]="2">2</option>-->
+                                            <option [value]="10">10</option>
+                                            <option [value]="20">20</option>
+                                            <option [value]="30">30</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </td>
+                    </tr>
+                    <tr class="bor_inf">
+                        <th>
+                            <sorter-table by='uuid' [currentSort]="sortBy" (onSort)="onSort($event)">Folio Fiscal</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='tipoComprobante' [currentSort]="sortBy" (onSort)="onSort($event)">Tipo de Comprobante</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='cliente' [currentSort]="sortBy" (onSort)="onSort($event)">Receptor</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='cliente.rfc' [currentSort]="sortBy" (onSort)="onSort($event)">RFC Receptor</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='serie' [currentSort]="sortBy" (onSort)="onSort($event)">Serie</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='id' [currentSort]="sortBy" (onSort)="onSort($event)">Folio</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='moneda' [currentSort]="sortBy" (onSort)="onSort($event)">Moneda</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='subtotal' [currentSort]="sortBy" (onSort)="onSort($event)">Subtotal</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='total' [currentSort]="sortBy" (onSort)="onSort($event)">Total</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='total' [currentSort]="sortBy" (onSort)="onSort($event)">Frecuencia de Pago</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='formaPago' [currentSort]="sortBy" (onSort)="onSort($event)">Método de pago</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='fechaCreacion' [currentSort]="sortBy" (onSort)="onSort($event)">Fecha</sorter-table>
+                        </th>
+                        <th>
+                            <sorter-table by='estatus' [currentSort]="sortBy" (onSort)="onSort($event)">Estatus</sorter-table>
+                        </th>
+
+                        <th style="min-width: 100px">Descargar</th>
+                        <th style="min-width: 100px">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="tableDatosGenerales">
+                    <tr id="row_{{item.id}}" class="bor" *ngFor="let item of data |paginate: { itemsPerPage: rowsOnPage, currentPage: page, totalItems: totalComprobantesFiscales }" [ngClass]="item.estatus == 2 ? 'table-cancel': ''">
+                        <!--Este es el id que generaba el error en la tabla: {{item.id}}-->
+                        <td scope="row">{{item.uuid}}</td>
+                        <td *ngIf="item.tipoComprobante == 0">Ingreso</td>
+                        <td *ngIf="item.tipoComprobante == 1">Egreso</td>
+                        <td *ngIf="item.tipoComprobante == 2">Traslado</td>
+                        <td *ngIf="item.tipoComprobante == 3">Pago</td>
+                        <td>{{item.cliente.nombre}}</td>
+                        <td>{{item.cliente.rfc}}</td>
+                        <td>{{item.serie.serie}}</td>
+                        <!--<td>{{item.serie.folioActual}}</td>-->
+                        <td>{{item.folioInd}}</td>
+                        <td *ngIf="item.moneda == 0">MXN</td>
+                        <td *ngIf="item.moneda == 1">$</td>
+                        <td *ngIf="item.moneda == 2">€</td>
+                        <td>{{item.subtotal }}</td>
+                        <td>{{item.total }}</td>
+                        <td *ngIf="item.metodoPago == 0">Pago en una sola exhibición</td>
+                        <td *ngIf="item.metodoPago == 1">Pago en parcialidades</td>
+                        <td *ngIf="item.metodoPago == 2">Diferido</td>
+
+                        <td>{{item.formaPago.descripcion}}</td>
+                        <td>{{item.fechaCreacion | date}}</td>
+                        <td>{{ item.estatus === 0 ? "No timbrada" : item.estatus === 1 ? "Timbrada" : "Cancelada"  }}</td>
+
+                        <td class="text-center">
+                            <button id="pdfbutton_{{item.id}}" type="button" class="btn btn-secondary btn-sm" (click)="generarPDF(item.id)">PDF</button>
+                            <button id="xmlbutton_{{item.id}}" type="button" class="btn btn-secondary btn-sm" *ngIf="item.estatus == 1" (click)="generarXML(item.id)">XML</button>
+
+                            <div id="errorMessag{{item.id}}" class="alert alert-danger errorMessag" role="alert" hidden="hidden">
+                                <div>
+                                    <button type="button" class="close" (click)="closeAlert(item.id)" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="errorMessageMsg">
+                                    <span class="message"></span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="text-center">
+                            <button type="button" *ngIf="item.estatus == 0" (click)="prepareEdit(item)" class="btn btn-secondary btn-sm">
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                            <button type="button" *ngIf="item.estatus == 0" (click)="onClick_elim(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#eliminar">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                            <button type="button" (click)="onClick_sendEmail(item)" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#send_mail">
+                                <i class="fa fa-envelope"></i>
+                            </button>
+                            <button id="cancelbutton_{{item.id}}" type="button" *ngIf="item.estatus == 1" (click)="onClick_Cancel(item)" class="btn btn-secondary btn-sm btn-wide" data-toggle="modal" data-target="#cancelar">
+                                <i class="fa fa-ban"></i> Cancelar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="16">
+                            <!--Init Paginacion-->
+                            <nav aria-label="Page navigation example">
+                                <pagination-template #p="paginationApi" (pageChange)="pageChanged($event)">
+                                    <ul class="pagination float-left padNum">
+                                        <li class="page-item">
+                                            <span> 1 - </span>
+                                            <span> {{rowsOnPage}} </span>
+                                            <span> de </span>
+                                            <span> {{totalComprobantesFiscales}} </span>
+                                        </li>
+                                    </ul>
+                                    <ul class="pagination float-right">
+
+                                        <li class="page-item" [class.active]="p.isFirstPage()">
+                                            <a class="page-link  boton espa" *ngIf="!p.isFirstPage()" (click)="p.previous()" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="page-item" *ngFor="let page of p.pages" [class.active]="p.getCurrent() === page.value">
+                                            <a class="page-link redonditos boton espa" (click)="p.setCurrent(page.value)"> {{ page.label }}</a>
+                                        </li>
+
+                                        <li class="page-item" [class.active]="p.isLastPage()">
+                                            <a class="page-link  boton espa" *ngIf="!p.isLastPage()" (click)="p.next()" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </pagination-template>
+                            </nav>
+                            <!--Fin Paginacion-->
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <!-- Modal_eliminar -->
+    <div class="modal fade" id="eliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel">Borrar Comprobante Fiscal</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de querer borrar el Comprobante Fiscal {{entidad_elimar?.tipoComprobanteText}} de {{entidad_elimar?.cliente.nombre}}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+                    <button type="button" (click)="removeComprobanteFiscal(entidad_elimar?.id)" class="btn btn-colorblue btn-raised">Borrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal_cancelar -->
+    <div class="modal fade" id="cancelar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel">Cancelar Comprobante Fiscal</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de querer cancelar el Comprobante Fiscal {{entidad_elimar?.tipoComprobanteText}} de {{entidad_elimar?.cliente.nombre}} con el folio {{entidad_elimar?.folioInd}} de la serie {{entidad_elimar?.serie.serie}}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+                    <button id="cancel_button" type="button" (click)="cancelarComprobanteFiscal(entidad_elimar)" class="btn btn-colorblue btn-raised">Cancelar Comprobante</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal send mail -->
+    <div class="modal fade" id="send_mail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+
+            <form [formGroup]="modalEnvioMail" id="successMail" (ngSubmit)="enviarComprobanteFiscal(entidad_elimar)">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="exampleModalLabel">Envio de comprobantes</h1>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-auto">
+                        <p style="height: 0px;"></p>
+                        <label style='position:center;' for="envioMail" translate>Se enviarán los archivos de Comprobantes Fiscales:<br>
+                            Correo(s) del receptor<font color="red">*</font> (puedes separarlos por comas)</label>
+                        <div>
+                            <input class="form-control" id="mails" type="email" name="direccionCorreo" formControlName="direccionMail" spellcheck="false" multiple required ng-pattern="someRegex">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-opcion btn-raised" data-dismiss="modal">Cancelar</button>
+                        <button id="sendmail_button" type="submit" class="btn btn-colorblue btn-raised" [disabled]="!modalEnvioMail.valid">Enviar Comprobante</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="changeOption == 2">
+    <app-comprobantefiscal></app-comprobantefiscal>
+</div>

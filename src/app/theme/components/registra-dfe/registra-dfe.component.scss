@@ -1,0 +1,227 @@
+.container{
+    text-align: center;
+    justify-content: center;
+    width: 75%;
+      }
+      a{
+        color: red;
+      }
+      #resultRFC{
+        border-left: 5px solid #a94442;
+      }
+      #resultRFC.ok{
+        border-left: 5px solid #42A948;
+      }
+
+
+
+
+      .iconQuestion{
+        color: blue;
+        margin: -8px;
+      
+      }
+      
+      /* Clase que tendra el tooltip */  
+      .cssToolTip {
+        position: relative; /* Esta clase tiene que tener posicion relativa */
+        color: #ff8c00; /* Color del texto */
+       }
+        
+       /* El tooltip */
+       .cssToolTip span {
+        background: blue; 
+        border: 2px solid blue;
+        border-radius: 5px;
+        box-shadow: 5px 5px 5px #333;
+        color: white;
+        display: none; /* El tooltip por defecto estara oculto */
+        font-size: 0.8em;
+        padding: 5px 5px 5px 15px;
+        max-width: 6000px;
+        position: absolute; /* El tooltip se posiciona de forma absoluta para no modificar el aspezto del resto de la pagina */
+        width: 350px;
+        height: 130px;
+      
+       }
+        
+       /* El tooltip cuando se muestra */
+       .cssToolTip:hover span {
+        display: inline; /* Para mostrarlo simplemente usamos display block por ejemplo */
+       }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+       /* Tooltip container */
+      body{
+        text-align:center;
+        padding:50px;
+        font-family: verdana;
+        font-size : 14px;
+        table{
+          width: 100%;
+          tr{
+            td{
+              padding: 20px 0;
+              a{
+                text-decoration : none;
+                color: #333;
+              }
+            }
+          }
+        }
+      }
+      
+      *[tooltip] {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+        cursor : help;
+        &:after,&:before{
+          visibility: hidden;
+          position: absolute;
+          margin: 0;
+          z-index: 5000;
+        
+         }
+        &:before {
+          border-style: solid;
+          border-color: #333 transparent;
+          content: "";
+        }
+        &:after{
+          background: rgba(0,0,0,.8);
+          border-radius: 5px;
+          color: #fff;
+          content: attr(tooltip);
+          padding: 5px 15px;
+          font-size: 80%;
+        }
+        
+      //   Tooltip Locations
+        &,&[tooltip-location="bottom"]{
+          &:before {
+            border-width: 0 6px 6px 6px;
+            bottom: auto;
+            top : 20px;
+            left: 50%;
+          }
+          &:after{
+            left: 0px;
+            top: 26px;
+          }
+        }
+        &[tooltip-location="top"]{
+            &:before {
+             border-width: 6px 6px 0px 6px;
+             top: auto;
+             bottom : 20px;
+          }
+          &:after{
+              top:auto;
+              bottom: 26px;
+          }
+        }
+        &[tooltip-location="right"]{
+           &:before {
+             border-width: 6px 6px 0px 6px;
+             top: 50%;
+             left: 100%;
+            transform: rotate(90deg);
+          }
+          &:after{
+              top : -10%;
+              left : calc(100% + 9px);
+          }
+        }
+        &[tooltip-location="left"]{
+            &:before {
+             border-width: 6px 6px 0px 6px;
+             top: 50%;
+             right: 100%;
+             left: auto;
+            transform: rotate(-90deg);
+            display: inline;
+            
+          }
+          &:after{
+              top : -10%;
+              left : auto;
+              right : calc(100% + 9px);
+            
+          }
+        }
+         &:hover{
+           &:after,&:before{ visibility: visible;  }  
+         }
+        
+        
+      //   Tooltip Animation
+        &[tooltip-animate]{
+          &,&[tooltip-location="bottom"]{
+          &:before,&:after { margin: 10px 0px 0px 0px; }
+          }
+          &[tooltip-location="top"]{
+              &:before,&:after { margin: 0px 0px 10px 0px;}
+          }
+          &[tooltip-location="right"]{
+            &:before,&:after { margin: 0px 0px 0px 10px; }
+          }
+          &[tooltip-location="left"]{
+            &:before,&:after { margin: 0px 10px 0px 0px; }
+          }
+          &:after,&:before{ 
+            transition: all 0.3s ease;
+            opacity : 0;
+          }
+          &:hover{
+            &:after,&:before{ 
+              margin: 0;
+              opacity: 1;
+            }
+          }
+        }
+        
+        
+      //   Tooltip sizes
+        &[tooltip-size="small"]{
+          &:after{ width: 50px; }
+        }
+        &,&[tooltip-size="medium"]{
+          &:after{ width: 150px; }
+        }
+        &[tooltip-size="large"]{
+          &:after{ width: 400px; 
+            
+          }
+        }
+      
+      
+      
+      }

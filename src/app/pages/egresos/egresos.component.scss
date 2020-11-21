@@ -1,0 +1,10 @@
+@import '../../theme/sass/conf/conf';
+@import '../../pages/empresa/empresa.scss';
+
+#dropdown-egreso{
+    margin-right: 0px;
+    margin-left: 0px;
+    right: 15px;
+    left: -100px;
+    text-align: center;
+}

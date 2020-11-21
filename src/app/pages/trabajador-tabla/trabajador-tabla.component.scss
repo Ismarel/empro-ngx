@@ -1,0 +1,207 @@
+@import '../../theme/sass/conf/conf';
+
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+.center{
+   display:inline-block
+}
+.fuenteColor{
+    color: #23ADD7;
+}
+.hrPunteado{
+    border: 1px dashed #278e79;
+}
+
+/*SwitchButton*/
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {display:none;}
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #0489B1;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #0B6138;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #0B6138;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .styled-select {
+    background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+    height: 29px;
+    overflow: hidden;
+    width: 240px;
+ }
+ 
+ .semi-square {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.blue    { background-color: #3b8ec2; }
+.blue select    { color: #fff; }
+
+.summaryHeader{
+    color: #878787;
+    text-align: right;
+    float: right;
+}
+
+.tableDatosGenerales{
+    overflow-wrap: scroll !important;
+    td{
+
+    }   
+}
+
+.companyName{
+    background-color: $blue-lighter;
+    color:black;
+    font-size: 18px;
+    padding: 15px;
+    padding-left: 30px;
+    min-height: 70px;
+    margin: 0px!important;
+
+}
+
+.iconSummary{
+    color: $blue-light;
+}
+
+.padre {
+  display: flex;
+  justify-content: center;
+}
+.hijo {
+  padding: 10px;
+  margin: 10px;
+}
+
+.btn-colorblue,
+.btn-colorblue:hover,
+.btn-colorblue:active {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: $blue-light;
+}
+
+.btn-cancelar,
+.btn-cancelar:hover,
+.btn-cancelar:active {
+  color: black;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #DCDCDC;
+  justify-content: center;
+  
+}
+
+.padre_a {
+  display: flex;
+  justify-content: center;
+  width: 450px;
+}
+.hijo_a {
+  padding: 10px;
+  margin: 10px;
+  width: 33%;
+}
+.esp{
+  margin-right: 15px;
+  }
+.espa{
+    margin-right: 10px;
+    }
+.font{
+  font-family: 'Source Sans Pro', sans-serif;
+  }
+
+.redonditos{
+    border-radius: 50%;
+  }
+
+.boton{
+    background: white;
+}
+.boton:hover{
+    background: $blue-light !important;
+}
+.boton:focus{
+  background: red !important;
+  color: white !important;
+}
+
+.bor{
+  border-style: solid;
+  border-width: 1px;
+}
+.padSearch{
+  padding-right: 20px;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+.padNum{
+  padding-left: 10px;
+  padding-top: 10px;
+}
+.bor_inf{
+  
+  border-bottom: solid 4px !important;
+  font-weight: bold !important;
+  border-color:#d3d3d3 !important;
+}
+.righta{
+  padding-right: 45px;
+}
